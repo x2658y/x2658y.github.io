@@ -83,28 +83,6 @@ class="math inline">\(\phi(n)\)</span>的<code>模逆元</code>,
       </tags>
   </entry>
   <entry>
-    <title>[BUUCTF]变异凯撒</title>
-    <url>/2021/11/02/%5BCrypto%5D%E5%8F%98%E5%BC%82%E5%87%AF%E6%92%92/</url>
-    <content><![CDATA[<p>题目: <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">加密密文：afZ_r9VYfScOeO_UL^RWUc</span><br><span class="line">猜测明文：flag&#123;...&#125;</span><br></pre></td></tr></table></figure></p>
-<p>看标题, <strong>变异凯撒</strong>,
-想必这题就是基于凯撒密码延伸出来的, 有了上次的经验,
-我们再把这个字符的<code>ASCII</code>码拿来对比一下,
-密文不外乎又是一些移位变换出来的</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">show_ascii</span>(<span class="params">*args</span>):</span><br><span class="line">    <span class="keyword">for</span> e <span class="keyword">in</span> args:</span><br><span class="line">        ascii_list = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> e:</span><br><span class="line">            ascii_list.append(<span class="built_in">ord</span>(i))</span><br><span class="line">        <span class="built_in">print</span>(ascii_list)</span><br><span class="line"></span><br><span class="line">show_ascii(<span class="string">&quot;afZ_r9VYfScOeO_UL^RWUc&quot;</span>, <span class="string">&quot;flag&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#[97, 102, 90, 95, 114, 57, 86, 89, 102, 83, 99, 79...]</span></span><br><span class="line"><span class="comment">#[102, 108, 97, 103]</span></span><br></pre></td></tr></table></figure>
-<p>可以看到, 密文的前4位的<code>ASCII</code>码比 "flag"
-这4个字符从第1位起依次大了5, 6, 7, 8, 后面的以此类推.
-写出解密脚本即可拿到<strong>flag</strong>.</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ciphertext = <span class="string">&quot;afZ_r9VYfScOeO_UL^RWUc&quot;</span></span><br><span class="line">res = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(ciphertext)):</span><br><span class="line">    res += <span class="built_in">chr</span>(<span class="built_in">ord</span>(ciphertext[i])+(<span class="number">5</span>+i))</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"></span><br><span class="line"><span class="comment">#flag&#123;Caesar_variation&#125;</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Crypto</category>
-      </categories>
-      <tags>
-        <tag>密码学</tag>
-        <tag>古典密码</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>[BUUCTF]看我回旋踢</title>
     <url>/2021/11/02/%5BCrypto%5D%E7%9C%8B%E6%88%91%E5%9B%9E%E6%97%8B%E8%B8%A2/</url>
     <content><![CDATA[<p>题目就是一段密文</p>
@@ -151,6 +129,28 @@ href="http://c.biancheng.net/c/ascii/">ASCII码一览表</a>.</p>
 到了末尾又从头循环,
 那么我们只要仿照这个原理写出解密脚本应该就没问题了.</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">shift</span>(<span class="params">myChar, offset</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">ord</span>(<span class="string">&#x27;a&#x27;</span>) &lt;= <span class="built_in">ord</span>(myChar) &lt;= <span class="built_in">ord</span>(<span class="string">&#x27;z&#x27;</span>):</span><br><span class="line">        myChar = <span class="built_in">chr</span>(<span class="built_in">ord</span>(myChar)+(offset%<span class="number">26</span>))</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">ord</span>(myChar) &gt; <span class="built_in">ord</span>(<span class="string">&#x27;z&#x27;</span>):</span><br><span class="line">            myChar = <span class="built_in">chr</span>(<span class="built_in">ord</span>(myChar)-<span class="number">26</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">ord</span>(myChar) &lt; <span class="built_in">ord</span>(<span class="string">&#x27;a&#x27;</span>):</span><br><span class="line">            myChar = <span class="built_in">chr</span>(<span class="built_in">ord</span>(myChar)+<span class="number">26</span>)</span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">ord</span>(<span class="string">&#x27;A&#x27;</span>) &lt;= <span class="built_in">ord</span>(myChar) &lt;= <span class="built_in">ord</span>(<span class="string">&#x27;Z&#x27;</span>):</span><br><span class="line">        myChar = <span class="built_in">chr</span>(<span class="built_in">ord</span>(myChar)+(offset%<span class="number">26</span>))</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">ord</span>(myChar) &gt; <span class="built_in">ord</span>(<span class="string">&#x27;Z&#x27;</span>):</span><br><span class="line">            myChar = <span class="built_in">chr</span>(<span class="built_in">ord</span>(myChar)-<span class="number">26</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">ord</span>(myChar) &lt; <span class="built_in">ord</span>(<span class="string">&#x27;A&#x27;</span>):</span><br><span class="line">            myChar = <span class="built_in">chr</span>(<span class="built_in">ord</span>(myChar)+<span class="number">26</span>)</span><br><span class="line">    <span class="keyword">return</span> myChar</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ciphertext = <span class="string">&quot;synt&#123;5pq1004q-86n5-46q8-o720-oro5on0417r1&#125;&quot;</span></span><br><span class="line">res = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(ciphertext)):</span><br><span class="line">    res += shift(ciphertext[i], <span class="number">13</span>)</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"></span><br><span class="line"><span class="comment">#flag&#123;5cd1004d-86a5-46d8-b720-beb5ba0417e1&#125;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Crypto</category>
+      </categories>
+      <tags>
+        <tag>密码学</tag>
+        <tag>古典密码</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>[BUUCTF]变异凯撒</title>
+    <url>/2021/11/02/%5BCrypto%5D%E5%8F%98%E5%BC%82%E5%87%AF%E6%92%92/</url>
+    <content><![CDATA[<p>题目: <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">加密密文：afZ_r9VYfScOeO_UL^RWUc</span><br><span class="line">猜测明文：flag&#123;...&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看标题, <strong>变异凯撒</strong>,
+想必这题就是基于凯撒密码延伸出来的, 有了上次的经验,
+我们再把这个字符的<code>ASCII</code>码拿来对比一下,
+密文不外乎又是一些移位变换出来的</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">show_ascii</span>(<span class="params">*args</span>):</span><br><span class="line">    <span class="keyword">for</span> e <span class="keyword">in</span> args:</span><br><span class="line">        ascii_list = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> e:</span><br><span class="line">            ascii_list.append(<span class="built_in">ord</span>(i))</span><br><span class="line">        <span class="built_in">print</span>(ascii_list)</span><br><span class="line"></span><br><span class="line">show_ascii(<span class="string">&quot;afZ_r9VYfScOeO_UL^RWUc&quot;</span>, <span class="string">&quot;flag&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#[97, 102, 90, 95, 114, 57, 86, 89, 102, 83, 99, 79...]</span></span><br><span class="line"><span class="comment">#[102, 108, 97, 103]</span></span><br></pre></td></tr></table></figure>
+<p>可以看到, 密文的前4位的<code>ASCII</code>码比 "flag"
+这4个字符从第1位起依次大了5, 6, 7, 8, 后面的以此类推.
+写出解密脚本即可拿到<strong>flag</strong>.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">ciphertext = <span class="string">&quot;afZ_r9VYfScOeO_UL^RWUc&quot;</span></span><br><span class="line">res = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(ciphertext)):</span><br><span class="line">    res += <span class="built_in">chr</span>(<span class="built_in">ord</span>(ciphertext[i])+(<span class="number">5</span>+i))</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"></span><br><span class="line"><span class="comment">#flag&#123;Caesar_variation&#125;</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>Crypto</category>
@@ -332,7 +332,7 @@ alt="Quick Review: Big-O Notation" />
 <p><img src="https://raw.githubusercontent.com/x2658y/static/master/images/202410232005840.png" alt="image-20241023200522750" style="zoom:80%;" /></p>
 <h2 id="准备工作">准备工作</h2>
 <ul>
-<li><p>一台可以刷<code>OpenWrt_</code>的路由器, 最好是官方支持的, 比如
+<li><p>一台可以刷<code>OpenWrt</code>的路由器, 最好是官方支持的, 比如
 <code>Redmi-AC2100</code>/<code>Redmi-AX6S</code>.</p></li>
 <li><p>一台落地<code>VPS</code>, 地域最好是湖北,
 用于和路由器建<code>WireGuard</code>加密隧道,
@@ -395,7 +395,7 @@ OpenWrt 固件</a></p>
 <p>然后把固件刷入设备即可, 重置路由器也不用重新安装了.
 不采用定制固件方式也可以自己去<code>OpenWrt</code>后台自己装, 就是麻烦,
 效果一样.</p>
-<h3 id="配置nftables">配置Nftables</h3>
+<h3 id="配置nftables">配置nftables</h3>
 <p><code>SSH</code>连接到路由器,
 在<code>/etc/nftables.d/</code>下新建<code>user_mangle.nft</code>文件,
 原有文件可以不动, 也可以把以下内容粘贴到原有文件之后, 效果一样.</p>
@@ -518,8 +518,8 @@ alt="image-20241023220050209" />
         <tag>笔记</tag>
         <tag>OpenWrt</tag>
         <tag>WireGuard</tag>
-        <tag>Nftables</tag>
         <tag>校园网</tag>
+        <tag>nftables</tag>
       </tags>
   </entry>
   <entry>
@@ -582,6 +582,61 @@ alt="image-20220128230447817" />
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 <span class="title function_">sub_400D35</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> __int64 result; <span class="comment">// rax</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v1; <span class="comment">// [rsp+Ch] [rbp-24h]</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+10h] [rbp-20h]</span></span><br><span class="line">  <span class="type">int</span> j; <span class="comment">// [rsp+14h] [rbp-1Ch]</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v4; <span class="comment">// [rsp+24h] [rbp-Ch]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v5; <span class="comment">// [rsp+28h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v5 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  v1 = sub_43FD20(<span class="number">0LL</span>) - qword_6CEE38;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">1233</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    sub_40F790(v1);</span><br><span class="line">    sub_40FE60();</span><br><span class="line">    sub_40FE60();</span><br><span class="line">    v1 = sub_40FE60() ^ <span class="number">0x98765432</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//上面这一坨不是很懂</span></span><br><span class="line">  v4 = v1;</span><br><span class="line">  <span class="keyword">if</span> ( ((<span class="type">unsigned</span> __int8)v1 ^ byte_6CC0A0[<span class="number">0</span>]) == <span class="number">102</span> &amp;&amp; (HIBYTE(v4) ^ (<span class="type">unsigned</span> __int8)byte_6CC0A3) == <span class="number">103</span> )</span><br><span class="line">  <span class="comment">//这个判断无关紧要,直接看下面</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt;= <span class="number">24</span>; ++j )</span><br><span class="line">      sub_410E90((<span class="type">unsigned</span> __int8)(byte_6CC0A0[j] ^ *((_BYTE *)&amp;v4 + j % <span class="number">4</span>)));</span><br><span class="line">    <span class="comment">//关键点应该就在这里了,byte_6CC0A0这个字符串的内容已知,异或的密钥只有4位,</span></span><br><span class="line">    <span class="comment">//结合前面给出的提示,前面4位是&quot;flag&quot;,我们就可以得出密钥,从而解密出flag</span></span><br><span class="line">  &#125;</span><br><span class="line">  result = __readfsqword(<span class="number">0x28</span>u) ^ v5;</span><br><span class="line">  <span class="keyword">if</span> ( result )</span><br><span class="line">    sub_444020();</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>解密代码如下</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">char</span> ciphertext[<span class="number">25</span>] =</span><br><span class="line">	&#123;</span><br><span class="line">	   <span class="number">64</span>,  <span class="number">53</span>,  <span class="number">32</span>,  <span class="number">86</span>,  <span class="number">93</span>,  <span class="number">24</span>,  <span class="number">34</span>,  <span class="number">69</span>,  <span class="number">23</span>,  <span class="number">47</span>,</span><br><span class="line">	   <span class="number">36</span>, <span class="number">110</span>,  <span class="number">98</span>,  <span class="number">60</span>,  <span class="number">39</span>,  <span class="number">84</span>,  <span class="number">72</span>, <span class="number">108</span>,  <span class="number">36</span>, <span class="number">110</span>,</span><br><span class="line">	  <span class="number">114</span>,  <span class="number">60</span>,  <span class="number">50</span>,  <span class="number">69</span>,  <span class="number">91</span></span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="type">char</span> hint[<span class="number">4</span>] = &#123; <span class="string">&#x27;f&#x27;</span>,<span class="string">&#x27;l&#x27;</span>,<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;g&#x27;</span> &#125;;</span><br><span class="line">	<span class="type">char</span> key[<span class="number">4</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">-128</span>; j &lt;= <span class="number">127</span>; j++)</span><br><span class="line">			<span class="keyword">if</span> ((ciphertext[i] ^ j) == hint[i])</span><br><span class="line">				key[i] = j;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">25</span>; i++)</span><br><span class="line">		<span class="built_in">putchar</span>(ciphertext[i] ^ key[i % <span class="number">4</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//flag&#123;Act1ve_Defen5e_Test&#125;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Reverse</category>
+      </categories>
+      <tags>
+        <tag>二进制</tag>
+        <tag>逆向</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>[BJDCTF2020]JustRE</title>
+    <url>/2022/01/23/%5BReverse%5DBJDCTF2020-JustRE/</url>
+    <content><![CDATA[<p>无壳, 主函数大部分都是<code>Windows</code>的<code>API</code>,
+关键是看这个函数</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231416516.png"
+alt="image-20220123141627396" />
+<figcaption aria-hidden="true">image-20220123141627396</figcaption>
+</figure>
+<p>再跟进去可以找到另一个函数</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231417376.png"
+alt="image-20220123141745338" />
+<figcaption aria-hidden="true">image-20220123141745338</figcaption>
+</figure>
+<p>还是没有啥有价值的信息, 但是找到了熟悉的函数, 在之前出现过, 见 <a
+href="/2022/01/22/%5BReverse%5D刮开有奖/">刮开有奖</a></p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231420420.png"
+alt="image-20220123142023366" />
+<figcaption aria-hidden="true">image-20220123142023366</figcaption>
+</figure>
+<p>果然, 答案就在这里了,
+所以<strong>flag</strong>就是<code>flag&#123;1999902069a45792d233ac&#125;</code></p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231421934.png"
+alt="image-20220123142111899" />
+<figcaption aria-hidden="true">image-20220123142111899</figcaption>
+</figure>
+<p>这题也可以从字符串直接入手, 更快</p>
+<blockquote>
+<del>
+还可以点19999次直接出flag
+</del>
+</blockquote>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231422495.png"
+alt="image-20220123142250428" />
+<figcaption aria-hidden="true">image-20220123142250428</figcaption>
+</figure>
 ]]></content>
       <categories>
         <category>Reverse</category>
@@ -756,82 +811,6 @@ alt="image-20220124004429711" />
       </categories>
   </entry>
   <entry>
-    <title>[BJDCTF2020]JustRE</title>
-    <url>/2022/01/23/%5BReverse%5DBJDCTF2020-JustRE/</url>
-    <content><![CDATA[<p>无壳, 主函数大部分都是<code>Windows</code>的<code>API</code>,
-关键是看这个函数</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231416516.png"
-alt="image-20220123141627396" />
-<figcaption aria-hidden="true">image-20220123141627396</figcaption>
-</figure>
-<p>再跟进去可以找到另一个函数</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231417376.png"
-alt="image-20220123141745338" />
-<figcaption aria-hidden="true">image-20220123141745338</figcaption>
-</figure>
-<p>还是没有啥有价值的信息, 但是找到了熟悉的函数, 在之前出现过, 见 <a
-href="/2022/01/22/%5BReverse%5D刮开有奖/">刮开有奖</a></p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231420420.png"
-alt="image-20220123142023366" />
-<figcaption aria-hidden="true">image-20220123142023366</figcaption>
-</figure>
-<p>果然, 答案就在这里了,
-所以<strong>flag</strong>就是<code>flag&#123;1999902069a45792d233ac&#125;</code></p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231421934.png"
-alt="image-20220123142111899" />
-<figcaption aria-hidden="true">image-20220123142111899</figcaption>
-</figure>
-<p>这题也可以从字符串直接入手, 更快</p>
-<blockquote>
-<del>
-还可以点19999次直接出flag
-</del>
-</blockquote>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202201231422495.png"
-alt="image-20220123142250428" />
-<figcaption aria-hidden="true">image-20220123142250428</figcaption>
-</figure>
-]]></content>
-      <categories>
-        <category>Reverse</category>
-      </categories>
-      <tags>
-        <tag>二进制</tag>
-        <tag>逆向</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>[GXYCTF2019]luck_guy</title>
-    <url>/2022/01/22/%5BReverse%5DGXYCTF2019-luck-guy/</url>
-    <content><![CDATA[<p>不是PE文件, 进<code>IDA</code>分析, F5看伪代码.</p>
-<p><code>main()</code>里面有个<code>patch_me()</code>,
-在<code>patch_me()</code>里面找到<code>get_flag()</code>关键函数</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 <span class="title function_">get_flag</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v0; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+4h] [rbp-3Ch]</span></span><br><span class="line">  <span class="type">int</span> j; <span class="comment">// [rsp+8h] [rbp-38h]</span></span><br><span class="line">  __int64 s; <span class="comment">// [rsp+10h] [rbp-30h] BYREF</span></span><br><span class="line">  <span class="type">char</span> v5; <span class="comment">// [rsp+18h] [rbp-28h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v6; <span class="comment">// [rsp+38h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v6 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  v0 = time(<span class="number">0LL</span>);</span><br><span class="line">  srand(v0);                    <span class="comment">//时间作为随机数种子</span></span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">4</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">switch</span> ( rand() % <span class="number">200</span> )     <span class="comment">//随机数决定执行哪个case</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">&quot;OK, it&#x27;s flag:&quot;</span>);</span><br><span class="line">        <span class="built_in">memset</span>(&amp;s, <span class="number">0</span>, <span class="number">0x28</span>uLL);</span><br><span class="line">        <span class="built_in">strcat</span>((<span class="type">char</span> *)&amp;s, f1);    <span class="comment">//f1=&quot;GXY&#123;do_not_&quot;</span></span><br><span class="line">        <span class="built_in">strcat</span>((<span class="type">char</span> *)&amp;s, &amp;f2);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, (<span class="type">const</span> <span class="type">char</span> *)&amp;s);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Solar not like you&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Solar want a girlfriend&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">        s = <span class="number">0x7F666F6067756369</span>LL;</span><br><span class="line">        v5 = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">strcat</span>(&amp;f2, (<span class="type">const</span> <span class="type">char</span> *)&amp;s);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">        <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt;= <span class="number">7</span>; ++j )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">if</span> ( j % <span class="number">2</span> == <span class="number">1</span> )</span><br><span class="line">            *(&amp;f2 + j) -= <span class="number">2</span>;</span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">            --*(&amp;f2 + j);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">&quot;emmm,you can&#x27;t find flag 23333&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v6;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>关键就在<code>1,4,5</code>这三个<code>case</code>里,
-应该要以合适的顺序执行才能得到<strong>flag</strong></p>
-<p>分析出来正确的顺序应该是<code>4,5,1</code>, 写成Python代码如下</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">string0 = <span class="string">&quot;GXY&#123;do_not_&quot;</span></span><br><span class="line">string1 = <span class="string">&quot;\x69\x63\x75\x67\x60\x6f\x66\x7f&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(string1)):</span><br><span class="line">    <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">1</span>:</span><br><span class="line">        string0 += <span class="built_in">chr</span>(<span class="built_in">ord</span>(string1[i]) - <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        string0 += <span class="built_in">chr</span>(<span class="built_in">ord</span>(string1[i]) - <span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(string0)</span><br><span class="line"><span class="comment">#GXY&#123;do_not_hate_me&#125;</span></span><br></pre></td></tr></table></figure>
-<p>所以<strong>flag</strong>就是<code>GXY&#123;do_not_hate_me&#125;</code></p>
-]]></content>
-      <categories>
-        <category>Reverse</category>
-      </categories>
-      <tags>
-        <tag>二进制</tag>
-        <tag>逆向</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>[GWCTF 2019]pyre</title>
     <url>/2022/01/23/%5BReverse%5DGWCTF-2019-pyre/</url>
     <content><![CDATA[<p><code>Python</code>的逆向,
@@ -875,23 +854,17 @@ alt="image-20220123181846852" />
       </tags>
   </entry>
   <entry>
-    <title>[BUUCTF]SimpleRev</title>
-    <url>/2022/01/22/%5BReverse%5DSimpleRev/</url>
-    <content><![CDATA[<p>不是PE文件, 直接拖进<code>IDA</code>分析, F5查看伪代码</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202201221410232.png"
-alt="image-20220122141058186" />
-<figcaption aria-hidden="true">image-20220122141058186</figcaption>
-</figure>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl __noreturn <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> v3; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">char</span> v4; <span class="comment">// [rsp+Fh] [rbp-1h]</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;Welcome to CTF game!\nPlease input d/D to start or input q/Q to quit this program: &quot;</span>);</span><br><span class="line">      v4 = getchar();</span><br><span class="line">      <span class="keyword">if</span> ( v4 != <span class="number">100</span> &amp;&amp; v4 != <span class="number">68</span> )</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      Decry();	<span class="comment">//重点就在这个函数里面</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( v4 == <span class="number">113</span> || v4 == <span class="number">81</span> )</span><br><span class="line">      Exit(<span class="string">&quot;Welcome to CTF game!\nPlease input d/D to start or input q/Q to quit this program: &quot;</span>, argv);		<span class="comment">//退出函数这里为啥要传参进去?不是很懂</span></span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Input fault format!&quot;</span>);</span><br><span class="line">    v3 = getchar();</span><br><span class="line">    <span class="built_in">putchar</span>(v3);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>Decry()</code>函数长这样</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 <span class="title function_">Decry</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> v1; <span class="comment">// [rsp+Fh] [rbp-51h]</span></span><br><span class="line">  <span class="type">int</span> v2; <span class="comment">// [rsp+10h] [rbp-50h]</span></span><br><span class="line">  <span class="type">int</span> v3; <span class="comment">// [rsp+14h] [rbp-4Ch]</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+18h] [rbp-48h]</span></span><br><span class="line">  <span class="type">int</span> v5; <span class="comment">// [rsp+1Ch] [rbp-44h]</span></span><br><span class="line">  <span class="type">char</span> src[<span class="number">8</span>]; <span class="comment">// [rsp+20h] [rbp-40h] BYREF</span></span><br><span class="line">  __int64 v7; <span class="comment">// [rsp+28h] [rbp-38h]</span></span><br><span class="line">  <span class="type">int</span> v8; <span class="comment">// [rsp+30h] [rbp-30h]</span></span><br><span class="line">  __int64 v9[<span class="number">2</span>]; <span class="comment">// [rsp+40h] [rbp-20h] BYREF</span></span><br><span class="line">  <span class="type">int</span> v10; <span class="comment">// [rsp+50h] [rbp-10h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v11; <span class="comment">// [rsp+58h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v11 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="comment">/*__readfsqword()函数从FS:[Offset]读取4字长的内容,同理还有__readfsbyte()等函数, 此处作用未知*/</span></span><br><span class="line">  *(_QWORD *)src = <span class="number">0x534C43444E</span>LL;</span><br><span class="line">  v7 = <span class="number">0LL</span>;</span><br><span class="line">  v8 = <span class="number">0</span>;</span><br><span class="line">  v9[<span class="number">0</span>] = <span class="number">0x776F646168</span>LL;</span><br><span class="line">  v9[<span class="number">1</span>] = <span class="number">0LL</span>;</span><br><span class="line">  v10 = <span class="number">0</span>;</span><br><span class="line">  text = (<span class="type">char</span> *)join(key3, v9);	<span class="comment">//自定义的字符拼接,text=&quot;killshadow&quot;</span></span><br><span class="line">  <span class="built_in">strcpy</span>(key, key1);</span><br><span class="line">  <span class="built_in">strcat</span>(key, src);		<span class="comment">//key=&quot;ADSFKNDCLS&quot;</span></span><br><span class="line">  v2 = <span class="number">0</span>;</span><br><span class="line">  v3 = <span class="number">0</span>;</span><br><span class="line">  getchar();</span><br><span class="line">  v5 = <span class="built_in">strlen</span>(key);</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; v5; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( key[v3 % v5] &gt; <span class="number">64</span> &amp;&amp; key[v3 % v5] &lt;= <span class="number">90</span> )</span><br><span class="line">      key[i] = key[v3 % v5] + <span class="number">32</span>;	<span class="comment">//将key中每个字符由大写转成小写</span></span><br><span class="line">    ++v3;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Please input your flag:&quot;</span>);</span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v1 = getchar();</span><br><span class="line">    <span class="keyword">if</span> ( v1 == <span class="number">10</span> )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">if</span> ( v1 == <span class="number">32</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      ++v2;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( v1 &lt;= <span class="number">96</span> || v1 &gt; <span class="number">122</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">if</span> ( v1 &gt; <span class="number">64</span> &amp;&amp; v1 &lt;= <span class="number">90</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          str2[v2] = (v1 - <span class="number">39</span> - key[v3 % v5] + <span class="number">97</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">          ++v3;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        str2[v2] = (v1 - <span class="number">39</span> - key[v3 % v5] + <span class="number">97</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">        ++v3;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> ( !(v3 % v5) )</span><br><span class="line">        <span class="built_in">putchar</span>(<span class="number">32</span>);</span><br><span class="line">      ++v2;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( !<span class="built_in">strcmp</span>(text, str2) )</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Congratulation!\n&quot;</span>);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Try again!\n&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v11;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>主要就是逆向这一段, 得出v1</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v1 = getchar();</span><br><span class="line">    <span class="keyword">if</span> ( v1 == <span class="number">10</span> )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">if</span> ( v1 == <span class="number">32</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      ++v2;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( v1 &lt;= <span class="number">96</span> || v1 &gt; <span class="number">122</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">if</span> ( v1 &gt; <span class="number">64</span> &amp;&amp; v1 &lt;= <span class="number">90</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          str2[v2] = (v1 - <span class="number">39</span> - key[v3 % v5] + <span class="number">97</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">          ++v3;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        str2[v2] = (v1 - <span class="number">39</span> - key[v3 % v5] + <span class="number">97</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">        ++v3;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> ( !(v3 % v5) )</span><br><span class="line">        <span class="built_in">putchar</span>(<span class="number">32</span>);</span><br><span class="line">      ++v2;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>写出解密脚本</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> key[<span class="number">16</span>] = <span class="string">&quot;adsfkndcls&quot;</span>;</span><br><span class="line">    <span class="type">char</span> ciphertext[<span class="number">16</span>] = <span class="string">&quot;killshadow&quot;</span>;</span><br><span class="line">    <span class="type">char</span> plaintext[<span class="number">16</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="type">char</span> key_offset = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">strlen</span>(ciphertext); i++)</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> c = <span class="number">32</span>; c &lt; <span class="number">127</span>; c++) <span class="comment">//穷举所有可打印ASCII字符</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">char</span> temp = c;</span><br><span class="line">            <span class="keyword">if</span> ((<span class="string">&#x27;a&#x27;</span> &lt;= c &amp;&amp; c &lt;= <span class="string">&#x27;z&#x27;</span>) <span class="built_in">or</span> (<span class="string">&#x27;A&#x27;</span> &lt;= c &amp;&amp; c &lt;= <span class="string">&#x27;Z&#x27;</span>))</span><br><span class="line">                temp = (c - <span class="number">39</span> - key[key_offset % <span class="built_in">strlen</span>(key)] + <span class="number">97</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">            <span class="keyword">if</span> (temp == ciphertext[i])</span><br><span class="line">            &#123;</span><br><span class="line">                plaintext[i] = c;</span><br><span class="line">                key_offset++;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, plaintext);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//KLDQCUDFZO</span></span><br></pre></td></tr></table></figure>
-<p>所以<strong>flag</strong>就是<code>flag&#123;KLDQCUDFZO&#125;</code></p>
+    <title>[GXYCTF2019]luck_guy</title>
+    <url>/2022/01/22/%5BReverse%5DGXYCTF2019-luck-guy/</url>
+    <content><![CDATA[<p>不是PE文件, 进<code>IDA</code>分析, F5看伪代码.</p>
+<p><code>main()</code>里面有个<code>patch_me()</code>,
+在<code>patch_me()</code>里面找到<code>get_flag()</code>关键函数</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 <span class="title function_">get_flag</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v0; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+4h] [rbp-3Ch]</span></span><br><span class="line">  <span class="type">int</span> j; <span class="comment">// [rsp+8h] [rbp-38h]</span></span><br><span class="line">  __int64 s; <span class="comment">// [rsp+10h] [rbp-30h] BYREF</span></span><br><span class="line">  <span class="type">char</span> v5; <span class="comment">// [rsp+18h] [rbp-28h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v6; <span class="comment">// [rsp+38h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v6 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  v0 = time(<span class="number">0LL</span>);</span><br><span class="line">  srand(v0);                    <span class="comment">//时间作为随机数种子</span></span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">4</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">switch</span> ( rand() % <span class="number">200</span> )     <span class="comment">//随机数决定执行哪个case</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">&quot;OK, it&#x27;s flag:&quot;</span>);</span><br><span class="line">        <span class="built_in">memset</span>(&amp;s, <span class="number">0</span>, <span class="number">0x28</span>uLL);</span><br><span class="line">        <span class="built_in">strcat</span>((<span class="type">char</span> *)&amp;s, f1);    <span class="comment">//f1=&quot;GXY&#123;do_not_&quot;</span></span><br><span class="line">        <span class="built_in">strcat</span>((<span class="type">char</span> *)&amp;s, &amp;f2);</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, (<span class="type">const</span> <span class="type">char</span> *)&amp;s);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Solar not like you&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Solar want a girlfriend&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">        s = <span class="number">0x7F666F6067756369</span>LL;</span><br><span class="line">        v5 = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">strcat</span>(&amp;f2, (<span class="type">const</span> <span class="type">char</span> *)&amp;s);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">        <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt;= <span class="number">7</span>; ++j )</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">if</span> ( j % <span class="number">2</span> == <span class="number">1</span> )</span><br><span class="line">            *(&amp;f2 + j) -= <span class="number">2</span>;</span><br><span class="line">          <span class="keyword">else</span></span><br><span class="line">            --*(&amp;f2 + j);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">&quot;emmm,you can&#x27;t find flag 23333&quot;</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v6;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关键就在<code>1,4,5</code>这三个<code>case</code>里,
+应该要以合适的顺序执行才能得到<strong>flag</strong></p>
+<p>分析出来正确的顺序应该是<code>4,5,1</code>, 写成Python代码如下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">string0 = <span class="string">&quot;GXY&#123;do_not_&quot;</span></span><br><span class="line">string1 = <span class="string">&quot;\x69\x63\x75\x67\x60\x6f\x66\x7f&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(string1)):</span><br><span class="line">    <span class="keyword">if</span> i % <span class="number">2</span> == <span class="number">1</span>:</span><br><span class="line">        string0 += <span class="built_in">chr</span>(<span class="built_in">ord</span>(string1[i]) - <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        string0 += <span class="built_in">chr</span>(<span class="built_in">ord</span>(string1[i]) - <span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(string0)</span><br><span class="line"><span class="comment">#GXY&#123;do_not_hate_me&#125;</span></span><br></pre></td></tr></table></figure>
+<p>所以<strong>flag</strong>就是<code>GXY&#123;do_not_hate_me&#125;</code></p>
 ]]></content>
       <categories>
         <category>Reverse</category>
@@ -988,13 +961,23 @@ alt="image-20220123163357380" />
       </tags>
   </entry>
   <entry>
-    <title>[BUUCTF]rome</title>
-    <url>/2022/01/25/%5BReverse%5Drome/</url>
-    <content><![CDATA[<p>无壳, 拖进<code>IDA</code>, <code>F5</code>查看伪代码,
-主函数里面主要就<code>func()</code>函数, 跟到<code>func()</code>里</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">func</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> result; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">int</span> v1[<span class="number">4</span>]; <span class="comment">// [esp+14h] [ebp-44h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v2; <span class="comment">// [esp+24h] [ebp-34h] BYREF</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v3; <span class="comment">// [esp+25h] [ebp-33h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v4; <span class="comment">// [esp+26h] [ebp-32h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v5; <span class="comment">// [esp+27h] [ebp-31h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v6; <span class="comment">// [esp+28h] [ebp-30h]</span></span><br><span class="line">  <span class="type">int</span> v7; <span class="comment">// [esp+29h] [ebp-2Fh]</span></span><br><span class="line">  <span class="type">int</span> v8; <span class="comment">// [esp+2Dh] [ebp-2Bh]</span></span><br><span class="line">  <span class="type">int</span> v9; <span class="comment">// [esp+31h] [ebp-27h]</span></span><br><span class="line">  <span class="type">int</span> v10; <span class="comment">// [esp+35h] [ebp-23h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v11; <span class="comment">// [esp+39h] [ebp-1Fh]</span></span><br><span class="line">  <span class="type">char</span> v12[<span class="number">29</span>]; <span class="comment">// [esp+3Bh] [ebp-1Dh] BYREF</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">strcpy</span>(v12, <span class="string">&quot;Qsw3sj_lz4_Ujw@l&quot;</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Please input:&quot;</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, &amp;v2);</span><br><span class="line">  result = v2;</span><br><span class="line">  <span class="keyword">if</span> ( v2 == <span class="string">&#x27;A&#x27;</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    result = v3;</span><br><span class="line">    <span class="keyword">if</span> ( v3 == <span class="string">&#x27;C&#x27;</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      result = v4;</span><br><span class="line">      <span class="keyword">if</span> ( v4 == <span class="string">&#x27;T&#x27;</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        result = v5;</span><br><span class="line">        <span class="keyword">if</span> ( v5 == <span class="string">&#x27;F&#x27;</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          result = v6;</span><br><span class="line">          <span class="keyword">if</span> ( v6 == <span class="string">&#x27;&#123;&#x27;</span> )</span><br><span class="line">          &#123;</span><br><span class="line">            result = v11;</span><br><span class="line">            <span class="keyword">if</span> ( v11 == <span class="string">&#x27;&#125;&#x27;</span> )</span><br><span class="line">            &#123;</span><br><span class="line">              v1[<span class="number">0</span>] = v7;</span><br><span class="line">              v1[<span class="number">1</span>] = v8;</span><br><span class="line">              v1[<span class="number">2</span>] = v9;</span><br><span class="line">              v1[<span class="number">3</span>] = v10;</span><br><span class="line">              *(_DWORD *)&amp;v12[<span class="number">17</span>] = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">while</span> ( *(<span class="type">int</span> *)&amp;v12[<span class="number">17</span>] &lt;= <span class="number">15</span> )</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="keyword">if</span> ( *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &gt; <span class="number">64</span> &amp;&amp; *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &lt;= <span class="number">90</span> )</span><br><span class="line">                  *((_BYTE *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) = (*((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) - <span class="number">51</span>) % <span class="number">26</span> + <span class="number">65</span>;</span><br><span class="line">                <span class="keyword">if</span> ( *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &gt; <span class="number">96</span> &amp;&amp; *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &lt;= <span class="number">122</span> )</span><br><span class="line">                  *((_BYTE *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) = (*((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) - <span class="number">79</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">                ++*(_DWORD *)&amp;v12[<span class="number">17</span>];</span><br><span class="line">              &#125;</span><br><span class="line">              *(_DWORD *)&amp;v12[<span class="number">17</span>] = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">while</span> ( *(<span class="type">int</span> *)&amp;v12[<span class="number">17</span>] &lt;= <span class="number">15</span> )</span><br><span class="line">              &#123;</span><br><span class="line">                result = (<span class="type">unsigned</span> __int8)v12[*(_DWORD *)&amp;v12[<span class="number">17</span>]];</span><br><span class="line">                <span class="keyword">if</span> ( *((_BYTE *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) != (_BYTE)result )</span><br><span class="line">                  <span class="keyword">return</span> result;</span><br><span class="line">                ++*(_DWORD *)&amp;v12[<span class="number">17</span>];</span><br><span class="line">              &#125;</span><br><span class="line">              result = <span class="built_in">printf</span>(<span class="string">&quot;You are correct!&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>解法很常规, 分析算法, 写出解密程序</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="type">char</span> ciphertext[<span class="number">32</span>] = <span class="string">&quot;Qsw3sj_lz4_Ujw@l&quot;</span>;</span><br><span class="line">	<span class="type">char</span> plaintext[<span class="number">32</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">16</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">char</span> c = <span class="number">32</span>; c &lt; <span class="number">127</span>; c++)	<span class="comment">//逐位穷举所有ASCII可打印字符</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="type">char</span> temp = c;</span><br><span class="line">			<span class="keyword">if</span> (c &gt; <span class="number">64</span> &amp;&amp; c &lt;= <span class="number">90</span>)</span><br><span class="line">				temp = (c - <span class="number">51</span>) % <span class="number">26</span> + <span class="number">65</span>;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (c &gt; <span class="number">96</span> &amp;&amp; c &lt;= <span class="number">122</span>)</span><br><span class="line">				temp = (c - <span class="number">79</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">			<span class="keyword">if</span> (temp == ciphertext[i])</span><br><span class="line">				plaintext[i] = c;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;ACTF&#123;%s&#125;&quot;</span>, plaintext);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//ACTF&#123;Cae3ar_th4_Gre@t&#125;</span></span><br></pre></td></tr></table></figure>
+    <title>[BUUCTF]SimpleRev</title>
+    <url>/2022/01/22/%5BReverse%5DSimpleRev/</url>
+    <content><![CDATA[<p>不是PE文件, 直接拖进<code>IDA</code>分析, F5查看伪代码</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201221410232.png"
+alt="image-20220122141058186" />
+<figcaption aria-hidden="true">image-20220122141058186</figcaption>
+</figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl __noreturn <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> v3; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">char</span> v4; <span class="comment">// [rsp+Fh] [rbp-1h]</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">printf</span>(<span class="string">&quot;Welcome to CTF game!\nPlease input d/D to start or input q/Q to quit this program: &quot;</span>);</span><br><span class="line">      v4 = getchar();</span><br><span class="line">      <span class="keyword">if</span> ( v4 != <span class="number">100</span> &amp;&amp; v4 != <span class="number">68</span> )</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      Decry();	<span class="comment">//重点就在这个函数里面</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( v4 == <span class="number">113</span> || v4 == <span class="number">81</span> )</span><br><span class="line">      Exit(<span class="string">&quot;Welcome to CTF game!\nPlease input d/D to start or input q/Q to quit this program: &quot;</span>, argv);		<span class="comment">//退出函数这里为啥要传参进去?不是很懂</span></span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Input fault format!&quot;</span>);</span><br><span class="line">    v3 = getchar();</span><br><span class="line">    <span class="built_in">putchar</span>(v3);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Decry()</code>函数长这样</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 <span class="title function_">Decry</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">char</span> v1; <span class="comment">// [rsp+Fh] [rbp-51h]</span></span><br><span class="line">  <span class="type">int</span> v2; <span class="comment">// [rsp+10h] [rbp-50h]</span></span><br><span class="line">  <span class="type">int</span> v3; <span class="comment">// [rsp+14h] [rbp-4Ch]</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+18h] [rbp-48h]</span></span><br><span class="line">  <span class="type">int</span> v5; <span class="comment">// [rsp+1Ch] [rbp-44h]</span></span><br><span class="line">  <span class="type">char</span> src[<span class="number">8</span>]; <span class="comment">// [rsp+20h] [rbp-40h] BYREF</span></span><br><span class="line">  __int64 v7; <span class="comment">// [rsp+28h] [rbp-38h]</span></span><br><span class="line">  <span class="type">int</span> v8; <span class="comment">// [rsp+30h] [rbp-30h]</span></span><br><span class="line">  __int64 v9[<span class="number">2</span>]; <span class="comment">// [rsp+40h] [rbp-20h] BYREF</span></span><br><span class="line">  <span class="type">int</span> v10; <span class="comment">// [rsp+50h] [rbp-10h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v11; <span class="comment">// [rsp+58h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v11 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="comment">/*__readfsqword()函数从FS:[Offset]读取4字长的内容,同理还有__readfsbyte()等函数, 此处作用未知*/</span></span><br><span class="line">  *(_QWORD *)src = <span class="number">0x534C43444E</span>LL;</span><br><span class="line">  v7 = <span class="number">0LL</span>;</span><br><span class="line">  v8 = <span class="number">0</span>;</span><br><span class="line">  v9[<span class="number">0</span>] = <span class="number">0x776F646168</span>LL;</span><br><span class="line">  v9[<span class="number">1</span>] = <span class="number">0LL</span>;</span><br><span class="line">  v10 = <span class="number">0</span>;</span><br><span class="line">  text = (<span class="type">char</span> *)join(key3, v9);	<span class="comment">//自定义的字符拼接,text=&quot;killshadow&quot;</span></span><br><span class="line">  <span class="built_in">strcpy</span>(key, key1);</span><br><span class="line">  <span class="built_in">strcat</span>(key, src);		<span class="comment">//key=&quot;ADSFKNDCLS&quot;</span></span><br><span class="line">  v2 = <span class="number">0</span>;</span><br><span class="line">  v3 = <span class="number">0</span>;</span><br><span class="line">  getchar();</span><br><span class="line">  v5 = <span class="built_in">strlen</span>(key);</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; v5; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( key[v3 % v5] &gt; <span class="number">64</span> &amp;&amp; key[v3 % v5] &lt;= <span class="number">90</span> )</span><br><span class="line">      key[i] = key[v3 % v5] + <span class="number">32</span>;	<span class="comment">//将key中每个字符由大写转成小写</span></span><br><span class="line">    ++v3;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Please input your flag:&quot;</span>);</span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v1 = getchar();</span><br><span class="line">    <span class="keyword">if</span> ( v1 == <span class="number">10</span> )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">if</span> ( v1 == <span class="number">32</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      ++v2;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( v1 &lt;= <span class="number">96</span> || v1 &gt; <span class="number">122</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">if</span> ( v1 &gt; <span class="number">64</span> &amp;&amp; v1 &lt;= <span class="number">90</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          str2[v2] = (v1 - <span class="number">39</span> - key[v3 % v5] + <span class="number">97</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">          ++v3;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        str2[v2] = (v1 - <span class="number">39</span> - key[v3 % v5] + <span class="number">97</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">        ++v3;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> ( !(v3 % v5) )</span><br><span class="line">        <span class="built_in">putchar</span>(<span class="number">32</span>);</span><br><span class="line">      ++v2;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( !<span class="built_in">strcmp</span>(text, str2) )</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Congratulation!\n&quot;</span>);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Try again!\n&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v11;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>主要就是逆向这一段, 得出v1</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v1 = getchar();</span><br><span class="line">    <span class="keyword">if</span> ( v1 == <span class="number">10</span> )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">if</span> ( v1 == <span class="number">32</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      ++v2;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( v1 &lt;= <span class="number">96</span> || v1 &gt; <span class="number">122</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">if</span> ( v1 &gt; <span class="number">64</span> &amp;&amp; v1 &lt;= <span class="number">90</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          str2[v2] = (v1 - <span class="number">39</span> - key[v3 % v5] + <span class="number">97</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">          ++v3;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        str2[v2] = (v1 - <span class="number">39</span> - key[v3 % v5] + <span class="number">97</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">        ++v3;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> ( !(v3 % v5) )</span><br><span class="line">        <span class="built_in">putchar</span>(<span class="number">32</span>);</span><br><span class="line">      ++v2;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>写出解密脚本</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> key[<span class="number">16</span>] = <span class="string">&quot;adsfkndcls&quot;</span>;</span><br><span class="line">    <span class="type">char</span> ciphertext[<span class="number">16</span>] = <span class="string">&quot;killshadow&quot;</span>;</span><br><span class="line">    <span class="type">char</span> plaintext[<span class="number">16</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="type">char</span> key_offset = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">strlen</span>(ciphertext); i++)</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">char</span> c = <span class="number">32</span>; c &lt; <span class="number">127</span>; c++) <span class="comment">//穷举所有可打印ASCII字符</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">char</span> temp = c;</span><br><span class="line">            <span class="keyword">if</span> ((<span class="string">&#x27;a&#x27;</span> &lt;= c &amp;&amp; c &lt;= <span class="string">&#x27;z&#x27;</span>) <span class="built_in">or</span> (<span class="string">&#x27;A&#x27;</span> &lt;= c &amp;&amp; c &lt;= <span class="string">&#x27;Z&#x27;</span>))</span><br><span class="line">                temp = (c - <span class="number">39</span> - key[key_offset % <span class="built_in">strlen</span>(key)] + <span class="number">97</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">            <span class="keyword">if</span> (temp == ciphertext[i])</span><br><span class="line">            &#123;</span><br><span class="line">                plaintext[i] = c;</span><br><span class="line">                key_offset++;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, plaintext);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//KLDQCUDFZO</span></span><br></pre></td></tr></table></figure>
+<p>所以<strong>flag</strong>就是<code>flag&#123;KLDQCUDFZO&#125;</code></p>
 ]]></content>
       <categories>
         <category>Reverse</category>
@@ -1003,30 +986,6 @@ alt="image-20220123163357380" />
         <tag>二进制</tag>
         <tag>逆向</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>[BUUCTF]reverse3</title>
-    <url>/2022/01/21/%5BReverse%5Dreverse3/</url>
-    <content><![CDATA[<p>无壳, 直接拖进<code>IDA</code>分析, F5查看伪代码</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl <span class="title function_">main_0</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">size_t</span> v3; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">const</span> <span class="type">char</span> *v4; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">size_t</span> v5; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">char</span> v7; <span class="comment">// [esp+0h] [ebp-188h]</span></span><br><span class="line">  <span class="type">char</span> v8; <span class="comment">// [esp+0h] [ebp-188h]</span></span><br><span class="line">  <span class="type">signed</span> <span class="type">int</span> j; <span class="comment">// [esp+DCh] [ebp-ACh]</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [esp+E8h] [ebp-A0h]</span></span><br><span class="line">  <span class="type">signed</span> <span class="type">int</span> v11; <span class="comment">// [esp+E8h] [ebp-A0h]</span></span><br><span class="line">  <span class="type">char</span> Destination[<span class="number">108</span>]; <span class="comment">// [esp+F4h] [ebp-94h] BYREF</span></span><br><span class="line">  <span class="type">char</span> Str[<span class="number">28</span>]; <span class="comment">// [esp+160h] [ebp-28h] BYREF</span></span><br><span class="line">  <span class="type">char</span> v14[<span class="number">8</span>]; <span class="comment">// [esp+17Ch] [ebp-Ch] BYREF</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="number">100</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( (<span class="type">unsigned</span> <span class="type">int</span>)i &gt;= <span class="number">0x64</span> )</span><br><span class="line">      j____report_rangecheckfailure();	<span class="comment">//应该是VS调试器加的代码,不管</span></span><br><span class="line">    Destination[i] = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  sub_41132F(<span class="string">&quot;please enter the flag:&quot;</span>, v7);</span><br><span class="line">  sub_411375(<span class="string">&quot;%20s&quot;</span>, (<span class="type">char</span>)Str);</span><br><span class="line">  v3 = j_strlen(Str);</span><br><span class="line">  v4 = (<span class="type">const</span> <span class="type">char</span> *)sub_4110BE(Str, v3, v14);	<span class="comment">//注意这个sub_4110BE()函数, 作用未知</span></span><br><span class="line">      <span class="built_in">strncpy</span>(Destination, v4, <span class="number">0x28</span>u);	<span class="comment">//将sub_4110BE()返回值指向的字符拷到Destination数组</span></span><br><span class="line">  v11 = j_strlen(Destination);</span><br><span class="line">  <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt; v11; ++j )</span><br><span class="line">    Destination[j] += j;		<span class="comment">//字符移位</span></span><br><span class="line">  v5 = j_strlen(Destination);</span><br><span class="line">  <span class="keyword">if</span> ( !<span class="built_in">strncmp</span>(Destination, Str2, v5) )	<span class="comment">//Str2=&quot;e3nifIH9b_C@n@dH&quot;</span></span><br><span class="line">    sub_41132F(<span class="string">&quot;rigth flag!\n&quot;</span>, v8);		</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    sub_41132F(<span class="string">&quot;wrong flag!\n&quot;</span>, v8);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>关键在于<code>sub_4110BE()</code>这个函数,
-菜鸡一时没看出来它是干啥的. 于是把它从<code>IDA</code>抠出来,
-略作修改让它能跑起来, 命名为<code>unknown()</code>, 看看这个它的作用</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span>* __cdecl <span class="title">unknown</span><span class="params">(<span class="type">char</span>* a1, <span class="type">unsigned</span> <span class="type">int</span> a2)</span>	<span class="comment">//第三个参数无用, 可删去</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> v4; <span class="comment">// [esp+D4h] [ebp-38h]</span></span><br><span class="line">    <span class="type">int</span> v5; <span class="comment">// [esp+D4h] [ebp-38h]</span></span><br><span class="line">    <span class="type">int</span> v6; <span class="comment">// [esp+D4h] [ebp-38h]</span></span><br><span class="line">    <span class="type">int</span> v7; <span class="comment">// [esp+D4h] [ebp-38h]</span></span><br><span class="line">    <span class="type">int</span> i; <span class="comment">// [esp+E0h] [ebp-2Ch]</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> v9; <span class="comment">// [esp+ECh] [ebp-20h]</span></span><br><span class="line">    <span class="type">int</span> v10; <span class="comment">// [esp+ECh] [ebp-20h]</span></span><br><span class="line">    <span class="type">int</span> v11; <span class="comment">// [esp+ECh] [ebp-20h]</span></span><br><span class="line">    <span class="type">void</span>* v12; <span class="comment">// [esp+F8h] [ebp-14h]</span></span><br><span class="line">    <span class="type">char</span>* v13; <span class="comment">// [esp+104h] [ebp-8h]</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!a1 || !a2)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    v9 = a2 / <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">if</span> ((<span class="type">int</span>)(a2 / <span class="number">3</span>) % <span class="number">3</span>)</span><br><span class="line">        ++v9;</span><br><span class="line">    v10 = <span class="number">4</span> * v9;</span><br><span class="line">    v12 = <span class="built_in">malloc</span>(v10 + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (!v12)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">memset</span>(v12, <span class="number">0</span>, v10 + <span class="number">1</span>);</span><br><span class="line">    <span class="type">char</span> byte_41A144[<span class="number">4</span>];</span><br><span class="line">    <span class="type">char</span> aAbcdefghijklmn[] = <span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\x00&quot;</span>;</span><br><span class="line">    <span class="comment">//后来才知道,很明显这是一个base64的码表</span></span><br><span class="line">    v13 = a1;</span><br><span class="line">    v11 = a2;</span><br><span class="line">    v4 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (v11 &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        byte_41A144[<span class="number">2</span>] = <span class="number">0</span>;</span><br><span class="line">        byte_41A144[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">        byte_41A144[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">3</span> &amp;&amp; v11 &gt;= <span class="number">1</span>; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            byte_41A144[i] = *v13;</span><br><span class="line">            --v11;</span><br><span class="line">            ++v13;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!i)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">switch</span> (i)</span><br><span class="line">        &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + v4) = aAbcdefghijklmn[(<span class="type">int</span>)(<span class="type">unsigned</span> __int8)byte_41A144[<span class="number">0</span>] &gt;&gt; <span class="number">2</span>];</span><br><span class="line">            v5 = v4 + <span class="number">1</span>;</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + v5) = aAbcdefghijklmn[((byte_41A144[<span class="number">1</span>] &amp; <span class="number">0xF0</span>) &gt;&gt; <span class="number">4</span>) | (<span class="number">16</span> * (byte_41A144[<span class="number">0</span>] &amp; <span class="number">3</span>))];</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + ++v5) = aAbcdefghijklmn[<span class="number">64</span>];</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + ++v5) = aAbcdefghijklmn[<span class="number">64</span>];</span><br><span class="line">            v4 = v5 + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + v4) = aAbcdefghijklmn[(<span class="type">int</span>)(<span class="type">unsigned</span> __int8)byte_41A144[<span class="number">0</span>] &gt;&gt; <span class="number">2</span>];</span><br><span class="line">            v6 = v4 + <span class="number">1</span>;</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + v6) = aAbcdefghijklmn[((byte_41A144[<span class="number">1</span>] &amp; <span class="number">0xF0</span>) &gt;&gt; <span class="number">4</span>) | (<span class="number">16</span> * (byte_41A144[<span class="number">0</span>] &amp; <span class="number">3</span>))];</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + ++v6) = aAbcdefghijklmn[((byte_41A144[<span class="number">2</span>] &amp; <span class="number">0xC0</span>) &gt;&gt; <span class="number">6</span>) | (<span class="number">4</span> * (byte_41A144[<span class="number">1</span>] &amp; <span class="number">0xF</span>))];</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + ++v6) = aAbcdefghijklmn[<span class="number">64</span>];</span><br><span class="line">            v4 = v6 + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + v4) = aAbcdefghijklmn[(<span class="type">int</span>)(<span class="type">unsigned</span> __int8)byte_41A144[<span class="number">0</span>] &gt;&gt; <span class="number">2</span>];</span><br><span class="line">            v7 = v4 + <span class="number">1</span>;</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + v7) = aAbcdefghijklmn[((byte_41A144[<span class="number">1</span>] &amp; <span class="number">0xF0</span>) &gt;&gt; <span class="number">4</span>) | (<span class="number">16</span> * (byte_41A144[<span class="number">0</span>] &amp; <span class="number">3</span>))];</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + ++v7) = aAbcdefghijklmn[((byte_41A144[<span class="number">2</span>] &amp; <span class="number">0xC0</span>) &gt;&gt; <span class="number">6</span>) | (<span class="number">4</span> * (byte_41A144[<span class="number">1</span>] &amp; <span class="number">0xF</span>))];</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + ++v7) = aAbcdefghijklmn[byte_41A144[<span class="number">2</span>] &amp; <span class="number">0x3F</span>];</span><br><span class="line">            v4 = v7 + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + v4) = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> v12;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> a[] = <span class="string">&quot;Hello World!&quot;</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, (<span class="type">char</span>*)<span class="built_in">unknown</span>(a, <span class="built_in">sizeof</span>(a)));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//SGVsbG8gV29ybGQhAA==</span></span><br><span class="line"><span class="comment">//看起来是进行base64编码的函数</span></span><br></pre></td></tr></table></figure>
-<p>知道了这个函数的作用,
-接下来只需要处理一下字符的移位就可以还原出原文了</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line">ciphertext = <span class="string">&quot;e3nifIH9b_C@n@dH&quot;</span></span><br><span class="line">plaintext = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(ciphertext)):</span><br><span class="line">    plaintext += <span class="built_in">chr</span>(<span class="built_in">ord</span>(ciphertext[i])-i)</span><br><span class="line"><span class="built_in">print</span>(base64.b64decode(plaintext).decode())</span><br><span class="line"><span class="comment">#&#123;i_l0ve_you&#125;</span></span><br></pre></td></tr></table></figure>
-<p>验证一下, 没毛病</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202201212301676.png"
-alt="image-20220121230115616" />
-<figcaption aria-hidden="true">image-20220121230115616</figcaption>
-</figure>
-]]></content>
-      <categories>
-        <category>Reverse</category>
-      </categories>
   </entry>
   <entry>
     <title>[BUUCTF]xor</title>
@@ -1116,6 +1075,23 @@ alt="image-20220123002452161" />
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line">INT_PTR __stdcall <span class="title function_">DialogFunc</span><span class="params">(HWND hDlg, UINT a2, WPARAM a3, LPARAM a4)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">const</span> <span class="type">char</span> *v4; <span class="comment">// esi</span></span><br><span class="line">  <span class="type">const</span> <span class="type">char</span> *v5; <span class="comment">// edi</span></span><br><span class="line">  <span class="type">int</span> v7[<span class="number">2</span>]; <span class="comment">// [esp+8h] [ebp-20030h] BYREF</span></span><br><span class="line">  <span class="type">int</span> v8; <span class="comment">// [esp+10h] [ebp-20028h]</span></span><br><span class="line">  <span class="type">int</span> v9; <span class="comment">// [esp+14h] [ebp-20024h]</span></span><br><span class="line">  <span class="type">int</span> v10; <span class="comment">// [esp+18h] [ebp-20020h]</span></span><br><span class="line">  <span class="type">int</span> v11; <span class="comment">// [esp+1Ch] [ebp-2001Ch]</span></span><br><span class="line">  <span class="type">int</span> v12; <span class="comment">// [esp+20h] [ebp-20018h]</span></span><br><span class="line">  <span class="type">int</span> v13; <span class="comment">// [esp+24h] [ebp-20014h]</span></span><br><span class="line">  <span class="type">int</span> v14; <span class="comment">// [esp+28h] [ebp-20010h]</span></span><br><span class="line">  <span class="type">int</span> v15; <span class="comment">// [esp+2Ch] [ebp-2000Ch]</span></span><br><span class="line">  <span class="type">int</span> v16; <span class="comment">// [esp+30h] [ebp-20008h]</span></span><br><span class="line">  CHAR String[<span class="number">65536</span>]; <span class="comment">// [esp+34h] [ebp-20004h] BYREF</span></span><br><span class="line">  <span class="type">char</span> v18[<span class="number">65536</span>]; <span class="comment">// [esp+10034h] [ebp-10004h] BYREF</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> ( a2 == <span class="number">272</span> )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">if</span> ( a2 != <span class="number">273</span> )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( (_WORD)a3 == <span class="number">1001</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">memset</span>(String, <span class="number">0</span>, <span class="number">0xFFFF</span>u);</span><br><span class="line">    GetDlgItemTextA(hDlg, <span class="number">1000</span>, String, <span class="number">0xFFFF</span>);</span><br><span class="line">    <span class="keyword">if</span> ( <span class="built_in">strlen</span>(String) == <span class="number">8</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      v7[<span class="number">0</span>] = <span class="number">90</span>;</span><br><span class="line">      v7[<span class="number">1</span>] = <span class="number">74</span>;</span><br><span class="line">      v8 = <span class="number">83</span>;</span><br><span class="line">      v9 = <span class="number">69</span>;</span><br><span class="line">      v10 = <span class="number">67</span>;</span><br><span class="line">      v11 = <span class="number">97</span>;</span><br><span class="line">      v12 = <span class="number">78</span>;</span><br><span class="line">      v13 = <span class="number">72</span>;</span><br><span class="line">      v14 = <span class="number">51</span>;</span><br><span class="line">      v15 = <span class="number">110</span>;</span><br><span class="line">      v16 = <span class="number">103</span>;</span><br><span class="line">      sub_4010F0((<span class="type">int</span>)v7, <span class="number">0</span>, <span class="number">10</span>);    <span class="comment">//将v7[0]、v7[1]以及v8~v16进行升序排序</span></span><br><span class="line">      <span class="built_in">memset</span>(v18, <span class="number">0</span>, <span class="number">0xFFFF</span>u);</span><br><span class="line">      v18[<span class="number">0</span>] = String[<span class="number">5</span>];</span><br><span class="line">      v18[<span class="number">2</span>] = String[<span class="number">7</span>];</span><br><span class="line">      v18[<span class="number">1</span>] = String[<span class="number">6</span>];</span><br><span class="line">      v4 = (<span class="type">const</span> <span class="type">char</span> *)sub_401000(v18, <span class="built_in">strlen</span>(v18));  <span class="comment">//对String的5~7位进行base64编码</span></span><br><span class="line">      <span class="built_in">memset</span>(v18, <span class="number">0</span>, <span class="number">0xFFFF</span>u);</span><br><span class="line">      v18[<span class="number">1</span>] = String[<span class="number">3</span>];</span><br><span class="line">      v18[<span class="number">0</span>] = String[<span class="number">2</span>];</span><br><span class="line">      v18[<span class="number">2</span>] = String[<span class="number">4</span>];</span><br><span class="line">      v5 = (<span class="type">const</span> <span class="type">char</span> *)sub_401000(v18, <span class="built_in">strlen</span>(v18));  <span class="comment">//对String的2~4位进行base64编码</span></span><br><span class="line">      <span class="keyword">if</span> ( String[<span class="number">0</span>] == v7[<span class="number">0</span>] + <span class="number">34</span>  <span class="comment">//String[0]=&#x27;U&#x27;, v7=&#x27;3&#x27;</span></span><br><span class="line">        &amp;&amp; String[<span class="number">1</span>] == v10         <span class="comment">//String[1]=&#x27;J&#x27;, v10=&#x27;J&#x27;</span></span><br><span class="line">        &amp;&amp; <span class="number">4</span> * String[<span class="number">2</span>] - <span class="number">141</span> == <span class="number">3</span> * v8    <span class="comment">//String[2]=&#x27;W&#x27;, v8=&#x27;E&#x27;</span></span><br><span class="line">        &amp;&amp; String[<span class="number">3</span>] / <span class="number">4</span> == <span class="number">2</span> * (v13 / <span class="number">9</span>)   <span class="comment">//String[3]=&#x27;P&#x27;, v13=&#x27;Z&#x27;</span></span><br><span class="line">        &amp;&amp; !<span class="built_in">strcmp</span>(v4, <span class="string">&quot;ak1w&quot;</span>)      <span class="comment">//base64解码可知String[5]~String[7]=&quot;jMp&quot;</span></span><br><span class="line">        &amp;&amp; !<span class="built_in">strcmp</span>(v5, <span class="string">&quot;V1Ax&quot;</span>) )    <span class="comment">//同理String[2]~String[4]=&quot;WP1&quot;</span></span><br><span class="line">      &#123;</span><br><span class="line">        MessageBoxA(hDlg, <span class="string">&quot;U g3t 1T!&quot;</span>, <span class="string">&quot;@_@&quot;</span>, <span class="number">0</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( (_WORD)a3 != <span class="number">1</span> &amp;&amp; (_WORD)a3 != <span class="number">2</span> )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  EndDialog(hDlg, (<span class="type">unsigned</span> __int16)a3);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>把<code>String</code>的8位连起来就是<code>UJWP1jMp</code>,
 所以<strong>flag</strong>就是<code>flag&#123;UJWP1jMp&#125;</code></p>
+]]></content>
+      <categories>
+        <category>Reverse</category>
+      </categories>
+      <tags>
+        <tag>二进制</tag>
+        <tag>逆向</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>[BUUCTF]rome</title>
+    <url>/2022/01/25/%5BReverse%5Drome/</url>
+    <content><![CDATA[<p>无壳, 拖进<code>IDA</code>, <code>F5</code>查看伪代码,
+主函数里面主要就<code>func()</code>函数, 跟到<code>func()</code>里</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">func</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> result; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">int</span> v1[<span class="number">4</span>]; <span class="comment">// [esp+14h] [ebp-44h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v2; <span class="comment">// [esp+24h] [ebp-34h] BYREF</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v3; <span class="comment">// [esp+25h] [ebp-33h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v4; <span class="comment">// [esp+26h] [ebp-32h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v5; <span class="comment">// [esp+27h] [ebp-31h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v6; <span class="comment">// [esp+28h] [ebp-30h]</span></span><br><span class="line">  <span class="type">int</span> v7; <span class="comment">// [esp+29h] [ebp-2Fh]</span></span><br><span class="line">  <span class="type">int</span> v8; <span class="comment">// [esp+2Dh] [ebp-2Bh]</span></span><br><span class="line">  <span class="type">int</span> v9; <span class="comment">// [esp+31h] [ebp-27h]</span></span><br><span class="line">  <span class="type">int</span> v10; <span class="comment">// [esp+35h] [ebp-23h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v11; <span class="comment">// [esp+39h] [ebp-1Fh]</span></span><br><span class="line">  <span class="type">char</span> v12[<span class="number">29</span>]; <span class="comment">// [esp+3Bh] [ebp-1Dh] BYREF</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">strcpy</span>(v12, <span class="string">&quot;Qsw3sj_lz4_Ujw@l&quot;</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Please input:&quot;</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, &amp;v2);</span><br><span class="line">  result = v2;</span><br><span class="line">  <span class="keyword">if</span> ( v2 == <span class="string">&#x27;A&#x27;</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    result = v3;</span><br><span class="line">    <span class="keyword">if</span> ( v3 == <span class="string">&#x27;C&#x27;</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      result = v4;</span><br><span class="line">      <span class="keyword">if</span> ( v4 == <span class="string">&#x27;T&#x27;</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        result = v5;</span><br><span class="line">        <span class="keyword">if</span> ( v5 == <span class="string">&#x27;F&#x27;</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          result = v6;</span><br><span class="line">          <span class="keyword">if</span> ( v6 == <span class="string">&#x27;&#123;&#x27;</span> )</span><br><span class="line">          &#123;</span><br><span class="line">            result = v11;</span><br><span class="line">            <span class="keyword">if</span> ( v11 == <span class="string">&#x27;&#125;&#x27;</span> )</span><br><span class="line">            &#123;</span><br><span class="line">              v1[<span class="number">0</span>] = v7;</span><br><span class="line">              v1[<span class="number">1</span>] = v8;</span><br><span class="line">              v1[<span class="number">2</span>] = v9;</span><br><span class="line">              v1[<span class="number">3</span>] = v10;</span><br><span class="line">              *(_DWORD *)&amp;v12[<span class="number">17</span>] = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">while</span> ( *(<span class="type">int</span> *)&amp;v12[<span class="number">17</span>] &lt;= <span class="number">15</span> )</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="keyword">if</span> ( *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &gt; <span class="number">64</span> &amp;&amp; *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &lt;= <span class="number">90</span> )</span><br><span class="line">                  *((_BYTE *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) = (*((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) - <span class="number">51</span>) % <span class="number">26</span> + <span class="number">65</span>;</span><br><span class="line">                <span class="keyword">if</span> ( *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &gt; <span class="number">96</span> &amp;&amp; *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &lt;= <span class="number">122</span> )</span><br><span class="line">                  *((_BYTE *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) = (*((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) - <span class="number">79</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">                ++*(_DWORD *)&amp;v12[<span class="number">17</span>];</span><br><span class="line">              &#125;</span><br><span class="line">              *(_DWORD *)&amp;v12[<span class="number">17</span>] = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">while</span> ( *(<span class="type">int</span> *)&amp;v12[<span class="number">17</span>] &lt;= <span class="number">15</span> )</span><br><span class="line">              &#123;</span><br><span class="line">                result = (<span class="type">unsigned</span> __int8)v12[*(_DWORD *)&amp;v12[<span class="number">17</span>]];</span><br><span class="line">                <span class="keyword">if</span> ( *((_BYTE *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) != (_BYTE)result )</span><br><span class="line">                  <span class="keyword">return</span> result;</span><br><span class="line">                ++*(_DWORD *)&amp;v12[<span class="number">17</span>];</span><br><span class="line">              &#125;</span><br><span class="line">              result = <span class="built_in">printf</span>(<span class="string">&quot;You are correct!&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解法很常规, 分析算法, 写出解密程序</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="type">char</span> ciphertext[<span class="number">32</span>] = <span class="string">&quot;Qsw3sj_lz4_Ujw@l&quot;</span>;</span><br><span class="line">	<span class="type">char</span> plaintext[<span class="number">32</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">16</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">char</span> c = <span class="number">32</span>; c &lt; <span class="number">127</span>; c++)	<span class="comment">//逐位穷举所有ASCII可打印字符</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="type">char</span> temp = c;</span><br><span class="line">			<span class="keyword">if</span> (c &gt; <span class="number">64</span> &amp;&amp; c &lt;= <span class="number">90</span>)</span><br><span class="line">				temp = (c - <span class="number">51</span>) % <span class="number">26</span> + <span class="number">65</span>;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (c &gt; <span class="number">96</span> &amp;&amp; c &lt;= <span class="number">122</span>)</span><br><span class="line">				temp = (c - <span class="number">79</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">			<span class="keyword">if</span> (temp == ciphertext[i])</span><br><span class="line">				plaintext[i] = c;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;ACTF&#123;%s&#125;&quot;</span>, plaintext);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//ACTF&#123;Cae3ar_th4_Gre@t&#125;</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>Reverse</category>
@@ -1228,6 +1204,30 @@ alt="image-20220121001339364" />
       </tags>
   </entry>
   <entry>
+    <title>[BUUCTF]reverse3</title>
+    <url>/2022/01/21/%5BReverse%5Dreverse3/</url>
+    <content><![CDATA[<p>无壳, 直接拖进<code>IDA</code>分析, F5查看伪代码</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl <span class="title function_">main_0</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">size_t</span> v3; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">const</span> <span class="type">char</span> *v4; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">size_t</span> v5; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">char</span> v7; <span class="comment">// [esp+0h] [ebp-188h]</span></span><br><span class="line">  <span class="type">char</span> v8; <span class="comment">// [esp+0h] [ebp-188h]</span></span><br><span class="line">  <span class="type">signed</span> <span class="type">int</span> j; <span class="comment">// [esp+DCh] [ebp-ACh]</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [esp+E8h] [ebp-A0h]</span></span><br><span class="line">  <span class="type">signed</span> <span class="type">int</span> v11; <span class="comment">// [esp+E8h] [ebp-A0h]</span></span><br><span class="line">  <span class="type">char</span> Destination[<span class="number">108</span>]; <span class="comment">// [esp+F4h] [ebp-94h] BYREF</span></span><br><span class="line">  <span class="type">char</span> Str[<span class="number">28</span>]; <span class="comment">// [esp+160h] [ebp-28h] BYREF</span></span><br><span class="line">  <span class="type">char</span> v14[<span class="number">8</span>]; <span class="comment">// [esp+17Ch] [ebp-Ch] BYREF</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="number">100</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( (<span class="type">unsigned</span> <span class="type">int</span>)i &gt;= <span class="number">0x64</span> )</span><br><span class="line">      j____report_rangecheckfailure();	<span class="comment">//应该是VS调试器加的代码,不管</span></span><br><span class="line">    Destination[i] = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  sub_41132F(<span class="string">&quot;please enter the flag:&quot;</span>, v7);</span><br><span class="line">  sub_411375(<span class="string">&quot;%20s&quot;</span>, (<span class="type">char</span>)Str);</span><br><span class="line">  v3 = j_strlen(Str);</span><br><span class="line">  v4 = (<span class="type">const</span> <span class="type">char</span> *)sub_4110BE(Str, v3, v14);	<span class="comment">//注意这个sub_4110BE()函数, 作用未知</span></span><br><span class="line">      <span class="built_in">strncpy</span>(Destination, v4, <span class="number">0x28</span>u);	<span class="comment">//将sub_4110BE()返回值指向的字符拷到Destination数组</span></span><br><span class="line">  v11 = j_strlen(Destination);</span><br><span class="line">  <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt; v11; ++j )</span><br><span class="line">    Destination[j] += j;		<span class="comment">//字符移位</span></span><br><span class="line">  v5 = j_strlen(Destination);</span><br><span class="line">  <span class="keyword">if</span> ( !<span class="built_in">strncmp</span>(Destination, Str2, v5) )	<span class="comment">//Str2=&quot;e3nifIH9b_C@n@dH&quot;</span></span><br><span class="line">    sub_41132F(<span class="string">&quot;rigth flag!\n&quot;</span>, v8);		</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    sub_41132F(<span class="string">&quot;wrong flag!\n&quot;</span>, v8);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>关键在于<code>sub_4110BE()</code>这个函数,
+菜鸡一时没看出来它是干啥的. 于是把它从<code>IDA</code>抠出来,
+略作修改让它能跑起来, 命名为<code>unknown()</code>, 看看这个它的作用</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdlib&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span>* __cdecl <span class="title">unknown</span><span class="params">(<span class="type">char</span>* a1, <span class="type">unsigned</span> <span class="type">int</span> a2)</span>	<span class="comment">//第三个参数无用, 可删去</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">int</span> v4; <span class="comment">// [esp+D4h] [ebp-38h]</span></span><br><span class="line">    <span class="type">int</span> v5; <span class="comment">// [esp+D4h] [ebp-38h]</span></span><br><span class="line">    <span class="type">int</span> v6; <span class="comment">// [esp+D4h] [ebp-38h]</span></span><br><span class="line">    <span class="type">int</span> v7; <span class="comment">// [esp+D4h] [ebp-38h]</span></span><br><span class="line">    <span class="type">int</span> i; <span class="comment">// [esp+E0h] [ebp-2Ch]</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> v9; <span class="comment">// [esp+ECh] [ebp-20h]</span></span><br><span class="line">    <span class="type">int</span> v10; <span class="comment">// [esp+ECh] [ebp-20h]</span></span><br><span class="line">    <span class="type">int</span> v11; <span class="comment">// [esp+ECh] [ebp-20h]</span></span><br><span class="line">    <span class="type">void</span>* v12; <span class="comment">// [esp+F8h] [ebp-14h]</span></span><br><span class="line">    <span class="type">char</span>* v13; <span class="comment">// [esp+104h] [ebp-8h]</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!a1 || !a2)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    v9 = a2 / <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">if</span> ((<span class="type">int</span>)(a2 / <span class="number">3</span>) % <span class="number">3</span>)</span><br><span class="line">        ++v9;</span><br><span class="line">    v10 = <span class="number">4</span> * v9;</span><br><span class="line">    v12 = <span class="built_in">malloc</span>(v10 + <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span> (!v12)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">memset</span>(v12, <span class="number">0</span>, v10 + <span class="number">1</span>);</span><br><span class="line">    <span class="type">char</span> byte_41A144[<span class="number">4</span>];</span><br><span class="line">    <span class="type">char</span> aAbcdefghijklmn[] = <span class="string">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\x00&quot;</span>;</span><br><span class="line">    <span class="comment">//后来才知道,很明显这是一个base64的码表</span></span><br><span class="line">    v13 = a1;</span><br><span class="line">    v11 = a2;</span><br><span class="line">    v4 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (v11 &gt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        byte_41A144[<span class="number">2</span>] = <span class="number">0</span>;</span><br><span class="line">        byte_41A144[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">        byte_41A144[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">3</span> &amp;&amp; v11 &gt;= <span class="number">1</span>; ++i)</span><br><span class="line">        &#123;</span><br><span class="line">            byte_41A144[i] = *v13;</span><br><span class="line">            --v11;</span><br><span class="line">            ++v13;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!i)</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">switch</span> (i)</span><br><span class="line">        &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + v4) = aAbcdefghijklmn[(<span class="type">int</span>)(<span class="type">unsigned</span> __int8)byte_41A144[<span class="number">0</span>] &gt;&gt; <span class="number">2</span>];</span><br><span class="line">            v5 = v4 + <span class="number">1</span>;</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + v5) = aAbcdefghijklmn[((byte_41A144[<span class="number">1</span>] &amp; <span class="number">0xF0</span>) &gt;&gt; <span class="number">4</span>) | (<span class="number">16</span> * (byte_41A144[<span class="number">0</span>] &amp; <span class="number">3</span>))];</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + ++v5) = aAbcdefghijklmn[<span class="number">64</span>];</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + ++v5) = aAbcdefghijklmn[<span class="number">64</span>];</span><br><span class="line">            v4 = v5 + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + v4) = aAbcdefghijklmn[(<span class="type">int</span>)(<span class="type">unsigned</span> __int8)byte_41A144[<span class="number">0</span>] &gt;&gt; <span class="number">2</span>];</span><br><span class="line">            v6 = v4 + <span class="number">1</span>;</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + v6) = aAbcdefghijklmn[((byte_41A144[<span class="number">1</span>] &amp; <span class="number">0xF0</span>) &gt;&gt; <span class="number">4</span>) | (<span class="number">16</span> * (byte_41A144[<span class="number">0</span>] &amp; <span class="number">3</span>))];</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + ++v6) = aAbcdefghijklmn[((byte_41A144[<span class="number">2</span>] &amp; <span class="number">0xC0</span>) &gt;&gt; <span class="number">6</span>) | (<span class="number">4</span> * (byte_41A144[<span class="number">1</span>] &amp; <span class="number">0xF</span>))];</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + ++v6) = aAbcdefghijklmn[<span class="number">64</span>];</span><br><span class="line">            v4 = v6 + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + v4) = aAbcdefghijklmn[(<span class="type">int</span>)(<span class="type">unsigned</span> __int8)byte_41A144[<span class="number">0</span>] &gt;&gt; <span class="number">2</span>];</span><br><span class="line">            v7 = v4 + <span class="number">1</span>;</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + v7) = aAbcdefghijklmn[((byte_41A144[<span class="number">1</span>] &amp; <span class="number">0xF0</span>) &gt;&gt; <span class="number">4</span>) | (<span class="number">16</span> * (byte_41A144[<span class="number">0</span>] &amp; <span class="number">3</span>))];</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + ++v7) = aAbcdefghijklmn[((byte_41A144[<span class="number">2</span>] &amp; <span class="number">0xC0</span>) &gt;&gt; <span class="number">6</span>) | (<span class="number">4</span> * (byte_41A144[<span class="number">1</span>] &amp; <span class="number">0xF</span>))];</span><br><span class="line">            *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + ++v7) = aAbcdefghijklmn[byte_41A144[<span class="number">2</span>] &amp; <span class="number">0x3F</span>];</span><br><span class="line">            v4 = v7 + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    *((<span class="type">unsigned</span> <span class="type">char</span>*)v12 + v4) = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> v12;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> a[] = <span class="string">&quot;Hello World!&quot;</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s&quot;</span>, (<span class="type">char</span>*)<span class="built_in">unknown</span>(a, <span class="built_in">sizeof</span>(a)));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//SGVsbG8gV29ybGQhAA==</span></span><br><span class="line"><span class="comment">//看起来是进行base64编码的函数</span></span><br></pre></td></tr></table></figure>
+<p>知道了这个函数的作用,
+接下来只需要处理一下字符的移位就可以还原出原文了</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line">ciphertext = <span class="string">&quot;e3nifIH9b_C@n@dH&quot;</span></span><br><span class="line">plaintext = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="built_in">len</span>(ciphertext)):</span><br><span class="line">    plaintext += <span class="built_in">chr</span>(<span class="built_in">ord</span>(ciphertext[i])-i)</span><br><span class="line"><span class="built_in">print</span>(base64.b64decode(plaintext).decode())</span><br><span class="line"><span class="comment">#&#123;i_l0ve_you&#125;</span></span><br></pre></td></tr></table></figure>
+<p>验证一下, 没毛病</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201212301676.png"
+alt="image-20220121230115616" />
+<figcaption aria-hidden="true">image-20220121230115616</figcaption>
+</figure>
+]]></content>
+      <categories>
+        <category>Reverse</category>
+      </categories>
+  </entry>
+  <entry>
     <title>[BUUCTF]简单注册器</title>
     <url>/2022/01/23/%5BReverse%5D%E7%AE%80%E5%8D%95%E6%B3%A8%E5%86%8C%E5%99%A8/</url>
     <content><![CDATA[<p>又是个apk, 直接上<code>jadx</code>, 反编译<code>MainActivity</code>,
@@ -1286,54 +1286,6 @@ alt="image-20211109164631082" />
       <tags>
         <tag>Web安全</tag>
         <tag>PHP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>[ACTF2020 新生赛]Upload 1</title>
-    <url>/2021/11/01/%5BWeb%5DACTF2020-%E6%96%B0%E7%94%9F%E8%B5%9B-Upload-1/</url>
-    <content><![CDATA[<p>进去就是个灯泡, 鼠标移到灯泡上出现文件选择框</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012122375.png"
-alt="image-20211101212238225" />
-<figcaption aria-hidden="true">image-20211101212238225</figcaption>
-</figure>
-<p>试着上传一个<code>php</code>后缀一句话木马</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012122521.png"
-alt="image-20211101212227434" />
-<figcaption aria-hidden="true">image-20211101212227434</figcaption>
-</figure>
-<p>前端限制后缀, 直接BP抓包改后缀</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012118453.png"
-alt="image-20211101211857333" />
-<figcaption aria-hidden="true">image-20211101211857333</figcaption>
-</figure>
-<p>后端也有限制, 传统艺能, 改后缀为<code>phtml</code></p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012120107.png"
-alt="image-20211101212015986" />
-<figcaption aria-hidden="true">image-20211101212015986</figcaption>
-</figure>
-<p>文件直接上传成功, 接下来就是菜刀时间</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012121920.png"
-alt="image-20211101212139849" />
-<figcaption aria-hidden="true">image-20211101212139849</figcaption>
-</figure>
-<p><strong>flag</strong>就在根目录</p>
-]]></content>
-      <categories>
-        <category>Web</category>
-      </categories>
-      <tags>
-        <tag>Web安全</tag>
-        <tag>文件上传</tag>
       </tags>
   </entry>
   <entry>
@@ -1479,6 +1431,54 @@ alt="image-20211031123455770" />
       <tags>
         <tag>Web安全</tag>
         <tag>PHP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>[ACTF2020 新生赛]Upload 1</title>
+    <url>/2021/11/01/%5BWeb%5DACTF2020-%E6%96%B0%E7%94%9F%E8%B5%9B-Upload-1/</url>
+    <content><![CDATA[<p>进去就是个灯泡, 鼠标移到灯泡上出现文件选择框</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012122375.png"
+alt="image-20211101212238225" />
+<figcaption aria-hidden="true">image-20211101212238225</figcaption>
+</figure>
+<p>试着上传一个<code>php</code>后缀一句话木马</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012122521.png"
+alt="image-20211101212227434" />
+<figcaption aria-hidden="true">image-20211101212227434</figcaption>
+</figure>
+<p>前端限制后缀, 直接BP抓包改后缀</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012118453.png"
+alt="image-20211101211857333" />
+<figcaption aria-hidden="true">image-20211101211857333</figcaption>
+</figure>
+<p>后端也有限制, 传统艺能, 改后缀为<code>phtml</code></p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012120107.png"
+alt="image-20211101212015986" />
+<figcaption aria-hidden="true">image-20211101212015986</figcaption>
+</figure>
+<p>文件直接上传成功, 接下来就是菜刀时间</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012121920.png"
+alt="image-20211101212139849" />
+<figcaption aria-hidden="true">image-20211101212139849</figcaption>
+</figure>
+<p><strong>flag</strong>就在根目录</p>
+]]></content>
+      <categories>
+        <category>Web</category>
+      </categories>
+      <tags>
+        <tag>Web安全</tag>
+        <tag>文件上传</tag>
       </tags>
   </entry>
   <entry>
@@ -2109,87 +2109,6 @@ alt="image-20211029223717822" />
       </tags>
   </entry>
   <entry>
-    <title>[极客大挑战 2019]Http 1</title>
-    <url>/2021/10/31/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-Http-1/</url>
-    <content><![CDATA[<p>进去之后, 按照惯例, 先查看源代码<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311336770.png" /></p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311335125.png"
-alt="image-20211031133550064" />
-<figcaption aria-hidden="true">image-20211031133550064</figcaption>
-</figure>
-<p>找到<code>Secret.php</code>这个页面, 进入</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311338983.png"
-alt="image-20211031133804874" />
-<figcaption aria-hidden="true">image-20211031133804874</figcaption>
-</figure>
-<p>看提示, 应该是Referer请求头检测, 判断从哪个网站跳转过来的,
-上<code>Fiddler</code></p>
-<p><img src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311345734.png" alt="image-20211031134521678" style="zoom:50%;" /></p>
-<p><code>Referer</code>伪装好了, 又提示使用"Syclover"浏览器,
-那么这次就是判断浏览器<code>UA</code>了,
-我们把<code>UA</code>改成"Syclover"试试</p>
-<p><img src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311347388.png" alt="image-20211031134743341" style="zoom:50%;" /></p>
-<p>错误又变了, 这次说只能从本地访问,
-根据前面的几次经验,这次应该还是判断请求头.
-我们要找的那个请求头里肯定记录着请求发起方的IP,
-我们只需要将IP改成本地环回地址127.0.0.1即可</p>
-<p>经过一番查找,
-<code>X-Forwarded-For</code>这个记录着从源主机到经过的所有代理服务器IP,中间以逗号分隔.
-为了方便, 我们只需要将其指定为127.0.0.1即可</p>
-<p><img src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311359642.png" alt="image-20211031135902592" style="zoom:50%;" /></p>
-<p>这样, 我们就拿到了<strong>flag</strong>~</p>
-<blockquote>
-<p><a
-href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers">参考资料</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Web</category>
-      </categories>
-      <tags>
-        <tag>Web安全</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>[极客大挑战 2019]Knife 1</title>
-    <url>/2021/10/31/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-Knife-1/</url>
-    <content><![CDATA[<p>看页面提示,
-就是个<code>POST</code>提交参数的<code>webshell</code></p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311304517.png"
-alt="image-20211031130415463" />
-<figcaption aria-hidden="true">image-20211031130415463</figcaption>
-</figure>
-<p>在源码里可以找到输出结果, 然后就是传统艺能,
-到根目录去看看都有啥好玩意儿</p>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311331857.png"
-alt="image-20211031133142800" />
-<figcaption aria-hidden="true">image-20211031133142800</figcaption>
-</figure>
-<p><strong>flag</strong>就在这里了</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Syc=system(&quot;cd ../../../../../;ls -la;cat flag&quot;);</span><br></pre></td></tr></table></figure>
-<figure>
-<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311333863.png"
-alt="image-20211031133328805" />
-<figcaption aria-hidden="true">image-20211031133328805</figcaption>
-</figure>
-]]></content>
-      <categories>
-        <category>Web</category>
-      </categories>
-      <tags>
-        <tag>Web安全</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>[极客大挑战 2019]LoveSQL 1</title>
     <url>/2021/10/30/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-LoveSQL-1/</url>
     <content><![CDATA[<p>首先按照惯例, 万能密码注入, 成功, 出来个用户名和密码,
@@ -2271,79 +2190,130 @@ alt="image-20211030200642577" />
       </tags>
   </entry>
   <entry>
-    <title>[极客大挑战 2019]PHP 1</title>
-    <url>/2021/11/01/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-PHP-1/</url>
-    <content><![CDATA[<p>进去看到主页是一只猫, 移动鼠标可以用毛线团逗它,
-出个题前端也也是费心了</p>
+    <title>[极客大挑战 2019]Http 1</title>
+    <url>/2021/10/31/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-Http-1/</url>
+    <content><![CDATA[<p>进去之后, 按照惯例, 先查看源代码<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311336770.png" /></p>
 <figure>
 <img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012309147.png"
-alt="image-20211101230918054" />
-<figcaption aria-hidden="true">image-20211101230918054</figcaption>
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311335125.png"
+alt="image-20211031133550064" />
+<figcaption aria-hidden="true">image-20211031133550064</figcaption>
 </figure>
-<p>上面说, 有<strong>备份</strong>网站的习惯,
-所以我们就扫描服务器找出备份文件, 使用<code>dirsearch</code>这个脚本</p>
-<p>下载地址: <a
-href="https://github.com/maurosoria/dirsearch">Github</a></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python ./dirsearch.py -e php -u http://0c3bed09-f748-4307-ba14-135d78a27e92.node4.buuoj.cn:81/</span><br></pre></td></tr></table></figure>
+<p>找到<code>Secret.php</code>这个页面, 进入</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311338983.png"
+alt="image-20211031133804874" />
+<figcaption aria-hidden="true">image-20211031133804874</figcaption>
+</figure>
+<p>看提示, 应该是Referer请求头检测, 判断从哪个网站跳转过来的,
+上<code>Fiddler</code></p>
+<p><img src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311345734.png" alt="image-20211031134521678" style="zoom:50%;" /></p>
+<p><code>Referer</code>伪装好了, 又提示使用"Syclover"浏览器,
+那么这次就是判断浏览器<code>UA</code>了,
+我们把<code>UA</code>改成"Syclover"试试</p>
+<p><img src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311347388.png" alt="image-20211031134743341" style="zoom:50%;" /></p>
+<p>错误又变了, 这次说只能从本地访问,
+根据前面的几次经验,这次应该还是判断请求头.
+我们要找的那个请求头里肯定记录着请求发起方的IP,
+我们只需要将IP改成本地环回地址127.0.0.1即可</p>
+<p>经过一番查找,
+<code>X-Forwarded-For</code>这个记录着从源主机到经过的所有代理服务器IP,中间以逗号分隔.
+为了方便, 我们只需要将其指定为127.0.0.1即可</p>
+<p><img src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311359642.png" alt="image-20211031135902592" style="zoom:50%;" /></p>
+<p>这样, 我们就拿到了<strong>flag</strong>~</p>
 <blockquote>
-<p>-e 指定服务器运行环境</p>
-<p>-u 指定网站目录</p>
+<p><a
+href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers">参考资料</a></p>
 </blockquote>
-<blockquote>
-<p>PS: 我自己扫了很久也没扫完, 看别人的WP扫出了<code>www.zip</code>,
-我们就从这里开始</p>
-</blockquote>
-<p>下载<code>www.zip</code>解压得到5个文件</p>
+]]></content>
+      <categories>
+        <category>Web</category>
+      </categories>
+      <tags>
+        <tag>Web安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>[极客大挑战 2019]Knife 1</title>
+    <url>/2021/10/31/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-Knife-1/</url>
+    <content><![CDATA[<p>看页面提示,
+就是个<code>POST</code>提交参数的<code>webshell</code></p>
 <figure>
 <img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012317474.png"
-alt="image-20211101231756440" />
-<figcaption aria-hidden="true">image-20211101231756440</figcaption>
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311304517.png"
+alt="image-20211031130415463" />
+<figcaption aria-hidden="true">image-20211031130415463</figcaption>
 </figure>
-<p><code>index.php</code>关键代码:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">include</span> <span class="string">&#x27;class.php&#x27;</span>;</span><br><span class="line">	<span class="variable">$select</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;select&#x27;</span>];</span><br><span class="line">	<span class="variable">$res</span>=<span class="title function_ invoke__">unserialize</span>(@<span class="variable">$select</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>index.php</code>引入了<code>class.php</code>,
-然后反序列化参数<code>select</code>的值,
-先去看看<code>class.php</code>有什么</p>
-<blockquote>
-<p><code>flag.php</code>里的那个<strong>flag</strong>是错的</p>
-</blockquote>
-<p><code>class.php</code>代码如下:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;flag.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Name</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$username</span> = <span class="string">&#x27;nonono&#x27;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$password</span> = <span class="string">&#x27;yesyes&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$username</span>,<span class="variable">$password</span></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;username = <span class="variable">$username</span>;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;password = <span class="variable">$password</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;username = <span class="string">&#x27;guest&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;password != <span class="number">100</span>) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;NO!!!hacker!!!&lt;/br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;You name is: &quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable language_">$this</span>-&gt;username;<span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;You password is: &quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable language_">$this</span>-&gt;password;<span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;username === <span class="string">&#x27;admin&#x27;</span>) &#123;</span><br><span class="line">            <span class="keyword">global</span> <span class="variable">$flag</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable">$flag</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;hello my friend~~&lt;/br&gt;sorry i can&#x27;t give you the flag!&quot;</span>;</span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这里就要用到<code>php</code>反序列化的知识了,
-我们先在本地制作好payload</p>
+<p>在源码里可以找到输出结果, 然后就是传统艺能,
+到根目录去看看都有啥好玩意儿</p>
 <figure>
 <img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012343385.png"
-alt="image-20211101234324256" />
-<figcaption aria-hidden="true">image-20211101234324256</figcaption>
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311331857.png"
+alt="image-20211031133142800" />
+<figcaption aria-hidden="true">image-20211031133142800</figcaption>
 </figure>
-<p>审计代码, 用户名为<code>"admin"</code>,
-密码为<code>100</code>(<code>"100"</code>也行, 弱相等)时,
-并使<code>__wakeup()</code>不执行, 就能拿到<strong>flag</strong></p>
-<p>序列化后的对象:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">O:4:&quot;Name&quot;:2:&#123;s:14:&quot;Nameusername&quot;;s:5:&quot;admin&quot;;s:14:&quot;Namepassword&quot;;i:100;&#125;</span><br></pre></td></tr></table></figure>
-<p>当序列化文本中指定的对象属性个数大于实际个数时,
-<code>__wakeup()</code>方法就不会被执行 ,实际上是2个, 我们改成3个:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">O:4:&quot;Name&quot;:3:&#123;s:14:&quot;Nameusername&quot;;s:5:&quot;admin&quot;;s:14:&quot;Namepassword&quot;;i:100;&#125;</span><br></pre></td></tr></table></figure>
-<p>提交上去看看</p>
-<p><img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111020001866.png"
-alt="image-20211102000144789" />emmm, 跟我想的不一样</p>
-<p>经过一番查找得知:
-<code>Name</code>类的两个属性是<code>private</code>的, 只能在类中访问,
-在序列化后的文本中要用<code>%00</code>将类名和属性名分隔开,
-所以正确的序列化文本应该是:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">O:4:&quot;Name&quot;:3:&#123;s:14:&quot;%00Name%00username&quot;;s:5:&quot;admin&quot;;s:14:&quot;%00Name%00password&quot;;i:100;&#125;</span><br></pre></td></tr></table></figure>
-<p>再次提交:</p>
+<p><strong>flag</strong>就在这里了</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Syc=system(&quot;cd ../../../../../;ls -la;cat flag&quot;);</span><br></pre></td></tr></table></figure>
 <figure>
 <img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202111020005666.png"
-alt="image-20211102000537580" />
-<figcaption aria-hidden="true">image-20211102000537580</figcaption>
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110311333863.png"
+alt="image-20211031133328805" />
+<figcaption aria-hidden="true">image-20211031133328805</figcaption>
 </figure>
-<p>成功拿到<strong>flag</strong></p>
+]]></content>
+      <categories>
+        <category>Web</category>
+      </categories>
+      <tags>
+        <tag>Web安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>[极客大挑战 2019]Secret File 1</title>
+    <url>/2021/10/30/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-Secret-File-1/</url>
+    <content><![CDATA[<p>首先查看源代码,找到入口<code>./Archive_room.php</code><img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301139004.png"
+alt="image-20211030113938928" /></p>
+<p>进入<code>Archiv_room.php</code>, 点击按钮并抓包<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301140021.png"
+alt="image-20211030114045966" /></p>
+<p>可以看到逻辑就是点击按钮服务器指定跳转到<code>end.php</code> ,
+返回的内容中有<code>secr3t.php</code></p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301143534.png"
+alt="image-20211030114309440" />
+<figcaption aria-hidden="true">image-20211030114309440</figcaption>
+</figure>
+<p>进入<code>secr3t.php</code>页面,可见源代码, 有一些过滤,
+但是貌似不影响操作<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301146585.png"
+alt="image-20211030114612553" /></p>
+<p>先试试<code>file=flag.php</code><img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301149401.png"
+alt="image-20211030114947337" /></p>
+<p>显然是不行的, <strong>flag</strong>就在<code>flag.php</code>中,
+但是没有被显示出来我们需要拿到<code>flag.php</code>的源代码才行</p>
+<p>这里采用<strong>php伪协议</strong>, 实现文件包含,
+将源代码文件转换成base64编码显示出来(为什么要用base64编码?因为include引入的文件如果是php文件会被直接执行,
+这样就拿不到源码了, 而如果是非php文件就会被显示出来)</p>
+<p>构造payload:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">file=php://filter/read=convert.base64-encode/resource=flag.php</span><br></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301204885.png"
+alt="image-20211030120426834" />
+<figcaption aria-hidden="true">image-20211030120426834</figcaption>
+</figure>
+<p>再把base64编码的源代码解码就可以拿到<strong>flag</strong></p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301205630.png"
+alt="image-20211030120555576" />
+<figcaption aria-hidden="true">image-20211030120555576</figcaption>
+</figure>
 ]]></content>
       <categories>
         <category>Web</category>
@@ -2471,49 +2441,79 @@ alt="image-20211101163731288" />
       </tags>
   </entry>
   <entry>
-    <title>[极客大挑战 2019]Secret File 1</title>
-    <url>/2021/10/30/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-Secret-File-1/</url>
-    <content><![CDATA[<p>首先查看源代码,找到入口<code>./Archive_room.php</code><img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301139004.png"
-alt="image-20211030113938928" /></p>
-<p>进入<code>Archiv_room.php</code>, 点击按钮并抓包<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301140021.png"
-alt="image-20211030114045966" /></p>
-<p>可以看到逻辑就是点击按钮服务器指定跳转到<code>end.php</code> ,
-返回的内容中有<code>secr3t.php</code></p>
+    <title>[极客大挑战 2019]PHP 1</title>
+    <url>/2021/11/01/%5BWeb%5D%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-PHP-1/</url>
+    <content><![CDATA[<p>进去看到主页是一只猫, 移动鼠标可以用毛线团逗它,
+出个题前端也也是费心了</p>
 <figure>
 <img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301143534.png"
-alt="image-20211030114309440" />
-<figcaption aria-hidden="true">image-20211030114309440</figcaption>
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012309147.png"
+alt="image-20211101230918054" />
+<figcaption aria-hidden="true">image-20211101230918054</figcaption>
 </figure>
-<p>进入<code>secr3t.php</code>页面,可见源代码, 有一些过滤,
-但是貌似不影响操作<img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301146585.png"
-alt="image-20211030114612553" /></p>
-<p>先试试<code>file=flag.php</code><img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301149401.png"
-alt="image-20211030114947337" /></p>
-<p>显然是不行的, <strong>flag</strong>就在<code>flag.php</code>中,
-但是没有被显示出来我们需要拿到<code>flag.php</code>的源代码才行</p>
-<p>这里采用<strong>php伪协议</strong>, 实现文件包含,
-将源代码文件转换成base64编码显示出来(为什么要用base64编码?因为include引入的文件如果是php文件会被直接执行,
-这样就拿不到源码了, 而如果是非php文件就会被显示出来)</p>
-<p>构造payload:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">file=php://filter/read=convert.base64-encode/resource=flag.php</span><br></pre></td></tr></table></figure>
+<p>上面说, 有<strong>备份</strong>网站的习惯,
+所以我们就扫描服务器找出备份文件, 使用<code>dirsearch</code>这个脚本</p>
+<p>下载地址: <a
+href="https://github.com/maurosoria/dirsearch">Github</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">python ./dirsearch.py -e php -u http://0c3bed09-f748-4307-ba14-135d78a27e92.node4.buuoj.cn:81/</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-e 指定服务器运行环境</p>
+<p>-u 指定网站目录</p>
+</blockquote>
+<blockquote>
+<p>PS: 我自己扫了很久也没扫完, 看别人的WP扫出了<code>www.zip</code>,
+我们就从这里开始</p>
+</blockquote>
+<p>下载<code>www.zip</code>解压得到5个文件</p>
 <figure>
 <img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301204885.png"
-alt="image-20211030120426834" />
-<figcaption aria-hidden="true">image-20211030120426834</figcaption>
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012317474.png"
+alt="image-20211101231756440" />
+<figcaption aria-hidden="true">image-20211101231756440</figcaption>
 </figure>
-<p>再把base64编码的源代码解码就可以拿到<strong>flag</strong></p>
+<p><code>index.php</code>关键代码:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">include</span> <span class="string">&#x27;class.php&#x27;</span>;</span><br><span class="line">	<span class="variable">$select</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;select&#x27;</span>];</span><br><span class="line">	<span class="variable">$res</span>=<span class="title function_ invoke__">unserialize</span>(@<span class="variable">$select</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>index.php</code>引入了<code>class.php</code>,
+然后反序列化参数<code>select</code>的值,
+先去看看<code>class.php</code>有什么</p>
+<blockquote>
+<p><code>flag.php</code>里的那个<strong>flag</strong>是错的</p>
+</blockquote>
+<p><code>class.php</code>代码如下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;flag.php&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Name</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$username</span> = <span class="string">&#x27;nonono&#x27;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$password</span> = <span class="string">&#x27;yesyes&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$username</span>,<span class="variable">$password</span></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;username = <span class="variable">$username</span>;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;password = <span class="variable">$password</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;username = <span class="string">&#x27;guest&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;password != <span class="number">100</span>) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;NO!!!hacker!!!&lt;/br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;You name is: &quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable language_">$this</span>-&gt;username;<span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;You password is: &quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable language_">$this</span>-&gt;password;<span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">$this</span>-&gt;username === <span class="string">&#x27;admin&#x27;</span>) &#123;</span><br><span class="line">            <span class="keyword">global</span> <span class="variable">$flag</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable">$flag</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;/br&gt;hello my friend~~&lt;/br&gt;sorry i can&#x27;t give you the flag!&quot;</span>;</span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这里就要用到<code>php</code>反序列化的知识了,
+我们先在本地制作好payload</p>
 <figure>
 <img
-src="https://raw.githubusercontent.com/x2658y/static/master/images/202110301205630.png"
-alt="image-20211030120555576" />
-<figcaption aria-hidden="true">image-20211030120555576</figcaption>
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111012343385.png"
+alt="image-20211101234324256" />
+<figcaption aria-hidden="true">image-20211101234324256</figcaption>
 </figure>
+<p>审计代码, 用户名为<code>"admin"</code>,
+密码为<code>100</code>(<code>"100"</code>也行, 弱相等)时,
+并使<code>__wakeup()</code>不执行, 就能拿到<strong>flag</strong></p>
+<p>序列化后的对象:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">O:4:&quot;Name&quot;:2:&#123;s:14:&quot;Nameusername&quot;;s:5:&quot;admin&quot;;s:14:&quot;Namepassword&quot;;i:100;&#125;</span><br></pre></td></tr></table></figure>
+<p>当序列化文本中指定的对象属性个数大于实际个数时,
+<code>__wakeup()</code>方法就不会被执行 ,实际上是2个, 我们改成3个:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">O:4:&quot;Name&quot;:3:&#123;s:14:&quot;Nameusername&quot;;s:5:&quot;admin&quot;;s:14:&quot;Namepassword&quot;;i:100;&#125;</span><br></pre></td></tr></table></figure>
+<p>提交上去看看</p>
+<p><img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111020001866.png"
+alt="image-20211102000144789" />emmm, 跟我想的不一样</p>
+<p>经过一番查找得知:
+<code>Name</code>类的两个属性是<code>private</code>的, 只能在类中访问,
+在序列化后的文本中要用<code>%00</code>将类名和属性名分隔开,
+所以正确的序列化文本应该是:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">O:4:&quot;Name&quot;:3:&#123;s:14:&quot;%00Name%00username&quot;;s:5:&quot;admin&quot;;s:14:&quot;%00Name%00password&quot;;i:100;&#125;</span><br></pre></td></tr></table></figure>
+<p>再次提交:</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202111020005666.png"
+alt="image-20211102000537580" />
+<figcaption aria-hidden="true">image-20211102000537580</figcaption>
+</figure>
+<p>成功拿到<strong>flag</strong></p>
 ]]></content>
       <categories>
         <category>Web</category>
