@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"x2658y.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":128,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":false,"color":"#222","save":"manual"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Stay hungry. Stay foolish.">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="x2658y&#39;s Blog">
+<meta property="og:url" content="https://x2658y.github.io/page/3/index.html">
+<meta property="og:site_name" content="x2658y&#39;s Blog">
+<meta property="og:description" content="Stay hungry. Stay foolish.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="x2658y">
+<meta property="article:tag" content="博客 Blog 计算机 网络 网络安全 信息安全">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://x2658y.github.io/page/3/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"page/3/index.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>x2658y's Blog</title>
+  
+
+
+
+  <script data-pjax defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{&quot;token&quot;: &quot;c951485d6ab947a09252683f3aef6346&quot;}'></script>
+
+
+
+  <script async defer data-website-id="" src=""></script>
+
+  <script defer data-domain="" src=""></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">x2658y's Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">杂七杂八的记事本</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">29</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">38</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input" style="font-size:13px;vertical-align:middle;margin-top:5px">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="x2658y"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">x2658y</p>
+  <div class="site-description" itemprop="description">Stay hungry. Stay foolish.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/x2658y" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;x2658y" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:x2658y@foxmail.com" title="E-Mail → mailto:x2658y@foxmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/x2658y" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;x2658y" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/big/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://x2658y.github.io/2022/01/28/[Reverse]2019%E7%BA%A2%E5%B8%BD%E6%9D%AF-easyRE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="x2658y">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="x2658y's Blog">
+      <meta itemprop="description" content="Stay hungry. Stay foolish.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | x2658y's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/01/28/%5BReverse%5D2019%E7%BA%A2%E5%B8%BD%E6%9D%AF-easyRE/" class="post-title-link" itemprop="url">[2019红帽杯]easyRE</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-28 15:02:45" itemprop="dateCreated datePublished" datetime="2022-01-28T15:02:45+08:00">2022-01-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-01-12 05:56:10" itemprop="dateModified" datetime="2023-01-12T05:56:10+08:00">2023-01-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Reverse/" itemprop="url" rel="index"><span itemprop="name">Reverse</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><code>Linux</code>可执行文件, 直接拖进<code>IDA</code>, F5查看伪代码,
+但是有些复杂抓不住关键, 打开<code>String</code>窗口改由字符串入手.</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/image-20220128151231261.png"
+alt="image-20220128151231261" />
+<figcaption aria-hidden="true">image-20220128151231261</figcaption>
+</figure>
+<p>跟到字符串所在位置, 交叉引用确定程序语句再F5看伪代码,
+直接找到关键点</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/image-20220128151403433.png"
+alt="image-20220128151403433" />
+<figcaption aria-hidden="true">image-20220128151403433</figcaption>
+</figure>
+<p>分析程序</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">__int64 <span class="title function_">sub_4009C6</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  __int64 result; <span class="comment">// rax</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+Ch] [rbp-114h]</span></span><br><span class="line">  __int64 v2; <span class="comment">// [rsp+10h] [rbp-110h]</span></span><br><span class="line">  __int64 v3; <span class="comment">// [rsp+18h] [rbp-108h]</span></span><br><span class="line">  __int64 v4; <span class="comment">// [rsp+20h] [rbp-100h]</span></span><br><span class="line">  __int64 v5; <span class="comment">// [rsp+28h] [rbp-F8h]</span></span><br><span class="line">  __int64 v6; <span class="comment">// [rsp+30h] [rbp-F0h]</span></span><br><span class="line">  __int64 v7; <span class="comment">// [rsp+38h] [rbp-E8h]</span></span><br><span class="line">  __int64 v8; <span class="comment">// [rsp+40h] [rbp-E0h]</span></span><br><span class="line">  __int64 v9; <span class="comment">// [rsp+48h] [rbp-D8h]</span></span><br><span class="line">  __int64 v10; <span class="comment">// [rsp+50h] [rbp-D0h]</span></span><br><span class="line">  __int64 v11; <span class="comment">// [rsp+58h] [rbp-C8h]</span></span><br><span class="line">  <span class="type">char</span> v12[<span class="number">13</span>]; <span class="comment">// [rsp+60h] [rbp-C0h] BYREF</span></span><br><span class="line">  <span class="type">char</span> v13[<span class="number">4</span>]; <span class="comment">// [rsp+6Dh] [rbp-B3h] BYREF</span></span><br><span class="line">  <span class="type">char</span> v14[<span class="number">19</span>]; <span class="comment">// [rsp+71h] [rbp-AFh] BYREF</span></span><br><span class="line">  <span class="type">char</span> v15[<span class="number">32</span>]; <span class="comment">// [rsp+90h] [rbp-90h] BYREF</span></span><br><span class="line">  <span class="type">int</span> v16; <span class="comment">// [rsp+B0h] [rbp-70h]</span></span><br><span class="line">  <span class="type">char</span> v17; <span class="comment">// [rsp+B4h] [rbp-6Ch]</span></span><br><span class="line">  <span class="type">char</span> v18[<span class="number">72</span>]; <span class="comment">// [rsp+C0h] [rbp-60h] BYREF</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v19; <span class="comment">// [rsp+108h] [rbp-18h]</span></span><br><span class="line"></span><br><span class="line">  v19 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  qmemcpy(v12, <span class="string">&quot;Iodl&gt;Qnb(ocy&quot;</span>, <span class="number">12</span>);</span><br><span class="line">  v12[<span class="number">12</span>] = <span class="number">127</span>;</span><br><span class="line">  qmemcpy(v13, <span class="string">&quot;y.i&quot;</span>, <span class="number">3</span>);</span><br><span class="line">  v13[<span class="number">3</span>] = <span class="number">127</span>;</span><br><span class="line">  qmemcpy(v14, <span class="string">&quot;d`3w&#125;wek9&#123;iy=~yL@EC&quot;</span>, <span class="keyword">sizeof</span>(v14));</span><br><span class="line">  <span class="comment">//上面这几行代码将v12~v14填充为&quot;Iodl&gt;Qnb(ocy\x7fy.i\x7fd`3w&#125;wek9&#123;iy=~yL@EC&quot;</span></span><br><span class="line">  <span class="comment">//这一长度为36的字符, 与后续v15的比较做准备</span></span><br><span class="line">  <span class="built_in">memset</span>(v15, <span class="number">0</span>, <span class="keyword">sizeof</span>(v15));</span><br><span class="line">  v16 = <span class="number">0</span>;</span><br><span class="line">  v17 = <span class="number">0</span>;</span><br><span class="line">  sub_4406E0(<span class="number">0LL</span>, v15, <span class="number">37LL</span>);</span><br><span class="line">  <span class="comment">//根据经验,sub_4406E0()应该是某种输入函数</span></span><br><span class="line">  <span class="comment">//感觉类似scanf_s(),后面的37应该是限制长度</span></span><br><span class="line">  v17 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( sub_424BA0(v15) == <span class="number">36</span> )</span><br><span class="line">  <span class="comment">//可见v15的长度应该为36,但是v15数组长度只有32,这说明v16的值被输入函数越界覆盖</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; (<span class="type">unsigned</span> __int64)sub_424BA0(v15); ++i )</span><br><span class="line">    <span class="comment">//从这里可以猜出sub_424BA0()就是strlen()</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( (<span class="type">unsigned</span> __int8)(v15[i] ^ i) != v12[i] )</span><br><span class="line">      <span class="comment">//将输入字符串与下标异或后与v12对比.已知v12很容易推出v15的值</span></span><br><span class="line">      &#123;</span><br><span class="line">        result = <span class="number">4294967294LL</span>;</span><br><span class="line">        <span class="keyword">goto</span> LABEL_13;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    sub_410CC0(<span class="string">&quot;continue!&quot;</span>);</span><br><span class="line">    <span class="built_in">memset</span>(v18, <span class="number">0</span>, <span class="number">0x40</span>uLL);</span><br><span class="line">    v18[<span class="number">64</span>] = <span class="number">0</span>;</span><br><span class="line">    sub_4406E0(<span class="number">0LL</span>, v18, <span class="number">64LL</span>);</span><br><span class="line">    v18[<span class="number">39</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> ( sub_424BA0(v18) == <span class="number">39</span> )</span><br><span class="line">    <span class="comment">//v18长度应为39</span></span><br><span class="line">    &#123;</span><br><span class="line">      v2 = sub_400E44(v18);</span><br><span class="line">      v3 = sub_400E44(v2);</span><br><span class="line">      v4 = sub_400E44(v3);</span><br><span class="line">      v5 = sub_400E44(v4);</span><br><span class="line">      v6 = sub_400E44(v5);</span><br><span class="line">      v7 = sub_400E44(v6);</span><br><span class="line">      v8 = sub_400E44(v7);</span><br><span class="line">      v9 = sub_400E44(v8);</span><br><span class="line">      v10 = sub_400E44(v9);</span><br><span class="line">      v11 = sub_400E44(v10);</span><br><span class="line">      <span class="comment">//进到sub_400E44()里可以看到它用了base64码表,应该是base64编码函数</span></span><br><span class="line">      <span class="comment">//上面对v18进行了10次base64编码</span></span><br><span class="line">      <span class="keyword">if</span> ( !(<span class="type">unsigned</span> <span class="type">int</span>)sub_400360(v11, off_6CC090) )</span><br><span class="line">      <span class="comment">//sub_400360()应该是strcmp()</span></span><br><span class="line">      <span class="comment">//对比编码10次后的值是否与off_6CC090这个字符串相等</span></span><br><span class="line">      <span class="comment">//将off_6CC090解码10次就可以得到v18</span></span><br><span class="line">      &#123;</span><br><span class="line">        sub_410CC0(<span class="string">&quot;You found me!!!&quot;</span>);</span><br><span class="line">        sub_410CC0(<span class="string">&quot;bye bye~&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      result = <span class="number">0LL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      result = <span class="number">4294967293LL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    result = <span class="number">0xFFFFFFFF</span>LL;</span><br><span class="line">  &#125;</span><br><span class="line">LABEL_13:</span><br><span class="line">  <span class="keyword">if</span> ( __readfsqword(<span class="number">0x28</span>u) != v19 )</span><br><span class="line">    sub_444020();</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>得到v15</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">string = <span class="string">&quot;Iodl&gt;Qnb(ocy\x7fy.i\x7fd`3w&#125;wek9&#123;iy=~yL@EC&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="built_in">len</span>(string)):</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">chr</span>(i ^ <span class="built_in">ord</span>(string[i])), end=<span class="string">&quot;&quot;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="comment">#Info:The first four chars are `flag`</span></span><br><span class="line"><span class="comment">#一个提示, 但是不知道它指的前4个字符是谁的前4个</span></span><br></pre></td></tr></table></figure>
+<p>得到v18</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line">string = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">Vm0wd2VHUXhTWGhpUm1SWVYwZDRWVll3Wkc5WFJsbDNXa1pPVlUxV2NIcFhhMk0\</span></span><br><span class="line"><span class="string">xVmpKS1NHVkdXbFpOYmtKVVZtcEtTMUl5VGtsaVJtUk9ZV3hhZVZadGVHdFRNVT\</span></span><br><span class="line"><span class="string">VYVW01T2FGSnRVbGhhVjNoaFZWWmtWMXBFVWxSTmJFcElWbTAxVDJGV1NuTlhia\</span></span><br><span class="line"><span class="string">0pXWWxob1dGUnJXbXRXTVZaeVdrWm9hVlpyV1hwV1IzaGhXVmRHVjFOdVVsWmlh\</span></span><br><span class="line"><span class="string">MHBZV1ZSR1lWZEdVbFZTYlhSWFRWWndNRlZ0TVc5VWJGcFZWbXR3VjJKSFVYZFd\</span></span><br><span class="line"><span class="string">ha1pXWlZaT2NtRkhhRk5pVjJoWVYxZDBhMVV3TlhOalJscFlZbGhTY1ZsclduZG\</span></span><br><span class="line"><span class="string">xiR1J5VmxSR1ZXSlZjRWhaTUZKaFZqSktWVkZZYUZkV1JWcFlWV3BHYTFkWFRrZ\</span></span><br><span class="line"><span class="string">FRiV3hvVFVoQ1dsWXhaRFJpTWtsM1RVaG9hbEpYYUhOVmJUVkRZekZhY1ZKcmRG\</span></span><br><span class="line"><span class="string">Tk5Wa3A2VjJ0U1ExWlhTbFpqUldoYVRVWndkbFpxUmtwbGJVWklZVVprYUdFeGN\</span></span><br><span class="line"><span class="string">HOVhXSEJIWkRGS2RGSnJhR2hTYXpWdlZGVm9RMlJzV25STldHUlZUVlpXTlZadE\</span></span><br><span class="line"><span class="string">5VOVdiVXBJVld4c1dtSllUWGhXTUZwell6RmFkRkpzVWxOaVNFSktWa1phVTFFe\</span></span><br><span class="line"><span class="string">FduUlRhMlJxVWxad1YxWnRlRXRXTVZaSFVsUnNVVlZVTURrPQ==</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">10</span>):</span><br><span class="line">    string = base64.b64decode(string)</span><br><span class="line"><span class="built_in">print</span>(string.decode())</span><br><span class="line"></span><br><span class="line"><span class="comment">#https://bbs.pediy.com/thread-254172.htm</span></span><br><span class="line"><span class="comment">#怎么是个网站????我的flag呢?!</span></span><br></pre></td></tr></table></figure>
+<p>打开网站, 很好, 上当了...</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/image-20220128165228452.png"
+alt="image-20220128165228452" />
+<figcaption aria-hidden="true">image-20220128165228452</figcaption>
+</figure>
+<del>
+搞到这里了却发现是个假的, 好尴尬😅
+</del>
+<p>看了别人的WP才知道答案原来从我眼前溜过了</p>
+<p><code>off_6CC090</code>这个字符串附近有点东西</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/image-20220128230344597.png"
+alt="image-20220128230344597" />
+<figcaption aria-hidden="true">image-20220128230344597</figcaption>
+</figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/image-20220128230404288.png"
+alt="image-20220128230404288" />
+<figcaption aria-hidden="true">image-20220128230404288</figcaption>
+</figure>
+<p>交叉引用找过去</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/image-20220128230447817.png"
+alt="image-20220128230447817" />
+<figcaption aria-hidden="true">image-20220128230447817</figcaption>
+</figure>
+<p>分析一下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 <span class="title function_">sub_400D35</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> __int64 result; <span class="comment">// rax</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v1; <span class="comment">// [rsp+Ch] [rbp-24h]</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+10h] [rbp-20h]</span></span><br><span class="line">  <span class="type">int</span> j; <span class="comment">// [rsp+14h] [rbp-1Ch]</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v4; <span class="comment">// [rsp+24h] [rbp-Ch]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v5; <span class="comment">// [rsp+28h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v5 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  v1 = sub_43FD20(<span class="number">0LL</span>) - qword_6CEE38;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">1233</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    sub_40F790(v1);</span><br><span class="line">    sub_40FE60();</span><br><span class="line">    sub_40FE60();</span><br><span class="line">    v1 = sub_40FE60() ^ <span class="number">0x98765432</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//上面这一坨不是很懂</span></span><br><span class="line">  v4 = v1;</span><br><span class="line">  <span class="keyword">if</span> ( ((<span class="type">unsigned</span> __int8)v1 ^ byte_6CC0A0[<span class="number">0</span>]) == <span class="number">102</span> &amp;&amp; (HIBYTE(v4) ^ (<span class="type">unsigned</span> __int8)byte_6CC0A3) == <span class="number">103</span> )</span><br><span class="line">  <span class="comment">//这个判断无关紧要,直接看下面</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">for</span> ( j = <span class="number">0</span>; j &lt;= <span class="number">24</span>; ++j )</span><br><span class="line">      sub_410E90((<span class="type">unsigned</span> __int8)(byte_6CC0A0[j] ^ *((_BYTE *)&amp;v4 + j % <span class="number">4</span>)));</span><br><span class="line">    <span class="comment">//关键点应该就在这里了,byte_6CC0A0这个字符串的内容已知,异或的密钥只有4位,</span></span><br><span class="line">    <span class="comment">//结合前面给出的提示,前面4位是&quot;flag&quot;,我们就可以得出密钥,从而解密出flag</span></span><br><span class="line">  &#125;</span><br><span class="line">  result = __readfsqword(<span class="number">0x28</span>u) ^ v5;</span><br><span class="line">  <span class="keyword">if</span> ( result )</span><br><span class="line">    sub_444020();</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解密代码如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">char</span> ciphertext[<span class="number">25</span>] =</span><br><span class="line">	&#123;</span><br><span class="line">	   <span class="number">64</span>,  <span class="number">53</span>,  <span class="number">32</span>,  <span class="number">86</span>,  <span class="number">93</span>,  <span class="number">24</span>,  <span class="number">34</span>,  <span class="number">69</span>,  <span class="number">23</span>,  <span class="number">47</span>,</span><br><span class="line">	   <span class="number">36</span>, <span class="number">110</span>,  <span class="number">98</span>,  <span class="number">60</span>,  <span class="number">39</span>,  <span class="number">84</span>,  <span class="number">72</span>, <span class="number">108</span>,  <span class="number">36</span>, <span class="number">110</span>,</span><br><span class="line">	  <span class="number">114</span>,  <span class="number">60</span>,  <span class="number">50</span>,  <span class="number">69</span>,  <span class="number">91</span></span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="type">char</span> hint[<span class="number">4</span>] = &#123; <span class="string">&#x27;f&#x27;</span>,<span class="string">&#x27;l&#x27;</span>,<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;g&#x27;</span> &#125;;</span><br><span class="line">	<span class="type">char</span> key[<span class="number">4</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++)</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">-128</span>; j &lt;= <span class="number">127</span>; j++)</span><br><span class="line">			<span class="keyword">if</span> ((ciphertext[i] ^ j) == hint[i])</span><br><span class="line">				key[i] = j;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">25</span>; i++)</span><br><span class="line">		<span class="built_in">putchar</span>(ciphertext[i] ^ key[i % <span class="number">4</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//flag&#123;Act1ve_Defen5e_Test&#125;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://x2658y.github.io/2022/01/26/[Reverse]CrackRTF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="x2658y">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="x2658y's Blog">
+      <meta itemprop="description" content="Stay hungry. Stay foolish.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | x2658y's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/01/26/%5BReverse%5DCrackRTF/" class="post-title-link" itemprop="url">[BUUCTF]CrackRTF</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-26 16:26:49" itemprop="dateCreated datePublished" datetime="2022-01-26T16:26:49+08:00">2022-01-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-01-12 05:55:57" itemprop="dateModified" datetime="2023-01-12T05:55:57+08:00">2023-01-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Reverse/" itemprop="url" rel="index"><span itemprop="name">Reverse</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>无壳, 拖进<code>IDA</code>, F5查看伪代码</p>
+<p>可以看到两个关键函数</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201261648536.png"
+alt="image-20220126164811383" />
+<figcaption aria-hidden="true">image-20220126164811383</figcaption>
+</figure>
+<p>两个函数结构区别不大,
+里面调用了很多<code>Widnwos</code>的<code>CryptoAPI</code></p>
+<p>这里以<code>sub_40100A()</code>为例,
+通过它间接调用<code>sub_401230()</code></p>
+<p>查询微软文档,
+<code>CryptCreateHash()</code>函数的第二个参数指明算法类型</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201261654973.png"
+alt="image-20220126165402916" />
+<figcaption aria-hidden="true">image-20220126165402916</figcaption>
+</figure>
+<p>查表可以得知这个函数是进行<code>SHA-1</code>哈希</p>
+<blockquote>
+<p>微软文档: <a
+target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/seccrypto/alg-id">MSDN</a></p>
+</blockquote>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201261708292.png"
+alt="image-20220126170805262" />
+<figcaption aria-hidden="true">image-20220126170805262</figcaption>
+</figure>
+<p>同理可以得知<code>sub_401019()</code>是进行<code>MD5</code>哈希的函数</p>
+<p>通过这一段可以得知第一段密码长度是6位, 且为6位数字, 可以直接穷举</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( <span class="built_in">strlen</span>(Destination) != <span class="number">6</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Must be 6 characters!\n&quot;</span>);</span><br><span class="line">    ExitProcess(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  v7 = atoi(Destination);</span><br><span class="line">  <span class="keyword">if</span> ( v7 &lt; <span class="number">100000</span> )</span><br><span class="line">    ExitProcess(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100001</span>,<span class="number">1000000</span>):</span><br><span class="line">	hasher = hashlib.sha1()</span><br><span class="line">	hasher.update((<span class="built_in">str</span>(i)+<span class="string">&quot;@DBApp&quot;</span>).encode(<span class="string">&quot;utf-8&quot;</span>))</span><br><span class="line">	<span class="keyword">if</span> hasher.hexdigest().upper() == <span class="string">&quot;6E32D0943418C2C33385BC35A1470250DD8923A9&quot;</span>:</span><br><span class="line">		<span class="built_in">print</span>(i)</span><br><span class="line">		<span class="keyword">break</span></span><br><span class="line"><span class="comment">#123321</span></span><br></pre></td></tr></table></figure>
+<p>所以第一段密码就是<code>123321</code></p>
+<p>第二段密码, 同样长度为6位, 但是第二段密码并没有限制是纯数字.</p>
+<p>第二次验证的算法改成了<code>MD5</code>,
+进行哈希的内容就是<code>第二段密码+第一段密码+@DBApp</code>组成的18字节字符.</p>
+<h2 id="方法一-真暴力破解法">方法一: 真·暴力破解法</h2>
+<p>所有<code>ASCII</code>可打印字符从<code>32~126</code>共95个,
+第二段密码长6位, 那么可能性就有<span
+class="math inline">\(95^6\)</span>种, 大约7350亿种可能,
+写脚本穷举好像不太可能...但是,
+显卡进行<code>MD5</code>哈希的速度可是相当快的,
+CPU则要慢得多多多多多...</p>
+<p>放张<code>hashcat</code>的<code>benchmark</code>感受一下,
+这还只是个3050Ti, 换做高端一点的那更是快得多.<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201261934019.png"
+alt="image-20220126193440960" /></p>
+<p>换算出来差不多就是164亿次哈希每秒,
+照这个速度7350亿种可能也不是很多.</p>
+<p>确定可行性之后, 就可以用<code>hashcat</code>来进行穷举</p>
+<blockquote>
+<p>hashcat: <a target="_blank" rel="noopener" href="https://github.com/hashcat/hashcat">Github</a></p>
+</blockquote>
+<p><strong>N卡</strong>安装好<code>CUDA</code>套件之后,
+在<code>hashcat</code>目录下打开命令行执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hashcat -a 3 27019e688a4e62a649fd99cadaafdb4e -m 0 ?a?a?a?a?a?a123321@DBApp</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>-a 3 指定攻击方式, 掩码攻击</p>
+<p>-m 0 指定哈希类型, MD5</p>
+<p>?a?a?a?a?a?a123321@DBApp 是掩码, 前面6位代表所有可打印ASCII字符</p>
+</blockquote>
+<p>实际的哈希速度要慢一些, 但依然是极快的, 不到半分钟就完成了工作</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201261953852.png"
+alt="image-20220126195352794" />
+<figcaption aria-hidden="true">image-20220126195352794</figcaption>
+</figure>
+<p>得出第二段密码是<code>~!3a@0</code></p>
+<h2 id="方法二-常规方法">方法二: 常规方法</h2>
+<p>老实说我是上来就考虑用<code>hashcat</code>尝试穷举的, 没想到还有方法,
+看了别人的WP才知道.</p>
+<p>关键点在这个函数<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201262038770.png"
+alt="image-20220126203837733" /></p>
+<p>跟进去找到<code>sub_4014D0()</code>这个函数,
+<code>Windows</code>的<code>API</code>有点多,
+结合微软的文档分析其用意</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> __cdecl <span class="title function_">sub_4014D0</span><span class="params">(LPCSTR lpString)</span></span><br><span class="line">&#123;</span><br><span class="line">  LPCVOID lpBuffer; <span class="comment">// [esp+50h] [ebp-1Ch]</span></span><br><span class="line">  DWORD NumberOfBytesWritten; <span class="comment">// [esp+58h] [ebp-14h] BYREF</span></span><br><span class="line">  DWORD nNumberOfBytesToWrite; <span class="comment">// [esp+5Ch] [ebp-10h]</span></span><br><span class="line">  HGLOBAL hResData; <span class="comment">// [esp+60h] [ebp-Ch]</span></span><br><span class="line">  HRSRC hResInfo; <span class="comment">// [esp+64h] [ebp-8h]</span></span><br><span class="line">  HANDLE hFile; <span class="comment">// [esp+68h] [ebp-4h]</span></span><br><span class="line"></span><br><span class="line">  hFile = <span class="number">0</span>;</span><br><span class="line">  hResData = <span class="number">0</span>;</span><br><span class="line">  nNumberOfBytesToWrite = <span class="number">0</span>;</span><br><span class="line">  NumberOfBytesWritten = <span class="number">0</span>;</span><br><span class="line">  hResInfo = FindResourceA(<span class="number">0</span>, (LPCSTR)<span class="number">0x65</span>, <span class="string">&quot;AAA&quot;</span>);</span><br><span class="line">  <span class="comment">//从载入为当前进程的PE文件,找到一个名为&quot;e&quot;(0x65)且资源类型为&quot;AAA&quot;的资源</span></span><br><span class="line">  <span class="keyword">if</span> ( !hResInfo )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  nNumberOfBytesToWrite = SizeofResource(<span class="number">0</span>, hResInfo);</span><br><span class="line">  <span class="comment">//计算资源大小</span></span><br><span class="line">  hResData = LoadResource(<span class="number">0</span>, hResInfo);</span><br><span class="line">  <span class="comment">//载入资源</span></span><br><span class="line">  <span class="keyword">if</span> ( !hResData )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  lpBuffer = LockResource(hResData);</span><br><span class="line">  <span class="comment">//锁定资源,返回资源在内存中的指针</span></span><br><span class="line">  sub_401005(lpString, (<span class="type">int</span>)lpBuffer, nNumberOfBytesToWrite);</span><br><span class="line">  <span class="comment">//下一个关注点,此函数处理资源,对其进行异或解密</span></span><br><span class="line">  hFile = CreateFileA(<span class="string">&quot;dbapp.rtf&quot;</span>, <span class="number">0x10000000</span>u, <span class="number">0</span>, <span class="number">0</span>, <span class="number">2u</span>, <span class="number">0x80</span>u, <span class="number">0</span>);</span><br><span class="line">  <span class="comment">//创建名为&quot;dbapp.rtf&quot;的文件,储存解密后的rtf格式flag文件</span></span><br><span class="line">  <span class="keyword">if</span> ( hFile == (HANDLE)<span class="number">-1</span> )</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( !WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, &amp;NumberOfBytesWritten, <span class="number">0</span>) )</span><br><span class="line">    <span class="comment">//将解密后的资源写入到文件中</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  CloseHandle(hFile);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>sub_401005()</code>调用了<code>sub_401420()</code>,
+接着分析</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> <span class="type">int</span> __cdecl <span class="title function_">sub_401420</span><span class="params">(LPCSTR lpString, <span class="type">int</span> a2, <span class="type">int</span> a3)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> result; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> i; <span class="comment">// [esp+4Ch] [ebp-Ch]</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v5; <span class="comment">// [esp+54h] [ebp-4h]</span></span><br><span class="line"></span><br><span class="line">  v5 = lstrlenA(lpString);</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; ; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    result = i;</span><br><span class="line">    <span class="keyword">if</span> ( i &gt;= a3 )</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    *(_BYTE *)(i + a2) ^= lpString[i % v5];</span><br><span class="line">    <span class="comment">//循环异或</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个函数将资源文件每个字节与<code>第二段密码+第一段密码+@DBApp</code>组成密钥进行循环异或从而解密出<strong>flag</strong>文件.
+突破点就在<strong>flag</strong>文件的前6个字节上, 要知道,
+<code>RTF</code>格式不像<code>txt</code>这种文本格式, 它是有文件头的,
+而文件头往往是固定的!
+既然<strong>flag</strong>是个<code>RTF</code>格式的文件,
+那么它一定符合<code>RTF</code>的文件头规范. 我们可以通过这已知的6个字节,
+倒推出密钥前6字节, 即第二段密码.</p>
+<p>找个<code>RTF</code>文件看看前面6字节</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202201262117489.png"
+alt="image-20220126211735455" />
+<figcaption aria-hidden="true">image-20220126211735455</figcaption>
+</figure>
+<p>前6字节是<code>0x7B, 0x5C, 0x72, 0x74, 0x66, 0x31</code></p>
+<p>写出解密代码</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	HMODULE hModule = <span class="built_in">LoadLibraryA</span>(<span class="string">&quot;crack_rtf.exe&quot;</span>);</span><br><span class="line">	<span class="comment">//将程序载入获取模块句柄</span></span><br><span class="line">	<span class="keyword">if</span> (!hModule)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	HRSRC hResInfo = <span class="built_in">FindResourceA</span>(hModule, (LPCSTR)<span class="number">0x65</span>, <span class="string">&quot;AAA&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span> (!hResInfo)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	HGLOBAL hResData = <span class="built_in">LoadResource</span>(hModule, hResInfo);</span><br><span class="line">	<span class="keyword">if</span> (!hResData)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	BYTE* lpRes = (BYTE*)<span class="built_in">LockResource</span>(hResData);</span><br><span class="line">	<span class="keyword">if</span> (!lpRes)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	BYTE lpHeaderByte[<span class="number">6</span>] = &#123; <span class="number">0x7B</span>, <span class="number">0x5C</span>, <span class="number">0x72</span>, <span class="number">0x74</span>, <span class="number">0x66</span>, <span class="number">0x31</span> &#125;;</span><br><span class="line">	<span class="comment">//RTF文件头前6字节</span></span><br><span class="line">	<span class="keyword">for</span> (DWORD i = <span class="number">0</span>; i &lt; <span class="number">6</span>; i++)</span><br><span class="line">		<span class="keyword">for</span> (BYTE c = <span class="number">32</span>; c &lt; <span class="number">127</span>; c++)	<span class="comment">//穷举所有ASCII可打印字符</span></span><br><span class="line">			<span class="keyword">if</span> ((lpRes[i] ^ c) == lpHeaderByte[i])	<span class="comment">//验证字符</span></span><br><span class="line">				<span class="built_in">putchar</span>(c);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//~!3a@0</span></span><br></pre></td></tr></table></figure>
+<p>最终, <strong>flag</strong>为<code>flag&#123;N0_M0re_Free_Bugs&#125;</code></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://x2658y.github.io/2022/01/25/[Reverse]rome/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="x2658y">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="x2658y's Blog">
+      <meta itemprop="description" content="Stay hungry. Stay foolish.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | x2658y's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/01/25/%5BReverse%5Drome/" class="post-title-link" itemprop="url">[BUUCTF]rome</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-25 20:16:08" itemprop="dateCreated datePublished" datetime="2022-01-25T20:16:08+08:00">2022-01-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-01-12 06:01:44" itemprop="dateModified" datetime="2023-01-12T06:01:44+08:00">2023-01-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Reverse/" itemprop="url" rel="index"><span itemprop="name">Reverse</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>360</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>无壳, 拖进<code>IDA</code>, <code>F5</code>查看伪代码,
+主函数里面主要就<code>func()</code>函数, 跟到<code>func()</code>里</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">func</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> result; <span class="comment">// eax</span></span><br><span class="line">  <span class="type">int</span> v1[<span class="number">4</span>]; <span class="comment">// [esp+14h] [ebp-44h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v2; <span class="comment">// [esp+24h] [ebp-34h] BYREF</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v3; <span class="comment">// [esp+25h] [ebp-33h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v4; <span class="comment">// [esp+26h] [ebp-32h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v5; <span class="comment">// [esp+27h] [ebp-31h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v6; <span class="comment">// [esp+28h] [ebp-30h]</span></span><br><span class="line">  <span class="type">int</span> v7; <span class="comment">// [esp+29h] [ebp-2Fh]</span></span><br><span class="line">  <span class="type">int</span> v8; <span class="comment">// [esp+2Dh] [ebp-2Bh]</span></span><br><span class="line">  <span class="type">int</span> v9; <span class="comment">// [esp+31h] [ebp-27h]</span></span><br><span class="line">  <span class="type">int</span> v10; <span class="comment">// [esp+35h] [ebp-23h]</span></span><br><span class="line">  <span class="type">unsigned</span> __int8 v11; <span class="comment">// [esp+39h] [ebp-1Fh]</span></span><br><span class="line">  <span class="type">char</span> v12[<span class="number">29</span>]; <span class="comment">// [esp+3Bh] [ebp-1Dh] BYREF</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">strcpy</span>(v12, <span class="string">&quot;Qsw3sj_lz4_Ujw@l&quot;</span>);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Please input:&quot;</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">&quot;%s&quot;</span>, &amp;v2);</span><br><span class="line">  result = v2;</span><br><span class="line">  <span class="keyword">if</span> ( v2 == <span class="string">&#x27;A&#x27;</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    result = v3;</span><br><span class="line">    <span class="keyword">if</span> ( v3 == <span class="string">&#x27;C&#x27;</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      result = v4;</span><br><span class="line">      <span class="keyword">if</span> ( v4 == <span class="string">&#x27;T&#x27;</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        result = v5;</span><br><span class="line">        <span class="keyword">if</span> ( v5 == <span class="string">&#x27;F&#x27;</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          result = v6;</span><br><span class="line">          <span class="keyword">if</span> ( v6 == <span class="string">&#x27;&#123;&#x27;</span> )</span><br><span class="line">          &#123;</span><br><span class="line">            result = v11;</span><br><span class="line">            <span class="keyword">if</span> ( v11 == <span class="string">&#x27;&#125;&#x27;</span> )</span><br><span class="line">            &#123;</span><br><span class="line">              v1[<span class="number">0</span>] = v7;</span><br><span class="line">              v1[<span class="number">1</span>] = v8;</span><br><span class="line">              v1[<span class="number">2</span>] = v9;</span><br><span class="line">              v1[<span class="number">3</span>] = v10;</span><br><span class="line">              *(_DWORD *)&amp;v12[<span class="number">17</span>] = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">while</span> ( *(<span class="type">int</span> *)&amp;v12[<span class="number">17</span>] &lt;= <span class="number">15</span> )</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="keyword">if</span> ( *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &gt; <span class="number">64</span> &amp;&amp; *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &lt;= <span class="number">90</span> )</span><br><span class="line">                  *((_BYTE *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) = (*((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) - <span class="number">51</span>) % <span class="number">26</span> + <span class="number">65</span>;</span><br><span class="line">                <span class="keyword">if</span> ( *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &gt; <span class="number">96</span> &amp;&amp; *((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) &lt;= <span class="number">122</span> )</span><br><span class="line">                  *((_BYTE *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) = (*((<span class="type">char</span> *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) - <span class="number">79</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">                ++*(_DWORD *)&amp;v12[<span class="number">17</span>];</span><br><span class="line">              &#125;</span><br><span class="line">              *(_DWORD *)&amp;v12[<span class="number">17</span>] = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">while</span> ( *(<span class="type">int</span> *)&amp;v12[<span class="number">17</span>] &lt;= <span class="number">15</span> )</span><br><span class="line">              &#123;</span><br><span class="line">                result = (<span class="type">unsigned</span> __int8)v12[*(_DWORD *)&amp;v12[<span class="number">17</span>]];</span><br><span class="line">                <span class="keyword">if</span> ( *((_BYTE *)v1 + *(_DWORD *)&amp;v12[<span class="number">17</span>]) != (_BYTE)result )</span><br><span class="line">                  <span class="keyword">return</span> result;</span><br><span class="line">                ++*(_DWORD *)&amp;v12[<span class="number">17</span>];</span><br><span class="line">              &#125;</span><br><span class="line">              result = <span class="built_in">printf</span>(<span class="string">&quot;You are correct!&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解法很常规, 分析算法, 写出解密程序</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="type">char</span> ciphertext[<span class="number">32</span>] = <span class="string">&quot;Qsw3sj_lz4_Ujw@l&quot;</span>;</span><br><span class="line">	<span class="type">char</span> plaintext[<span class="number">32</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">16</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="type">char</span> c = <span class="number">32</span>; c &lt; <span class="number">127</span>; c++)	<span class="comment">//逐位穷举所有ASCII可打印字符</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="type">char</span> temp = c;</span><br><span class="line">			<span class="keyword">if</span> (c &gt; <span class="number">64</span> &amp;&amp; c &lt;= <span class="number">90</span>)</span><br><span class="line">				temp = (c - <span class="number">51</span>) % <span class="number">26</span> + <span class="number">65</span>;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (c &gt; <span class="number">96</span> &amp;&amp; c &lt;= <span class="number">122</span>)</span><br><span class="line">				temp = (c - <span class="number">79</span>) % <span class="number">26</span> + <span class="number">97</span>;</span><br><span class="line">			<span class="keyword">if</span> (temp == ciphertext[i])</span><br><span class="line">				plaintext[i] = c;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;ACTF&#123;%s&#125;&quot;</span>, plaintext);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//ACTF&#123;Cae3ar_th4_Gre@t&#125;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa-solid fa-user-secret"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">x2658y</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">22k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:19</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/x2658y" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"x2658y","count":false,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

